@@ -4,9 +4,11 @@
 set /P ttUsername="Username (DEFAULT: username): " || ^
 echo Done.
 set /P ttPassword="Password (DEFAULT: password): " || ^
+echo Done.
+set /p op="IP: " || ^
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
-set TT_GAMESERVER=127.0.0.1
+set TT_GAMESERVER=%ip%
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
 

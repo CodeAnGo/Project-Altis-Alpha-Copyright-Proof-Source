@@ -56,7 +56,6 @@ class TTLauncher(LauncherBase):
         password = self.getValue('TT_PASSWORD')
         import urllib2
         url = "http://projectaltis.com/api/?u="+str(username)+"&p="+str(password) # As account is already in DBM, we need to CHECK it's level
-        print(url)
         output = urllib2.urlopen(url).read()
         jsonDeserialed = Payload(output)
         if jsonDeserialed.status == "critical":
