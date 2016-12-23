@@ -5,7 +5,12 @@ from otp.launcher.LauncherBase import LauncherBase
 import os
 import sys
 import time
+import json
 
+class Payload(object):
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
+        
 class LogAndOutput:
     def __init__(self, orig, log):
         self.orig = orig
@@ -47,8 +52,26 @@ class TTLauncher(LauncherBase):
         sys.stderr = logErr
 
     def getPlayToken(self):
-        return self.getValue('HSE8FA99SDGGA0QBZ9A7GS8A9GH79EALAJS8FA9S7G9AS08G79S0D0S8D9')
-
+        username = self.getValue('TT_USERNAME')
+        password = self.getValue('TT_PASSWORD')
+        import urllib2
+        url = "http://projectaltis.com/api/?u="+str(username)+"&p="+str(password) # As account is already in DBM, we need to CHECK it's level
+        print(url)
+        output = urllib2.urlopen(url).read()
+        jsonDeserialed = Payload(output)
+        if jsonDeserialed.status == "critical":
+            print(jsonDeserialed.reason)
+            print(jsonDeserialed.additional)
+            raise SystemExit
+        if jsonDeserialed.status == "false":
+            print(jsonDeserialed.reason)
+            print(jsonDeserialed.additional)
+            raise SystemExit
+        if jsonDeserialed.status == "true":
+            return jsonDeserialed.additional
+        else:
+            raise SystemExit
+        
     def getGameServer(self):
         return self.getValue('TT_GAMESERVER')
 
