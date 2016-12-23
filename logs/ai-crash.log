@@ -1,0 +1,1 @@
+direct.distributed.AstronInternalRepository:351, direct.distributed.AstronInternalRepository:336, direct.distributed.DistributedObjectAI:338, toontown.distributed.ToontownDistrictStatsAI:57, AttributeError: 'NoneType' object has no attribute 'aiFormatUpdate'
