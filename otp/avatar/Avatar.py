@@ -229,7 +229,7 @@ class Avatar(Actor, ShadowCaster):
         return OTPGlobals.AvatarDefaultRadius
 
     def getName(self):
-        return self.name
+        return self._name
 
     def getType(self):
         return self.avatarType
@@ -238,7 +238,7 @@ class Avatar(Actor, ShadowCaster):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
-        self.name = name
+        self._name = name
         if hasattr(self, 'nametag'):
             self.setNametagWithTag(name)
 
@@ -250,7 +250,7 @@ class Avatar(Actor, ShadowCaster):
         
     def setNametagWithTag(self, name = None):
         if not name:
-            name = self.name
+            name = self._name
             
         if self.npcType:
             name += ('\n\1textShadow\1%s\2' % self.npcType)
