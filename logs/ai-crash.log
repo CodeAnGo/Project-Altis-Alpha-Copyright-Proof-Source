@@ -1,1 +1,1 @@
-direct.distributed.AstronInternalRepository:351, direct.distributed.AstronInternalRepository:336, direct.distributed.DistributedObjectAI:338, toontown.distributed.ToontownDistrictStatsAI:57, AttributeError: 'NoneType' object has no attribute 'aiFormatUpdate'
+direct.directnotify.Notifier:130, direct.distributed.AstronInternalRepository:502, direct.showbase.Messenger:413, direct.showbase.Messenger:355, StandardError: Lost connection to gameserver!
