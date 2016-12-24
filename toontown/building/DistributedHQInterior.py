@@ -21,14 +21,22 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
 		self.leaderScores = []
 		self.numLeaders = 10
 		self.tutorial = 0
+        self.isAcornAcres = False
 
 	def generate(self):
 		DistributedObject.DistributedObject.generate(self)
-		self.interior = loader.loadModel(
-			'phase_3.5/models/modules/HQ_interior')
-		self.interior.reparentTo(render)
-		self.interior.find('**/cream').hide()
-		self.interior.find('**/crashed_piano').hide()
+        if self.zoneId == 6001: # Acorn Acres HQ
+            self.interior = loader.loadModel(
+                'phase_3.5/models/modules/HQ_interior') # TODO: New Model
+            self.interior.reparentTo(render)
+            self.isAcornAcres = True
+        else:
+            self.interior = loader.loadModel(
+                'phase_3.5/models/modules/HQ_interior')
+            self.interior.reparentTo(render)
+            self.interior.find('**/cream').hide()
+            self.interior.find('**/crashed_piano').hide()
+            self.isAcornAcres = False
 		self.buildLeaderBoard()
 
 	def announceGenerate(self):
@@ -44,6 +52,8 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
 		messenger.send('hqInternalDone')
 
 	def setTutorial(self, flag):
+        if self.isAcornAcres:
+            return
 		if self.tutorial == flag:
 			return
 		else:
