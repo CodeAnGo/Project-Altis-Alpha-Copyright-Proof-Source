@@ -100,7 +100,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         taskMgr.doMethodLater(self.ShardInfoUpdateInterval, self.askForShardInfoUpdate, 'ShardPageUpdateTask-doLater')
         return Task.done
 
-    def makeShardButton(self, shardId, shardName, shardPop):
+    def makeShardButton(self, shardId, shardName, shardPop, shardHour):
         shardButtonParent = DirectFrame()
         shardButtonL = DirectButton(parent=shardButtonParent, relief=None, text=shardName, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
         if self.showPop:
@@ -108,13 +108,16 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             if shardPop == None:
                 popText = ''
             shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
+            shardButtonHour = DirectButton(parent=shardButtonParent, relief=None, text="", text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.25, 0, 0), command=self.choseShard, extraArgs=[shardId])
         else:
             model = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
             button = model.find('**/minnieCircle')
             shardButtonR = DirectButton(parent=shardButtonParent, relief=None, image=button, image_scale=(0.3, 1, 0.3), image2_scale=(0.35, 1, 0.35), image_color=self.getPopColor(shardPop), pos=(0.6, 0, 0.0125), text=self.getPopText(shardPop), text_scale=0.06, text_align=TextNode.ACenter, text_pos=(-0.0125, -0.0125), text_fg=Vec4(0, 0, 0, 0), text1_fg=Vec4(0, 0, 0, 0), text2_fg=Vec4(0, 0, 0, 1), text3_fg=Vec4(0, 0, 0, 0), command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
+            shardButtonHour = DirectButton(parent=shardButtonParent, relief=None, text="", text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.25, 0, 0), command=self.choseShard, extraArgs=[shardId])
+
             del model
             del button
-        return (shardButtonParent, shardButtonR, shardButtonL)
+        return (shardButtonParent, shardButtonR, shardButtonL, shardButtonHour)
 
     def getPopColor(self, pop):
         if config.GetBool('want-lerping-pop-colors', True):
@@ -197,7 +200,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         currentMap = {}
         self.shardButtons = []
         for i in range(len(curShardTuples)):
-            shardId, name, pop, WVPop = curShardTuples[i]
+            shardId, name, pop, WVPop, hour = curShardTuples[i]
             if shardId == actualShardId:
                 actualShardName = name
             totalPop += pop
@@ -205,7 +208,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             currentMap[shardId] = 1
             buttonTuple = self.shardButtonMap.get(shardId)
             if buttonTuple == None or self.adminForceReload:
-                buttonTuple = self.makeShardButton(shardId, name, pop)
+                buttonTuple = self.makeShardButton(shardId, name, pop, hour)
                 self.shardButtonMap[shardId] = buttonTuple
                 anyChanges = 1
             elif self.showPop:
@@ -216,13 +219,16 @@ class ShardPicker(ShtikerPage.ShtikerPage):
                     buttonTuple[1]['text'] = self.getPopText(pop)
                     buttonTuple[1]['command'] = self.getPopChoiceHandler(pop)
                     buttonTuple[2]['command'] = self.getPopChoiceHandler(pop)
+                    buttonTuple[3]['command'] = self.getPopChoiceHandler(pop)
             self.shardButtons.append(buttonTuple[0])
             if shardId == currentShardId:
                 buttonTuple[1]['state'] = DGG.DISABLED
                 buttonTuple[2]['state'] = DGG.DISABLED
+                buttonTuple[3]['state'] = DGG.DISABLED
             else:
                 buttonTuple[1]['state'] = DGG.NORMAL
                 buttonTuple[2]['state'] = DGG.NORMAL
+                buttonTuple[3]['state'] = DGG.NORMAL
 
         for shardId, buttonTuple in self.shardButtonMap.items():
             if shardId not in currentMap:
@@ -240,6 +246,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
                     buttonTuple[1]['text'] = self.getPopText(totalWVPop)
                     buttonTuple[1]['command'] = self.getPopChoiceHandler(totalWVPop)
                     buttonTuple[2]['command'] = self.getPopChoiceHandler(totalWVPop)
+                    buttonTuple[3]['command'] = self.getPopChoiceHandler(totalWVPop)
 
         if anyChanges or self.adminForceReload:
             self.regenerateScrollList()

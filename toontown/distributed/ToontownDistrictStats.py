@@ -88,7 +88,12 @@ class ToontownDistrictStats(DistributedObject.DistributedObject):
     def setNewAvatarCount(self, newAvatarCount):
         if self.cr.activeDistrictMap.has_key(self.toontownDistrictId):
             self.cr.activeDistrictMap[self.toontownDistrictId].newAvatarCount = newAvatarCount
+
+    def setHour(self, hour):
+        if self.toontownDistrictId in self.cr.activeDistrictMap:
+            self.cr.activeDistrictMap[self.toontownDistrictId].currentHour = hour
             
-    def setStats(self, avatarCount, newAvatarCount):
+    def setStats(self, avatarCount, newAvatarCount, hour):
         self.setAvatarCount(avatarCount)
         self.setNewAvatarCount(newAvatarCount)
+        self.setHour(hour)
