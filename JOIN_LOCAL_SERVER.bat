@@ -5,7 +5,7 @@ set /P ttUsername="Username (DEFAULT: username): " || ^
 echo Done.
 set /P ttPassword="Password (DEFAULT: password): " || ^
 echo Done.
-set /p op="IP: " || ^
+set /p ip="IP: " || ^
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
 set TT_GAMESERVER=%ip%
