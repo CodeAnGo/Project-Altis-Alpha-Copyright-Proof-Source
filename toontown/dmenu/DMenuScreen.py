@@ -47,11 +47,9 @@ class DMenuScreen(DirectObject):
             Func(base.transitions.fadeIn, .5),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if DMENU_GAME == 'Toontown':
-            def spawnBackground(*args):
-                self.background = args[0]
-                self.background.reparentTo(render)
-                self.background.setPosHpr(-50, 0, 8.1, -90, 0, 0)
-            asyncloader.loadModel('phase_3.5/models/modules/gagShop_interior', callback = spawnBackground)
+            self.background = loader.loadModel('phase_3.5/models/modules/gagShop_interior')
+            self.background.reparentTo(render)
+            self.background.setPosHpr(-50, 0, 8.1, -90, 0, 0)
             for frame in render.findAllMatches('*/doorFrame*'):
                 frame.removeNode()
             self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
