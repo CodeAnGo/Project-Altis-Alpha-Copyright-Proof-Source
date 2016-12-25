@@ -19,6 +19,7 @@ class ClientServicesManager(DistributedObjectGlobal):
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
 
+<<<<<<< HEAD
         urlResponse = requests.get('http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
             base.launcher.getPassword()))
 
@@ -36,6 +37,11 @@ class ClientServicesManager(DistributedObjectGlobal):
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
 
+=======
+        cookie = self.cr.playToken or 'dev'
+
+        self.notify.debug('Sending login cookie: ' + cookie)
+>>>>>>> 87b308c6798d793b0b279ccd5b9594c7b11d8049
         self.sendUpdate('login', [cookie, self.sessionKey])
 
     def acceptLogin(self):
