@@ -1,8 +1,9 @@
 GENDERSHOP = 1
 BODYSHOP = 2
 COLORSHOP = 3
-CLOTHESSHOP = 4
-NAMESHOP = 5
+STATUSSHOP = 4
+CLOTHESSHOP = 5
+NAMESHOP = 6
 halfButtonScale = (0.6, 0.6, 0.6)
 halfButtonHoverScale = (0.7, 0.7, 0.7)
 halfButtonInvertScale = (-0.6, 0.6, 0.6)

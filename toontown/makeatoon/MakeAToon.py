@@ -23,6 +23,7 @@ from decimal import Decimal
 import GenderShop
 import BodyShop
 import ColorShop
+import StatusShop
 import MakeClothesGUI
 import NameShop
 import random
@@ -59,8 +60,9 @@ class MakeAToon(StateData.StateData):
          State.State('GenderShop', self.enterGenderShop, self.exitGenderShop, ['BodyShop']),
          State.State('BodyShop', self.enterBodyShop, self.exitBodyShop, ['GenderShop', 'ColorShop']),
          State.State('ColorShop', self.enterColorShop, self.exitColorShop, ['BodyShop', 'ClothesShop']),
-         State.State('ClothesShop', self.enterClothesShop, self.exitClothesShop, ['ColorShop', 'NameShop']),
-         State.State('NameShop', self.enterNameShop, self.exitNameShop, ['ClothesShop']),
+         State.State('ClothesShop', self.enterClothesShop, self.exitClothesShop, ['ColorShop', 'StatusShop']),
+         State.State('StatusShop', self.enterStatusShop, self.exitStatusShop, ['ClothesShop', 'NameShop']),
+         State.State('NameShop', self.enterNameShop, self.exitNameShop, ['StatusShop']),
          State.State('Done', self.enterDone, self.exitDone, [])], 'Init', 'Done')
         self.parentFSM = parentFSM
         self.parentFSM.getStateNamed('createAvatar').addChild(self.fsm)
@@ -68,6 +70,7 @@ class MakeAToon(StateData.StateData):
         self.bs = BodyShop.BodyShop('BodyShop-done')
         self.cos = ColorShop.ColorShop('ColorShop-done')
         self.cls = MakeClothesGUI.MakeClothesGUI('ClothesShop-done')
+        self.ss = StatusShop.StatusShop('StatusShop-done')
         self.ns = NameShop.NameShop(self, 'NameShop-done', avList, index, self.isPaid)
         self.shop = GENDERSHOP
         self.shopsVisited = []
@@ -75,7 +78,8 @@ class MakeAToon(StateData.StateData):
             self.shopsVisited = [GENDERSHOP,
              BODYSHOP,
              COLORSHOP,
-             CLOTHESSHOP]
+             CLOTHESSHOP,
+             STATUSSHOP]
         self.music = None
         self.soundBack = None
         self.fsm.enterInitialState()
@@ -209,6 +213,7 @@ class MakeAToon(StateData.StateData):
         ee.bind(DGG.B1PRESS, lambda x, ee = ee: self.toggleSlide())
         self.eee = ee
         self.room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room')
+        self.room2 = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room')
         self.genderWalls = self.room.find('**/genderWalls')
         self.genderProps = self.room.find('**/genderProps')
         self.bodyWalls = self.room.find('**/bodyWalls')
@@ -217,6 +222,9 @@ class MakeAToon(StateData.StateData):
         self.colorProps = self.room.find('**/colorProps')
         self.clothesWalls = self.room.find('**/clothWalls')
         self.clothesProps = self.room.find('**/clothProps')
+        self.statusWalls = self.room2.find('**/colorWalls')
+        self.statusWalls.setColor(0,0,0.8,1)
+        self.statusProps = self.room.find('**/genderProps')
         self.nameWalls = self.room.find('**/nameWalls')
         self.nameProps = self.room.find('**/nameProps')
         self.background = self.room.find('**/background')
@@ -252,6 +260,7 @@ class MakeAToon(StateData.StateData):
         self.gs.load()
         self.bs.load()
         self.cos.load()
+        self.ss.load()
         self.cls.load()
         self.ns.load()
         self.music = base.loadMusic('phase_3/audio/bgm/create_a_toon.ogg')
@@ -274,11 +283,13 @@ class MakeAToon(StateData.StateData):
         self.gs.unload()
         self.bs.unload()
         self.cos.unload()
+        self.ss.unload()
         self.cls.unload()
         self.ns.unload()
         del self.gs
         del self.bs
         del self.cos
+        del self.ss
         del self.cls
         del self.ns
         self.guiTopBar.destroy()
@@ -330,6 +341,10 @@ class MakeAToon(StateData.StateData):
         self.clothesProps.removeNode()
         del self.clothesWalls
         del self.clothesProps
+        self.statusWalls.removeNode()
+        self.statusProps.removeNode()
+        del self.statusWalls
+        del self.statusProps
         self.nameWalls.removeNode()
         self.nameProps.removeNode()
         del self.nameWalls
@@ -385,6 +400,8 @@ class MakeAToon(StateData.StateData):
             self.fsm.request('ColorShop')
         elif self.shop == COLORSHOP:
             self.fsm.request('ClothesShop')
+        elif self.shop == CLOTHESSHOP:
+            self.fsm.request('StatusShop')
         else:
             self.fsm.request('NameShop')
 
@@ -396,8 +413,10 @@ class MakeAToon(StateData.StateData):
             self.fsm.request('BodyShop')
         elif self.shop == CLOTHESSHOP:
             self.fsm.request('ColorShop')
-        else:
+        elif self.shop == STATUSSHOP:
             self.fsm.request('ClothesShop')
+        else:
+            self.fsm.request('StatusShop')
 
     def charSez(self, char, statement, dialogue = None):
         import pdb
@@ -561,6 +580,44 @@ class MakeAToon(StateData.StateData):
             self.goToNextShop()
         else:
             self.cls.hideButtons()
+            self.goToLastShop()
+			
+    def statusShopOpening(self):
+        self.guiNextButton.show()
+        self.guiLastButton.show()
+        self.ss.showButtons()
+        self.toonRotateSlider.show()
+		
+    def enterStatusShop(self):
+        self.shop = STATUSSHOP
+        self.guiTopBar['text'] = TTLocalizer.PickStatusTitle
+        self.guiTopBar['text_fg'] = (1, 0.92, 0.2, 1)
+        self.guiTopBar['text_scale'] = TTLocalizer.MATenterClothesShop
+        self.accept('StatusShop-done', self.__handleStatusShopDone)
+        self.dropRoom(self.statusWalls, self.statusProps)
+        self.toon.setScale(self.toonScale)
+        self.toon.setPos(self.toonPosition)
+        if not self.progressing:
+            self.toon.setHpr(self.toonHpr)
+        self.statusShopOpening()
+        self.ss.enter(self.toon)
+        if STATUSSHOP not in self.shopsVisited:
+            self.shopsVisited.append(STATUSSHOP)
+
+    def exitStatusShop(self):
+        self.squishRoom(self.statusWalls)
+        self.squishProp(self.statusProps)
+        self.ss.exit()
+        self.ignore('StatusShop-done')
+		
+    def __handleStatusShopDone(self):
+        self.guiNextButton.hide()
+        self.guiLastButton.hide()
+        if self.ss.doneStatus == 'next':
+            self.ss.hideButtons()
+            self.goToNextShop()
+        else:
+            self.ss.hideButtons()
             self.goToLastShop()
 
     def nameShopOpening(self, task):

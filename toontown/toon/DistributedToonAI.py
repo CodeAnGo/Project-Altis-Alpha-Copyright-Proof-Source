@@ -138,6 +138,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.unlimitedGags = 0
         self.numPies = 0
         self.pieType = 0
+        self.uber = 0
         self._isGM = False
         self._gmType = None
         self.hpOwnedByBattle = 0
@@ -1172,9 +1173,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def b_setMaxHp(self, maxHp):
         if maxHp > ToontownGlobals.MaxHpLimit:
-            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over 137 laff.')
-        maxHp = min(maxHp, ToontownGlobals.MaxHpLimit)
-        DistributedAvatarAI.DistributedAvatarAI.b_setMaxHp(self, maxHp)
+            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over ' + str(ToontownGlobals.MaxHpLimit) + ' laff.')
+        elif maxHp > 15 and self.uber == 1:
+            self.d_setMaxHp(15)
+            self.setMaxHp(15)
+        elif maxHp > 25 and self.uber == 2:
+            self.d_setMaxHp(25)
+            self.setMaxHp(25)
+        elif maxHp > 34 and self.uber == 3:
+            self.d_setMaxHp(34)
+            self.setMaxHp(34) #No need to track these, they are just keeping uber toons in check
+        else:
+            self.d_setMaxHp(maxHp)
+            self.setMaxHp(maxHp)
 
     def correctToonLaff(self):
         # Init our counters to 0.
@@ -2589,6 +2600,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getMaxMoney(self):
         return self.maxMoney
+		
+    def b_setUber(self, uber):
+        self.d_setUber(uber)
+        self.setUber(uber)
+
+    def d_setUber(self, uber):
+        self.sendUpdate('setUber', [uber])
+
+    def setUber(self, uber):
+        self.uber = uber
+		
+    def getUber(self):
+        return self.uber
 
     def addMoney(self, deltaMoney):
         money = deltaMoney + self.money

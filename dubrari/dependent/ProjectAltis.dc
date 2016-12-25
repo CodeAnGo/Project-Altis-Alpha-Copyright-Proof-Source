@@ -920,7 +920,8 @@ dclass ToontownDistrictStats : DistributedObject {
   settoontownDistrictId(uint32 value) broadcast required ram;
   setAvatarCount(uint32 avatarCount) broadcast required ram;
   setNewAvatarCount(uint32 newAvatarCount) broadcast required ram;
-  setStats : setAvatarCount, setNewAvatarCount;
+  setHour(uint32 hour) broadcast required ram;
+  setStats : setAvatarCount, setNewAvatarCount, setHour;
 };
 
 dclass WelcomeValleyManager : DistributedObject {
@@ -951,6 +952,7 @@ dclass DistributedToon : DistributedPlayer {
   setMoney(int16 money = 0) required broadcast ownrecv db;
   setMaxHp(int16 hitPoints = 15) required broadcast ownrecv db;
   setHp(int16 hp = 15) required broadcast ownrecv db;
+  setUber(int16) required broadcast ownrecv db;
   toonUp(uint16 hpGained) broadcast ownrecv;
   takeDamage(uint16 hpLost) broadcast ownrecv;
   setBattleId(uint32 battleId = 0) required broadcast ram;
@@ -1552,6 +1554,8 @@ dclass DistributedMinigame : DistributedObject {
   setGameStart(int16 timestamp) broadcast;
   setGameExit() broadcast;
   setGameAbort() broadcast;
+  requestSkip() airecv clsend;
+  setVoteSkips(uint8) broadcast;
 };
 
 dclass DistributedMinigameTemplate : DistributedMinigame {
@@ -3744,13 +3748,13 @@ struct PotentialToon {
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
-  login(string cookie) clsend;
+  login(string, string) clsend;
   acceptLogin();
 
   requestAvatars() clsend;
   setAvatars(PotentialToon avatars[]);
 
-  createAvatar(blob dna, uint8 index) clsend;
+  createAvatar(blob dna, uint8 index, uint8 uber) clsend;
   createAvatarResp(uint32 avId);
 
   setNameTyped(uint32 avId, string name) clsend;
@@ -3887,7 +3891,7 @@ dclass DistributedWeatherMGR : DistributedObject {
 };
 
 dclass DistributedDayTimeManager : DistributedWeatherMGR {
-
+  update(int8) broadcast ram;
 };
 
 dclass DistributedRainManager : DistributedWeatherMGR {

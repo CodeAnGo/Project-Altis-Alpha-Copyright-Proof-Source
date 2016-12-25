@@ -481,6 +481,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.isStunned = 0
         self.isDisguised = 0
         self.cogHead = 0
+        self.uberType = 0
         self.defaultColorScale = None
         self.jar = None
         self.setBlend(frameBlend = True)
