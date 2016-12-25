@@ -16,7 +16,6 @@ import time
 import hmac
 import hashlib
 import json
-import urllib
 
 def judgeName(name):
     FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -44,17 +43,20 @@ class LocalAccountDB:
             self.dbm = anydbm.open(filename, 'c')
 
     def lookup(self, cookie, callback):
-        if cookie.startswith('.'):
+        cookie="DubitoDev"
+        #if cookie.startswith('.'):
             # Beginning a cookie with . symbolizes "invalid"
-            callback({'success': False,
-                      'reason': 'Invalid cookie specified!'})
-            return
+        #    callback({'success': False,
+        #              'reason': 'Invalid cookie specified!'})
+        #    return
 
         #if cookie.__len__() != 64:
         #    callback({'success': False,
         #              'reason': 'False Cookie Specified. Gosh Darn Hacker!'})
         #    return
 			
+        #allowedCookies = ["39eaf8ca684f95bbbd841691305b2be150dd34509d9f6c1d1343b986c987646c","6a8725093e29506cb1ae8e21b45ad6bc365041f733ec7dad62be2e087eb18894","506039c9182578e57ae050ab2cba7757eabeac12bc6e67c79ff21a371b301cd6","8dea1140bc5b6b236cfc658d583618630bb635df864d3d6b2d7d5364893b89de","8b2d58084626f9221e49b334f783cc251f761c5e53b0d3248a1fa9a8188ba70b","eec636493d53fec138bc701dfd61cb3a874e64caf36fa56dbc5c3d30d02e7148","3f23b7a9a2806125d894c18dc702f23dcc4c3abb869f4dedff53caac13ee893a","bbb092b50878601e8e11ad9b4d4ce02e38552dc43db03f262f5d3e1735babab7","40baf9e4780824c61aaef25c168f40b05a20acaa8ca36edf1d2c5d207532f75a","b15b0f34aa2bd87f265b69b8d2a787102112a63e1ca46edfe224835d43d8c638","08a00edb3699187c7c1e6a528397f0451318c94372cf4eeedd731090a96f31fc","4fd20119f90159c867d1523a345b1e7bd4c8534f1564461dc3fbc211f5b5d33c","fea51b3ce2d96a84e36c90681ab2dcbf2b262923754a0ec304abc099c045cae4","e7430f6b3bb996d0718df07765c42909ee7be137cb12f836a54ed388525b69a7","39eaf8ca684f95bbbd841691305b2be150dd34509d9f6c1d1343b986c987646c"]
+		
         #if cookie not in allowedCookies:
             # Cookies should be exactly 64 Characters long!
             #callback({'success': False,
@@ -919,29 +921,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         
         self.loginsEnabled = enable
 
-    def login(self, username, password, sessionKey):
-        sender = self.air.getMsgSender()
-
-        urlResponse = urllib.urlopen('http://www.projectaltis.com/api/?u=%s&p=%s' % (username, 
-            password)).read()
-
-        try:
-            response = json.loads(urlResponse.read())
-        except:
-            self.notify.error('Failed to get playtoken details from API for %d!' % (
-                sender))
-            
-            return
-
-        if not response['status']:
-            # couldn't find the details in the database, disconnect the client
-            self.killConnection(sender, response['reason'])
-            return
-        else:
-            # the request was successful, set the login cookie and login.
-            cookie = response['additional']
-
+    def login(self, cookie, sessionKey):
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
+
+        sender = self.air.getMsgSender()
 
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
