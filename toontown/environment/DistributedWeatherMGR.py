@@ -11,10 +11,7 @@ class DistributedWeatherMGR(DistributedObject, FSM):
         self.currSeq = None
     
     def announceGenerate(self):
-        pass
-    
-    def start(self):
-        pass
+        DistributedObject.announceGenerate(self)
 
     def setState(self, state, timestamp):
         self.request(state, timestamp)

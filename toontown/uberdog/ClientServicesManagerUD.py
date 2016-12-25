@@ -16,7 +16,6 @@ import time
 import hmac
 import hashlib
 import json
-import urllib
 
 def judgeName(name):
     FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -178,7 +177,7 @@ class LoginAccountFSM(OperationFSM):
         self.adminAccess = result.get('adminAccess', 0)
 
 
-        print("Account" + str(self.cookie) + "has logged in with access level " + str(self.adminAccess))
+        print("Account " + str(self.cookie) + "has logged in with access level " + str(self.adminAccess))
 
         # Do they have the minimum access needed to play?
         if self.adminAccess < 100:
@@ -910,6 +909,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             # hot fix, remove the sender from the fsm and request the fsm state OFF
             self.account2fsm[sender].demand('Off')
 
+            # disconnect the client, because somehow there fsm is still active
+            self.killAccount(sender, 'Failed to login, because FSM state is still active!')
+            return
+
         self.account2fsm[sender] = fsmtype(self, sender)
         self.account2fsm[sender].request('Start', *args)
 
@@ -919,29 +922,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         
         self.loginsEnabled = enable
 
-    def login(self, username, password, sessionKey):
+    def login(self, cookie, sessionKey):
         sender = self.air.getMsgSender()
-
-        urlResponse = urllib.urlopen('http://www.projectaltis.com/api/?u=%s&p=%s' % (username, 
-            password)).read()
-
-        try:
-            response = json.loads(urlResponse.read())
-        except:
-            self.notify.error('Failed to get playtoken details from API for %d!' % (
-                sender))
-            
-            return
-
-        if not response['status']:
-            # couldn't find the details in the database, disconnect the client
-            self.killConnection(sender, response['reason'])
-            return
-        else:
-            # the request was successful, set the login cookie and login.
-            cookie = response['additional']
-
-        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
+        
+        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
@@ -959,6 +943,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         if sender in self.connection2fsm:
             # hot fix, remove the sender from the fsm and request the fsm state OFF
             self.connection2fsm[sender].demand('Off')
+
+            # disconnect the client, because somehow there fsm is still active
+            self.killConnection(sender, 'Failed to login, because FSM state is still active!')
+            return
         
         if sessionKey != self.sessionKey:
             self.killConnection(sender, 'Failed to login, recieved a bad login cookie!')

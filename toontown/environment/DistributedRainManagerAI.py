@@ -18,28 +18,23 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
     
     def __init__(self, air):
         DistributedWeatherMGRAI.__init__(self, air)
-        self.wantSnow = True
 
-    def start(self, alwaysRain = False):
-        DistributedWeatherMGRAI.start(self)
-                
+    def announceGenerate(self):
+        DistributedWeatherMGRAI.announceGenerate(self)
 
-        if alwaysRain and not self.wantSnow:
-            self.b_setState('Rain')
-            
-        elif self.wantSnow:
-            self.b_setState('Snow')
-        else:
-            Sequence(
-                Func(self.b_setState, 'Sunny'),
-                Wait(1800),
-                Func(self.b_setState, 'Rain'),
-                Wait(900)).loop()
+        # set state to snowing for holidays
+        self.b_setState('Snow')
 
     def enterRain(self):
         pass
         
     def exitRain(self):
+        pass
+
+    def enterSnow(self):
+        pass
+
+    def exitSnow(self):
         pass
         
     def enterSunny(self):

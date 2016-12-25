@@ -28,9 +28,6 @@ class DistributedDayTimeManagerAI(DistributedWeatherMGRAI):
         # send update to start initial hour
         self.d_update(self.currentHour)
 
-    def start(self):
-        DistributedWeatherMGRAI.start(self)
-
         # set AI's initial time, then allow update to change this...
         self.air.setHour(self.currentHour)
 

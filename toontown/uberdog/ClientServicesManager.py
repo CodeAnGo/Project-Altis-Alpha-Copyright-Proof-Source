@@ -5,6 +5,8 @@ from otp.otpbase import OTPLocalizer, OTPGlobals
 from otp.margins.WhisperPopup import *
 from panda3d.core import *
 from panda3d.direct import *
+import json
+import requests
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
@@ -17,8 +19,24 @@ class ClientServicesManager(DistributedObjectGlobal):
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
 
-        self.sendUpdate('login', [str(base.launcher.getUsername()), str(base.launcher.getPassword()), 
-            self.sessionKey])
+        urlResponse = requests.get('http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
+            base.launcher.getPassword()))
+
+        try:
+            response = json.loads(urlResponse.text)
+        except:
+            self.notify.error('Failed to decode json login API response!')
+            return
+
+        # TODO: FIX ME - The JSON data is decoded as unicode so boolean types aren't redefined correctly
+        if response['status'] != 'true':
+            # couldn't find the details in the database!
+            return
+        else:
+            # the request was successful, set the login cookie and login.
+            cookie = response['additional']
+
+        self.sendUpdate('login', [cookie, self.sessionKey])
 
     def acceptLogin(self):
         messenger.send(self.doneEvent, [{'mode': 'success'}])

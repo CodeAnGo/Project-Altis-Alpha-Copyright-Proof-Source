@@ -496,10 +496,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 
         if fromAV == 0:
             print("%s: %r" % (self.name, chat))
-            base.chatLog.append("%s: %r" % (self.name, chat))
         else:
             print("%s: %r" % (fromAV.name, chat))
-            base.chatLog.append("%s: %r" % (fromAV.name, chat))
         
         newText, scrubbed = self.scrubTalk(chat, mods)
         self.displayTalk(newText)

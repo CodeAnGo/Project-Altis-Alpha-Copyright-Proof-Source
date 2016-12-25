@@ -1,1 +1,1 @@
-direct.directnotify.Notifier:130, direct.distributed.AstronInternalRepository:502, direct.showbase.Messenger:413, direct.showbase.Messenger:355, StandardError: Lost connection to gameserver!
+toontown.environment.DistributedDayTimeManagerAI:32, toontown.hood.HoodAI:200, toontown.hood.HoodAI:39, toontown.hood.TTHoodAI:17, AttributeError: class DistributedWeatherMGRAI has no attribute 'start'
