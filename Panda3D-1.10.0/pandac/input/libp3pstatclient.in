@@ -1,0 +1,1587 @@
+1436948153
+2 3
+16 libp3pstatclient 4 __OL 12 panda3d.core 
+69
+81 27 upcast_to_ConnectionManager 0 12 150 40 PStatClient::upcast_to_ConnectionManager 0 1 31 44
+upcast from PStatClient to ConnectionManager
+66
+ConnectionManager *PStatClient::upcast_to_ConnectionManager(void);
+
+82 23 downcast_to_PStatClient 0 12 151 42 ConnectionManager::downcast_to_PStatClient 0 1 32 46
+downcast from ConnectionManager to PStatClient
+62
+PStatClient *ConnectionManager::downcast_to_PStatClient(void);
+
+83 24 upcast_to_PStatsCallback 0 12 150 37 PStatClient::upcast_to_PStatsCallback 0 1 33 41
+upcast from PStatClient to PStatsCallback
+68
+Thread::PStatsCallback *PStatClient::upcast_to_PStatsCallback(void);
+
+84 23 downcast_to_PStatClient 0 12 152 47 Thread::PStatsCallback::downcast_to_PStatClient 0 1 34 43
+downcast from PStatsCallback to PStatClient
+67
+PStatClient *Thread::PStatsCallback::downcast_to_PStatClient(void);
+
+85 12 ~PStatClient 0 6 150 25 PStatClient::~PStatClient 0 0 219
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::Destructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+40
+virtual PStatClient::~PStatClient(void);
+
+86 15 set_client_name 0 4 150 28 PStatClient::set_client_name 0 1 1 391
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::set_client_name
+//       Access: Published
+//  Description: Sets the name of the client.  This is reported to the
+//               PStatsServer, and will presumably be written in the
+//               title bar or something.
+////////////////////////////////////////////////////////////////////
+61
+inline void PStatClient::set_client_name(string const &name);
+
+87 15 get_client_name 0 4 150 28 PStatClient::get_client_name 0 1 2 268
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_client_name
+//       Access: Published
+//  Description: Retrieves the name of the client as set.
+////////////////////////////////////////////////////////////////////
+55
+inline string PStatClient::get_client_name(void) const;
+
+88 12 set_max_rate 0 4 150 25 PStatClient::set_max_rate 0 1 3 817
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::set_max_rate
+//       Access: Published
+//  Description: Controls the number of packets that will be sent to
+//               the server.  Normally, one packet is sent per frame,
+//               but this can flood the server with more packets than
+//               it can handle if the frame rate is especially good
+//               (e.g. if nothing is onscreen at the moment).  Set
+//               this parameter to a reasonable number to prevent this
+//               from happening.
+//
+//               This number specifies the maximum number of packets
+//               that will be sent to the server per second, per
+//               thread.
+////////////////////////////////////////////////////////////////////
+51
+inline void PStatClient::set_max_rate(double rate);
+
+89 12 get_max_rate 0 4 150 25 PStatClient::get_max_rate 0 1 4 373
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_max_rate
+//       Access: Published
+//  Description: Returns the maximum number of packets that will be
+//               sent to the server per second, per thread.  See
+//               set_max_rate().
+////////////////////////////////////////////////////////////////////
+52
+inline double PStatClient::get_max_rate(void) const;
+
+90 18 get_num_collectors 0 4 150 31 PStatClient::get_num_collectors 0 1 5 310
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_num_collectors
+//       Access: Published
+//  Description: Returns the total number of collectors the Client
+//               knows about.
+////////////////////////////////////////////////////////////////////
+55
+inline int PStatClient::get_num_collectors(void) const;
+
+91 13 get_collector 0 4 150 26 PStatClient::get_collector 0 1 6 252
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector
+//       Access: Published
+//  Description: Returns the nth collector.
+////////////////////////////////////////////////////////////////////
+59
+PStatCollector PStatClient::get_collector(int index) const;
+
+92 17 get_collector_def 0 4 150 30 PStatClient::get_collector_def 0 1 7 279
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_def
+//       Access: Published
+//  Description: Returns the definition body of the nth collector.
+////////////////////////////////////////////////////////////////////
+74
+inline PStatCollectorDef *PStatClient::get_collector_def(int index) const;
+
+93 18 get_collector_name 0 4 150 31 PStatClient::get_collector_name 0 1 8 275
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_name
+//       Access: Published
+//  Description: Returns the name of the indicated collector.
+////////////////////////////////////////////////////////////////////
+56
+string PStatClient::get_collector_name(int index) const;
+
+94 22 get_collector_fullname 0 4 150 35 PStatClient::get_collector_fullname 0 1 9 454
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_fullname
+//       Access: Published
+//  Description: Returns the "full name" of the indicated collector.
+//               This will be the concatenation of all of the
+//               collector's parents' names (except Frame) and the
+//               collector's own name.
+////////////////////////////////////////////////////////////////////
+60
+string PStatClient::get_collector_fullname(int index) const;
+
+95 15 get_num_threads 0 4 150 28 PStatClient::get_num_threads 0 1 10 304
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_num_threads
+//       Access: Published
+//  Description: Returns the total number of threads the Client
+//               knows about.
+////////////////////////////////////////////////////////////////////
+52
+inline int PStatClient::get_num_threads(void) const;
+
+96 10 get_thread 0 4 150 23 PStatClient::get_thread 0 1 11 246
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread
+//       Access: Published
+//  Description: Returns the nth thread.
+////////////////////////////////////////////////////////////////////
+53
+PStatThread PStatClient::get_thread(int index) const;
+
+97 15 get_thread_name 0 4 150 28 PStatClient::get_thread_name 0 1 12 269
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_name
+//       Access: Published
+//  Description: Returns the name of the indicated thread.
+////////////////////////////////////////////////////////////////////
+60
+inline string PStatClient::get_thread_name(int index) const;
+
+98 20 get_thread_sync_name 0 4 150 33 PStatClient::get_thread_sync_name 0 1 13 279
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_sync_name
+//       Access: Published
+//  Description: Returns the sync_name of the indicated thread.
+////////////////////////////////////////////////////////////////////
+65
+inline string PStatClient::get_thread_sync_name(int index) const;
+
+99 17 get_thread_object 0 4 150 30 PStatClient::get_thread_object 0 1 14 321
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_object
+//       Access: Published
+//  Description: Returns the Panda Thread object associated with the
+//               indicated PStatThread.
+////////////////////////////////////////////////////////////////////
+63
+inline Thread *PStatClient::get_thread_object(int index) const;
+
+100 15 get_main_thread 0 4 150 28 PStatClient::get_main_thread 0 1 15 340
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_main_thread
+//       Access: Published
+//  Description: Returns a handle to the client's Main thread.  This
+//               is the thread that started the application.
+////////////////////////////////////////////////////////////////////
+53
+PStatThread PStatClient::get_main_thread(void) const;
+
+101 18 get_current_thread 0 4 150 31 PStatClient::get_current_thread 0 1 16 409
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_current_thread
+//       Access: Published
+//  Description: Returns a handle to the currently-executing thread.
+//               This is the thread that PStatCollectors will be
+//               counted in if they do not specify otherwise.
+////////////////////////////////////////////////////////////////////
+56
+PStatThread PStatClient::get_current_thread(void) const;
+
+102 13 get_real_time 0 4 150 26 PStatClient::get_real_time 0 1 17 522
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_real_time
+//       Access: Published
+//  Description: Returns the time according to to the PStatClient's
+//               clock object.  It keeps its own clock, instead of
+//               using the global clock object, so the stats won't get
+//               mucked up if you put the global clock in
+//               non-real-time mode or something.
+////////////////////////////////////////////////////////////////////
+53
+inline double PStatClient::get_real_time(void) const;
+
+103 7 connect 0 4 150 20 PStatClient::connect 0 1 18 373
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::connect
+//       Access: Published, Static
+//  Description: Attempts to establish a connection to the indicated
+//               PStatServer.  Returns true if successful, false on
+//               failure.
+////////////////////////////////////////////////////////////////////
+90
+static inline bool PStatClient::connect(string const &hostname = string(), int port = -1);
+
+104 10 disconnect 0 4 150 23 PStatClient::disconnect 0 1 19 276
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::disconnect
+//       Access: Published, Static
+//  Description: Closes the connection previously established.
+////////////////////////////////////////////////////////////////////
+49
+static inline void PStatClient::disconnect(void);
+
+105 12 is_connected 0 4 150 25 PStatClient::is_connected 0 1 20 344
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::is_connected
+//       Access: Published, Static
+//  Description: Returns true if the client believes it is connected
+//               to a working PStatServer, false otherwise.
+////////////////////////////////////////////////////////////////////
+51
+static inline bool PStatClient::is_connected(void);
+
+106 18 resume_after_pause 0 4 150 31 PStatClient::resume_after_pause 0 1 21 483
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::resume_after_pause
+//       Access: Published, Static
+//  Description: Resumes the PStatClient after the simulation has been
+//               paused for a while.  This allows the stats to
+//               continue exactly where it left off, instead of
+//               leaving a big gap that would represent a chug.
+////////////////////////////////////////////////////////////////////
+57
+static inline void PStatClient::resume_after_pause(void);
+
+107 9 main_tick 0 4 150 22 PStatClient::main_tick 0 1 22 397
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::main_tick
+//       Access: Published, Static
+//  Description: A convenience function to call new_frame() on the
+//               global PStatClient's main thread, and any other
+//               threads with a sync_name of "Main".
+////////////////////////////////////////////////////////////////////
+41
+static void PStatClient::main_tick(void);
+
+108 11 thread_tick 0 4 150 24 PStatClient::thread_tick 0 1 23 335
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::thread_tick
+//       Access: Published, Static
+//  Description: A convenience function to call new_frame() on any
+//               threads with the indicated sync_name
+////////////////////////////////////////////////////////////////////
+62
+static void PStatClient::thread_tick(string const &sync_name);
+
+109 16 client_main_tick 0 4 150 29 PStatClient::client_main_tick 0 1 24 395
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_main_tick
+//       Access: Published
+//  Description: A convenience function to call new_frame() on the
+//               given PStatClient's main thread, and any other
+//               threads with a sync_name of "Main".
+////////////////////////////////////////////////////////////////////
+41
+void PStatClient::client_main_tick(void);
+
+110 18 client_thread_tick 0 4 150 31 PStatClient::client_thread_tick 0 1 25 342
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_thread_tick
+//       Access: Published
+//  Description: A convenience function to call new_frame() on all of
+//               the threads with the indicated sync name.
+////////////////////////////////////////////////////////////////////
+62
+void PStatClient::client_thread_tick(string const &sync_name);
+
+111 14 client_connect 0 4 150 27 PStatClient::client_connect 0 1 26 269
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_connect
+//       Access: Published
+//  Description: The nonstatic implementation of connect().
+////////////////////////////////////////////////////////////////////
+67
+inline bool PStatClient::client_connect(string hostname, int port);
+
+112 17 client_disconnect 0 4 150 30 PStatClient::client_disconnect 0 1 27 275
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_disconnect
+//       Access: Published
+//  Description: The nonstatic implementation of disconnect().
+////////////////////////////////////////////////////////////////////
+42
+void PStatClient::client_disconnect(void);
+
+113 19 client_is_connected 0 4 150 32 PStatClient::client_is_connected 0 1 28 279
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_is_connected
+//       Access: Published
+//  Description: The nonstatic implementation of is_connected().
+////////////////////////////////////////////////////////////////////
+57
+inline bool PStatClient::client_is_connected(void) const;
+
+114 25 client_resume_after_pause 0 4 150 38 PStatClient::client_resume_after_pause 0 1 29 482
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_resume_after_pause
+//       Access: Published
+//  Description: Resumes the PStatClient after the simulation has been
+//               paused for a while.  This allows the stats to
+//               continue exactly where it left off, instead of
+//               leaving a big gap that would represent a chug.
+////////////////////////////////////////////////////////////////////
+57
+inline void PStatClient::client_resume_after_pause(void);
+
+115 17 get_global_pstats 0 4 150 30 PStatClient::get_global_pstats 0 1 30 496
+////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_global_pstats
+//       Access: Published, Static
+//  Description: Returns a pointer to the global PStatClient object.
+//               It's legal to declare your own PStatClient locally,
+//               but it's also convenient to have a global one that
+//               everyone can register with.  This is the global one.
+////////////////////////////////////////////////////////////////////
+57
+static PStatClient *PStatClient::get_global_pstats(void);
+
+116 11 PStatThread 0 4 154 24 PStatThread::PStatThread 0 3 35 36 37 1396
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Default Constructor
+//       Access: Private
+//  Description: Normally, this constructor is called only from
+//               PStatClient.  Use one of the constructors below to
+//               create your own Thread.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Constructor
+//       Access: Published
+//  Description: Normally, this constructor is called only from
+//               PStatClient.  Use one of the constructors below to
+//               create your own Thread.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Constructor
+//       Access: Public
+//  Description: Creates a new named thread.  This will be used to
+//               unify tasks that share a common thread, and
+//               differentiate tasks that occur in different threads.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Copy Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+196
+inline PStatThread::PStatThread(PStatClient *client, int index);
+inline PStatThread::PStatThread(Thread *thread, PStatClient *client = 0);
+inline PStatThread::PStatThread(PStatThread const &copy);
+
+117 10 operator = 0 4 154 23 PStatThread::operator = 0 1 38 0
+61
+inline void PStatThread::operator =(PStatThread const &copy);
+
+118 9 new_frame 0 4 154 22 PStatThread::new_frame 0 1 39 625
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::new_frame
+//       Access: Public
+//  Description: This must be called at the start of every "frame",
+//               whatever a frame may be deemed to be, to accumulate
+//               all the stats that have collected so far for the
+//               thread and ship them off to the server.
+//
+//               Calling PStatClient::thread_tick() will automatically
+//               call this for any threads with the indicated sync
+//               name.
+////////////////////////////////////////////////////////////////////
+41
+inline void PStatThread::new_frame(void);
+
+119 9 add_frame 0 4 154 22 PStatThread::add_frame 0 1 40 340
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::add_frame
+//       Access: Public
+//  Description: This is a slightly lower-level version of new_frame
+//               that also specifies the data to send for this frame.
+////////////////////////////////////////////////////////////////////
+69
+inline void PStatThread::add_frame(PStatFrameData const &frame_data);
+
+120 10 get_thread 0 4 154 23 PStatThread::get_thread 0 1 41 316
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::get_thread
+//       Access: Published
+//  Description: Returns the Panda Thread object associated with this
+//               particular PStatThread.
+////////////////////////////////////////////////////////////////////
+44
+Thread *PStatThread::get_thread(void) const;
+
+121 9 get_index 0 4 154 22 PStatThread::get_index 0 1 42 313
+////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::get_index
+//       Access: Published
+//  Description: Returns the index number of this particular thread
+//               within the PStatClient.
+////////////////////////////////////////////////////////////////////
+46
+inline int PStatThread::get_index(void) const;
+
+122 12 ~PStatThread 0 4 154 25 PStatThread::~PStatThread 0 0 0
+32
+PStatThread::~PStatThread(void);
+
+123 14 PStatCollector 0 4 155 30 PStatCollector::PStatCollector 0 3 43 44 45 3451
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Constructor
+//       Access: Private
+//  Description: Normally, this constructor is called only from
+//               PStatClient.  Use one of the constructors below to
+//               create your own Collector.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Default Constructor
+//       Access: Public
+//  Description: Creates an invalid PStatCollector.  Any attempt to
+//               use this collector will crash messily.
+//
+//               You can reassign it to a different, valid one later.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Constructor
+//       Access: Published
+//  Description: Creates a new PStatCollector, ready to start
+//               accumulating data.  The name of the collector
+//               uniquely identifies it among the other collectors; if
+//               two collectors share the same name then they are
+//               really the same collector.
+//
+//               The name may also be a compound name, something like
+//               "Cull:Sort", which indicates that this is a collector
+//               named "Sort", a child of the collector named "Cull".
+//               The parent may also be named explicitly by reference
+//               in the other flavor of the constructor; see further
+//               comments on this for that constructor.
+//
+//               If the client pointer is non-null, it specifies a
+//               particular client to register the collector with;
+//               otherwise, the global client is used.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Constructor
+//       Access: Published
+//  Description: Creates a new PStatCollector, ready to start
+//               accumulating data.  The name of the collector
+//               uniquely identifies it among the other collectors; if
+//               two collectors share the same name then they are
+//               really the same collector.
+//
+//               The parent is the collector that conceptually
+//               includes all of the time measured for this collector.
+//               For instance, a particular character's animation time
+//               is owned by the "Animation" collector, which is in
+//               turn owned by the "Frame" collector.  It is not
+//               strictly necessary that all of the time spent in a
+//               particular collector is completely nested within time
+//               spent in its parent's collector.  If parent is the
+//               empty string, the collector is owned by "Frame".
+//
+//               This constructor does not take a client pointer; it
+//               always creates the new collector on the same client
+//               as its parent.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Copy Constructor
+//       Access: Published
+//  Description:
+////////////////////////////////////////////////////////////////////
+239
+inline PStatCollector::PStatCollector(string const &name, PStatClient *client = 0);
+inline PStatCollector::PStatCollector(PStatCollector const &parent, string const &name);
+inline PStatCollector::PStatCollector(PStatCollector const &copy);
+
+124 10 operator = 0 4 155 26 PStatCollector::operator = 0 1 46 0
+67
+inline void PStatCollector::operator =(PStatCollector const &copy);
+
+125 8 is_valid 0 4 155 24 PStatCollector::is_valid 0 1 47 436
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_valid
+//       Access: Published
+//  Description: Returns true if collector is valid and may be used,
+//               or false if it was constructed with the default
+//               constructor (in which case any attempt to use it will
+//               crash).
+////////////////////////////////////////////////////////////////////
+49
+inline bool PStatCollector::is_valid(void) const;
+
+126 8 get_name 0 4 155 24 PStatCollector::get_name 0 1 48 371
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_name
+//       Access: Published
+//  Description: Returns the local name of this collector.  This is
+//               the rightmost part of the fullname, after the
+//               rightmost colon.
+////////////////////////////////////////////////////////////////////
+51
+inline string PStatCollector::get_name(void) const;
+
+127 12 get_fullname 0 4 155 28 PStatCollector::get_fullname 0 1 49 394
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_fullname
+//       Access: Published
+//  Description: Returns the full name of this collector.  This
+//               includes the names of all the collector's parents,
+//               concatenated together with colons.
+////////////////////////////////////////////////////////////////////
+55
+inline string PStatCollector::get_fullname(void) const;
+
+128 6 output 0 4 155 22 PStatCollector::output 0 1 50 222
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::output
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+55
+inline void PStatCollector::output(ostream &out) const;
+
+129 9 is_active 0 4 155 25 PStatCollector::is_active 0 2 51 52 764
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_active
+//       Access: Published
+//  Description: Returns true if this particular collector is active
+//               on the default thread, and we are currently
+//               transmitting PStats data.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_active
+//       Access: Published
+//  Description: Returns true if this particular collector is active
+//               on the indicated thread, and we are currently
+//               transmitting PStats data.
+////////////////////////////////////////////////////////////////////
+110
+inline bool PStatCollector::is_active(void);
+inline bool PStatCollector::is_active(PStatThread const &thread);
+
+130 10 is_started 0 4 155 26 PStatCollector::is_started 0 2 53 54 692
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_started
+//       Access: Published
+//  Description: Returns true if this particular collector has been
+//               started on the default thread, or false otherwise.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_started
+//       Access: Published
+//  Description: Returns true if this particular collector has been
+//               started on the indicated thread, or false otherwise.
+////////////////////////////////////////////////////////////////////
+112
+inline bool PStatCollector::is_started(void);
+inline bool PStatCollector::is_started(PStatThread const &thread);
+
+131 5 start 0 4 155 21 PStatCollector::start 0 3 55 56 57 1162
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Starts this particular timer ticking.  This should be
+//               called before the code you want to measure.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Starts this timer ticking within a particular thread.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Marks that the timer should have been started as of
+//               the indicated time.  This must be a time based on the
+//               PStatClient's clock (see PStatClient::get_clock()),
+//               and care should be taken that all such calls exhibit
+//               a monotonically increasing series of time values.
+////////////////////////////////////////////////////////////////////
+178
+inline void PStatCollector::start(void);
+inline void PStatCollector::start(PStatThread const &thread);
+inline void PStatCollector::start(PStatThread const &thread, double as_of);
+
+132 4 stop 0 4 155 20 PStatCollector::stop 0 3 58 59 60 1129
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Stops this timer.  This should be called after the
+//               code you want to measure.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Stops this timer within a particular thread.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Marks that the timer should have been stopped as of
+//               the indicated time.  This must be a time based on the
+//               PStatClient's clock (see PStatClient::get_clock()),
+//               and care should be taken that all such calls exhibit
+//               a monotonically increasing series of time values.
+////////////////////////////////////////////////////////////////////
+175
+inline void PStatCollector::stop(void);
+inline void PStatCollector::stop(PStatThread const &thread);
+inline void PStatCollector::stop(PStatThread const &thread, double as_of);
+
+133 11 clear_level 0 4 155 27 PStatCollector::clear_level 0 2 61 62 907
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the main thread.  The collector
+//               will no longer show up on any level graphs in the
+//               main thread.  This implicitly calls flush_level().
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the indicated thread.  The collector
+//               will no longer show up on any level graphs in this
+//               thread.
+////////////////////////////////////////////////////////////////////
+114
+inline void PStatCollector::clear_level(void);
+inline void PStatCollector::clear_level(PStatThread const &thread);
+
+134 9 set_level 0 4 155 25 PStatCollector::set_level 0 2 63 64 757
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the main thread to the indicated
+//               value.  This implicitly calls flush_level().
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the indicated thread to the indicated
+//               value.
+////////////////////////////////////////////////////////////////////
+132
+inline void PStatCollector::set_level(double level);
+inline void PStatCollector::set_level(PStatThread const &thread, double level);
+
+135 9 add_level 0 4 155 25 PStatCollector::add_level 0 2 65 66 1221
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the main thread.  If the collector did not
+//               already have a level setting for the main thread, it
+//               is initialized to 0.
+//
+//               As an optimization, the data is not immediately set
+//               to the PStatClient.  It will be sent the next time
+//               flush_level() is called.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the indicated thread.  If the collector did not
+//               already have a level setting for this thread, it is
+//               initialized to 0.
+////////////////////////////////////////////////////////////////////
+140
+inline void PStatCollector::add_level(double increment);
+inline void PStatCollector::add_level(PStatThread const &thread, double increment);
+
+136 9 sub_level 0 4 155 25 PStatCollector::sub_level 0 2 67 68 1231
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the main thread.  If the collector did
+//               not already have a level setting for the main thread,
+//               it is initialized to 0.
+//
+//               As an optimization, the data is not immediately set
+//               to the PStatClient.  It will be sent the next time
+//               flush_level() is called.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the indicated thread.  If the collector
+//               did not already have a level setting for this thread,
+//               it is initialized to 0.
+////////////////////////////////////////////////////////////////////
+140
+inline void PStatCollector::sub_level(double decrement);
+inline void PStatCollector::sub_level(PStatThread const &thread, double decrement);
+
+137 13 add_level_now 0 4 155 29 PStatCollector::add_level_now 0 1 69 283
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level_now
+//       Access: Published
+//  Description: Calls add_level() and immediately calls flush_level().
+////////////////////////////////////////////////////////////////////
+60
+inline void PStatCollector::add_level_now(double increment);
+
+138 13 sub_level_now 0 4 155 29 PStatCollector::sub_level_now 0 1 70 283
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level_now
+//       Access: Published
+//  Description: Calls sub_level() and immediately calls flush_level().
+////////////////////////////////////////////////////////////////////
+60
+inline void PStatCollector::sub_level_now(double decrement);
+
+139 11 flush_level 0 4 155 27 PStatCollector::flush_level 0 1 71 325
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::flush_level
+//       Access: Published
+//  Description: Updates the PStatClient with the recent results from
+//               add_level() and sub_level().
+////////////////////////////////////////////////////////////////////
+46
+inline void PStatCollector::flush_level(void);
+
+140 9 get_level 0 4 155 25 PStatCollector::get_level 0 2 72 73 653
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_level
+//       Access: Published
+//  Description: Returns the current level value of the given
+//               collector in the main thread.  This implicitly calls
+//               flush_level().
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_level
+//       Access: Published
+//  Description: Returns the current level value of the given collector.
+////////////////////////////////////////////////////////////////////
+114
+inline double PStatCollector::get_level(void);
+inline double PStatCollector::get_level(PStatThread const &thread);
+
+141 18 clear_thread_level 0 4 155 34 PStatCollector::clear_thread_level 0 1 74 446
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_thread_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the current thread.  The collector
+//               will no longer show up on any level graphs in the
+//               current thread.
+////////////////////////////////////////////////////////////////////
+53
+inline void PStatCollector::clear_thread_level(void);
+
+142 16 set_thread_level 0 4 155 32 PStatCollector::set_thread_level 0 1 75 366
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_thread_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the current thread to the indicated
+//               value.
+////////////////////////////////////////////////////////////////////
+59
+inline void PStatCollector::set_thread_level(double level);
+
+143 16 add_thread_level 0 4 155 32 PStatCollector::add_thread_level 0 1 76 531
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_thread_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the current thread.  If the collector did not
+//               already have a level setting for the current thread,
+//               it is initialized to 0.
+////////////////////////////////////////////////////////////////////
+63
+inline void PStatCollector::add_thread_level(double increment);
+
+144 16 sub_thread_level 0 4 155 32 PStatCollector::sub_thread_level 0 1 77 536
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_thread_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the current thread.  If the collector
+//               did not already have a level setting for the current
+//               thread, it is initialized to 0.
+////////////////////////////////////////////////////////////////////
+63
+inline void PStatCollector::sub_thread_level(double decrement);
+
+145 16 get_thread_level 0 4 155 32 PStatCollector::get_thread_level 0 1 78 326
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_thread_level
+//       Access: Published
+//  Description: Returns the current level value of the given
+//               collector in the current thread.
+////////////////////////////////////////////////////////////////////
+53
+inline double PStatCollector::get_thread_level(void);
+
+146 9 get_index 0 4 155 25 PStatCollector::get_index 0 1 79 319
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_index
+//       Access: Published
+//  Description: Returns the index number of this particular collector
+//               within the PStatClient.
+////////////////////////////////////////////////////////////////////
+49
+inline int PStatCollector::get_index(void) const;
+
+147 15 ~PStatCollector 0 4 155 31 PStatCollector::~PStatCollector 0 0 0
+38
+PStatCollector::~PStatCollector(void);
+
+148 21 PStatCollectorForward 0 4 156 44 PStatCollectorForward::PStatCollectorForward 0 1 80 233
+////////////////////////////////////////////////////////////////////
+//     Function: PStatCollectorForward::Constructor
+//       Access: Published
+//  Description:
+////////////////////////////////////////////////////////////////////
+79
+inline PStatCollectorForward::PStatCollectorForward(PStatCollector const &col);
+
+149 22 ~PStatCollectorForward 0 4 156 45 PStatCollectorForward::~PStatCollectorForward 0 0 0
+52
+PStatCollectorForward::~PStatCollectorForward(void);
+
+80
+1 0 0 4 10 160 0 0 391 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::set_client_name
+//       Access: Published
+//  Description: Sets the name of the client.  This is reported to the
+//               PStatsServer, and will presumably be written in the
+//               title bar or something.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 158  4 name 1 159  
+2 0 0 6 11 159 0 0 268 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_client_name
+//       Access: Published
+//  Description: Retrieves the name of the client as set.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+3 0 0 4 12 160 0 0 817 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::set_max_rate
+//       Access: Published
+//  Description: Controls the number of packets that will be sent to
+//               the server.  Normally, one packet is sent per frame,
+//               but this can flood the server with more packets than
+//               it can handle if the frame rate is especially good
+//               (e.g. if nothing is onscreen at the moment).  Set
+//               this parameter to a reasonable number to prevent this
+//               from happening.
+//
+//               This number specifies the maximum number of packets
+//               that will be sent to the server per second, per
+//               thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 158  4 rate 1 163  
+4 0 0 6 13 163 0 0 373 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_max_rate
+//       Access: Published
+//  Description: Returns the maximum number of packets that will be
+//               sent to the server per second, per thread.  See
+//               set_max_rate().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+5 0 0 6 14 164 0 0 310 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_num_collectors
+//       Access: Published
+//  Description: Returns the total number of collectors the Client
+//               knows about.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+6 0 0 7 15 165 147 0 252 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector
+//       Access: Published
+//  Description: Returns the nth collector.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+7 0 0 6 16 166 0 0 279 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_def
+//       Access: Published
+//  Description: Returns the definition body of the nth collector.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+8 0 0 6 17 159 0 0 275 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_name
+//       Access: Published
+//  Description: Returns the name of the indicated collector.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+9 0 0 6 18 159 0 0 454 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_collector_fullname
+//       Access: Published
+//  Description: Returns the "full name" of the indicated collector.
+//               This will be the concatenation of all of the
+//               collector's parents' names (except Frame) and the
+//               collector's own name.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+10 0 0 6 19 164 0 0 304 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_num_threads
+//       Access: Published
+//  Description: Returns the total number of threads the Client
+//               knows about.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+11 0 0 7 20 168 122 0 246 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread
+//       Access: Published
+//  Description: Returns the nth thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+12 0 0 6 21 159 0 0 269 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_name
+//       Access: Published
+//  Description: Returns the name of the indicated thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+13 0 0 6 22 159 0 0 279 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_sync_name
+//       Access: Published
+//  Description: Returns the sync_name of the indicated thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+14 0 0 7 23 169 0 0 321 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_thread_object
+//       Access: Published
+//  Description: Returns the Panda Thread object associated with the
+//               indicated PStatThread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 161  5 index 1 164  
+15 0 0 7 24 168 122 0 340 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_main_thread
+//       Access: Published
+//  Description: Returns a handle to the client's Main thread.  This
+//               is the thread that started the application.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+16 0 0 7 25 168 122 0 409 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_current_thread
+//       Access: Published
+//  Description: Returns a handle to the currently-executing thread.
+//               This is the thread that PStatCollectors will be
+//               counted in if they do not specify otherwise.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+17 0 0 6 26 163 0 0 522 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_real_time
+//       Access: Published
+//  Description: Returns the time according to to the PStatClient's
+//               clock object.  It keeps its own clock, instead of
+//               using the global clock object, so the stats won't get
+//               mucked up if you put the global clock in
+//               non-real-time mode or something.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+18 0 0 6 27 170 0 0 373 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::connect
+//       Access: Published, Static
+//  Description: Attempts to establish a connection to the indicated
+//               PStatServer.  Returns true if successful, false on
+//               failure.
+//////////////////////////////////////////////////////////////////// 2 8 hostname 1 159  4 port 1 164  
+19 0 0 4 28 160 0 0 276 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::disconnect
+//       Access: Published, Static
+//  Description: Closes the connection previously established.
+//////////////////////////////////////////////////////////////////// 0 
+20 0 0 6 29 170 0 0 344 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::is_connected
+//       Access: Published, Static
+//  Description: Returns true if the client believes it is connected
+//               to a working PStatServer, false otherwise.
+//////////////////////////////////////////////////////////////////// 0 
+21 0 0 4 30 160 0 0 483 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::resume_after_pause
+//       Access: Published, Static
+//  Description: Resumes the PStatClient after the simulation has been
+//               paused for a while.  This allows the stats to
+//               continue exactly where it left off, instead of
+//               leaving a big gap that would represent a chug.
+//////////////////////////////////////////////////////////////////// 0 
+22 0 0 4 31 160 0 0 397 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::main_tick
+//       Access: Published, Static
+//  Description: A convenience function to call new_frame() on the
+//               global PStatClient's main thread, and any other
+//               threads with a sync_name of "Main".
+//////////////////////////////////////////////////////////////////// 0 
+23 0 0 4 32 160 0 0 335 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::thread_tick
+//       Access: Published, Static
+//  Description: A convenience function to call new_frame() on any
+//               threads with the indicated sync_name
+//////////////////////////////////////////////////////////////////// 1 9 sync_name 1 159  
+24 0 0 4 33 160 0 0 395 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_main_tick
+//       Access: Published
+//  Description: A convenience function to call new_frame() on the
+//               given PStatClient's main thread, and any other
+//               threads with a sync_name of "Main".
+//////////////////////////////////////////////////////////////////// 1 4 this 3 158  
+25 0 0 4 34 160 0 0 342 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_thread_tick
+//       Access: Published
+//  Description: A convenience function to call new_frame() on all of
+//               the threads with the indicated sync name.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 158  9 sync_name 1 159  
+26 0 0 6 35 170 0 0 269 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_connect
+//       Access: Published
+//  Description: The nonstatic implementation of connect().
+//////////////////////////////////////////////////////////////////// 3 4 this 3 158  8 hostname 1 159  4 port 1 164  
+27 0 0 4 36 160 0 0 275 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_disconnect
+//       Access: Published
+//  Description: The nonstatic implementation of disconnect().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 158  
+28 0 0 6 37 170 0 0 279 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_is_connected
+//       Access: Published
+//  Description: The nonstatic implementation of is_connected().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 161  
+29 0 0 4 38 160 0 0 482 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::client_resume_after_pause
+//       Access: Published
+//  Description: Resumes the PStatClient after the simulation has been
+//               paused for a while.  This allows the stats to
+//               continue exactly where it left off, instead of
+//               leaving a big gap that would represent a chug.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 158  
+30 0 0 6 39 158 0 0 496 ////////////////////////////////////////////////////////////////////
+//     Function: PStatClient::get_global_pstats
+//       Access: Published, Static
+//  Description: Returns a pointer to the global PStatClient object.
+//               It's legal to declare your own PStatClient locally,
+//               but it's also convenient to have a global one that
+//               everyone can register with.  This is the global one.
+//////////////////////////////////////////////////////////////////// 0 
+31 0 0 6 3 171 0 0 0 1 4 this 3 158  
+32 0 0 6 4 158 0 0 0 1 4 this 3 171  
+33 0 0 6 7 172 0 0 0 1 4 this 3 158  
+34 0 0 6 8 158 0 0 0 1 4 this 3 172  
+35 0 0 7 41 168 122 0 379 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Constructor
+//       Access: Published
+//  Description: Normally, this constructor is called only from
+//               PStatClient.  Use one of the constructors below to
+//               create your own Thread.
+//////////////////////////////////////////////////////////////////// 2 6 client 1 158  5 index 1 164  
+36 0 0 7 41 168 122 0 225 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Copy Constructor
+//       Access: Public
+//  Description:
+//////////////////////////////////////////////////////////////////// 1 4 copy 1 173  
+37 0 0 7 41 168 122 0 401 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::Constructor
+//       Access: Public
+//  Description: Creates a new named thread.  This will be used to
+//               unify tasks that share a common thread, and
+//               differentiate tasks that occur in different threads.
+//////////////////////////////////////////////////////////////////// 2 6 thread 1 169  6 client 1 158  
+38 0 0 6 42 168 0 0 0 2 4 this 3 168  4 copy 1 173  
+39 0 0 4 43 160 0 0 625 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::new_frame
+//       Access: Public
+//  Description: This must be called at the start of every "frame",
+//               whatever a frame may be deemed to be, to accumulate
+//               all the stats that have collected so far for the
+//               thread and ship them off to the server.
+//
+//               Calling PStatClient::thread_tick() will automatically
+//               call this for any threads with the indicated sync
+//               name.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 168  
+40 0 0 4 44 160 0 0 340 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::add_frame
+//       Access: Public
+//  Description: This is a slightly lower-level version of new_frame
+//               that also specifies the data to send for this frame.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 168  10 frame_data 1 175  
+41 0 0 7 45 169 0 0 316 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::get_thread
+//       Access: Published
+//  Description: Returns the Panda Thread object associated with this
+//               particular PStatThread.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 173  
+42 0 0 6 46 164 0 0 313 ////////////////////////////////////////////////////////////////////
+//     Function: PStatThread::get_index
+//       Access: Published
+//  Description: Returns the index number of this particular thread
+//               within the PStatClient.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 173  
+43 0 0 7 49 165 147 0 231 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Copy Constructor
+//       Access: Published
+//  Description:
+//////////////////////////////////////////////////////////////////// 1 4 copy 1 178  
+44 0 0 7 49 165 147 0 1302 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Constructor
+//       Access: Published
+//  Description: Creates a new PStatCollector, ready to start
+//               accumulating data.  The name of the collector
+//               uniquely identifies it among the other collectors; if
+//               two collectors share the same name then they are
+//               really the same collector.
+//
+//               The parent is the collector that conceptually
+//               includes all of the time measured for this collector.
+//               For instance, a particular character's animation time
+//               is owned by the "Animation" collector, which is in
+//               turn owned by the "Frame" collector.  It is not
+//               strictly necessary that all of the time spent in a
+//               particular collector is completely nested within time
+//               spent in its parent's collector.  If parent is the
+//               empty string, the collector is owned by "Frame".
+//
+//               This constructor does not take a client pointer; it
+//               always creates the new collector on the same client
+//               as its parent.
+//////////////////////////////////////////////////////////////////// 2 6 parent 1 178  4 name 1 159  
+45 0 0 7 49 165 147 0 1116 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::Constructor
+//       Access: Published
+//  Description: Creates a new PStatCollector, ready to start
+//               accumulating data.  The name of the collector
+//               uniquely identifies it among the other collectors; if
+//               two collectors share the same name then they are
+//               really the same collector.
+//
+//               The name may also be a compound name, something like
+//               "Cull:Sort", which indicates that this is a collector
+//               named "Sort", a child of the collector named "Cull".
+//               The parent may also be named explicitly by reference
+//               in the other flavor of the constructor; see further
+//               comments on this for that constructor.
+//
+//               If the client pointer is non-null, it specifies a
+//               particular client to register the collector with;
+//               otherwise, the global client is used.
+//////////////////////////////////////////////////////////////////// 2 4 name 1 159  6 client 1 158  
+46 0 0 6 50 165 0 0 0 2 4 this 3 165  4 copy 1 178  
+47 0 0 6 51 170 0 0 436 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_valid
+//       Access: Published
+//  Description: Returns true if collector is valid and may be used,
+//               or false if it was constructed with the default
+//               constructor (in which case any attempt to use it will
+//               crash).
+//////////////////////////////////////////////////////////////////// 1 4 this 3 178  
+48 0 0 6 52 159 0 0 371 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_name
+//       Access: Published
+//  Description: Returns the local name of this collector.  This is
+//               the rightmost part of the fullname, after the
+//               rightmost colon.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 178  
+49 0 0 6 53 159 0 0 394 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_fullname
+//       Access: Published
+//  Description: Returns the full name of this collector.  This
+//               includes the names of all the collector's parents,
+//               concatenated together with colons.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 178  
+50 0 0 4 54 160 0 0 222 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::output
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 this 3 178  3 out 1 180  
+51 0 0 6 55 170 0 0 380 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_active
+//       Access: Published
+//  Description: Returns true if this particular collector is active
+//               on the default thread, and we are currently
+//               transmitting PStats data.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+52 0 0 6 55 170 0 0 382 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_active
+//       Access: Published
+//  Description: Returns true if this particular collector is active
+//               on the indicated thread, and we are currently
+//               transmitting PStats data.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+53 0 0 6 56 170 0 0 344 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_started
+//       Access: Published
+//  Description: Returns true if this particular collector has been
+//               started on the default thread, or false otherwise.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+54 0 0 6 56 170 0 0 346 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::is_started
+//       Access: Published
+//  Description: Returns true if this particular collector has been
+//               started on the indicated thread, or false otherwise.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+55 0 0 4 57 160 0 0 335 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Starts this particular timer ticking.  This should be
+//               called before the code you want to measure.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+56 0 0 4 57 160 0 0 274 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Starts this timer ticking within a particular thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+57 0 0 4 57 160 0 0 549 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::start
+//       Access: Published
+//  Description: Marks that the timer should have been started as of
+//               the indicated time.  This must be a time based on the
+//               PStatClient's clock (see PStatClient::get_clock()),
+//               and care should be taken that all such calls exhibit
+//               a monotonically increasing series of time values.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 165  6 thread 1 173  5 as_of 1 163  
+58 0 0 4 58 160 0 0 313 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Stops this timer.  This should be called after the
+//               code you want to measure.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+59 0 0 4 58 160 0 0 264 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Stops this timer within a particular thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+60 0 0 4 58 160 0 0 548 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::stop
+//       Access: Published
+//  Description: Marks that the timer should have been stopped as of
+//               the indicated time.  This must be a time based on the
+//               PStatClient's clock (see PStatClient::get_clock()),
+//               and care should be taken that all such calls exhibit
+//               a monotonically increasing series of time values.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 165  6 thread 1 173  5 as_of 1 163  
+61 0 0 4 59 160 0 0 471 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the main thread.  The collector
+//               will no longer show up on any level graphs in the
+//               main thread.  This implicitly calls flush_level().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+62 0 0 4 59 160 0 0 434 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the indicated thread.  The collector
+//               will no longer show up on any level graphs in this
+//               thread.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+63 0 0 4 60 160 0 0 361 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the indicated thread to the indicated
+//               value.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 165  6 thread 1 173  5 level 1 163  
+64 0 0 4 60 160 0 0 394 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the main thread to the indicated
+//               value.  This implicitly calls flush_level().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  5 level 1 163  
+65 0 0 4 61 160 0 0 519 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the indicated thread.  If the collector did not
+//               already have a level setting for this thread, it is
+//               initialized to 0.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 165  6 thread 1 173  9 increment 1 163  
+66 0 0 4 61 160 0 0 700 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the main thread.  If the collector did not
+//               already have a level setting for the main thread, it
+//               is initialized to 0.
+//
+//               As an optimization, the data is not immediately set
+//               to the PStatClient.  It will be sent the next time
+//               flush_level() is called.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 increment 1 163  
+67 0 0 4 62 160 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the indicated thread.  If the collector
+//               did not already have a level setting for this thread,
+//               it is initialized to 0.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 165  6 thread 1 173  9 decrement 1 163  
+68 0 0 4 62 160 0 0 705 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the main thread.  If the collector did
+//               not already have a level setting for the main thread,
+//               it is initialized to 0.
+//
+//               As an optimization, the data is not immediately set
+//               to the PStatClient.  It will be sent the next time
+//               flush_level() is called.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 decrement 1 163  
+69 0 0 4 63 160 0 0 283 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_level_now
+//       Access: Published
+//  Description: Calls add_level() and immediately calls flush_level().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 increment 1 163  
+70 0 0 4 64 160 0 0 283 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_level_now
+//       Access: Published
+//  Description: Calls sub_level() and immediately calls flush_level().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 decrement 1 163  
+71 0 0 4 65 160 0 0 325 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::flush_level
+//       Access: Published
+//  Description: Updates the PStatClient with the recent results from
+//               add_level() and sub_level().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+72 0 0 6 66 163 0 0 371 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_level
+//       Access: Published
+//  Description: Returns the current level value of the given
+//               collector in the main thread.  This implicitly calls
+//               flush_level().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+73 0 0 6 66 163 0 0 280 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_level
+//       Access: Published
+//  Description: Returns the current level value of the given collector.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  6 thread 1 173  
+74 0 0 4 67 160 0 0 446 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::clear_thread_level
+//       Access: Published
+//  Description: Removes the level setting associated with this
+//               collector for the current thread.  The collector
+//               will no longer show up on any level graphs in the
+//               current thread.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+75 0 0 4 68 160 0 0 366 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::set_thread_level
+//       Access: Published
+//  Description: Sets the level setting associated with this
+//               collector for the current thread to the indicated
+//               value.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  5 level 1 163  
+76 0 0 4 69 160 0 0 531 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::add_thread_level
+//       Access: Published
+//  Description: Adds the indicated increment (which may be negative)
+//               to the level setting associated with this collector
+//               for the current thread.  If the collector did not
+//               already have a level setting for the current thread,
+//               it is initialized to 0.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 increment 1 163  
+77 0 0 4 70 160 0 0 536 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::sub_thread_level
+//       Access: Published
+//  Description: Subtracts the indicated decrement (which may be
+//               negative) to the level setting associated with this
+//               collector for the current thread.  If the collector
+//               did not already have a level setting for the current
+//               thread, it is initialized to 0.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 165  9 decrement 1 163  
+78 0 0 6 71 163 0 0 326 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_thread_level
+//       Access: Published
+//  Description: Returns the current level value of the given
+//               collector in the current thread.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 165  
+79 0 0 6 72 164 0 0 319 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollector::get_index
+//       Access: Published
+//  Description: Returns the index number of this particular collector
+//               within the PStatClient.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 178  
+80 0 0 7 76 182 149 0 233 ////////////////////////////////////////////////////////////////////
+//     Function: PStatCollectorForward::Constructor
+//       Access: Published
+//  Description:
+//////////////////////////////////////////////////////////////////// 1 3 col 1 178  
+33
+150 11 PStatClient 0 26625 11 PStatClient 11 PStatClient 0 0 0 0 85 0 30 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 2 184 185 0 2 3 151 81 82 3 152 83 84 0 0 0
+
+151 17 ConnectionManager 0 2049 17 ConnectionManager 17 ConnectionManager 0 0 0 0 0 0 0 1 183 0 0 0 0 918
+////////////////////////////////////////////////////////////////////
+//       Class : ConnectionManager
+// Description : The primary interface to the low-level networking
+//               layer in this package.  A ConnectionManager is used
+//               to establish and destroy TCP and UDP connections.
+//               Communication on these connections, once established,
+//               is handled via ConnectionReader, ConnectionWriter,
+//               and ConnectionListener.
+//
+//               You may use this class directly if you don't care
+//               about tracking which connections have been
+//               unexpectedly closed; otherwise, you should use
+//               QueuedConnectionManager to get reports about these
+//               events (or derive your own class to handle these
+//               events properly).
+////////////////////////////////////////////////////////////////////
+
+152 14 PStatsCallback 0 264193 22 Thread::PStatsCallback 22 Thread::PStatsCallback 153 0 0 0 0 0 0 0 0 0 0 0 89
+// This class allows integration with PStats, particularly in the
+// SIMPLE_THREADS case.
+
+153 6 Thread 0 2048 6 Thread 6 Thread 0 0 0 0 0 0 0 0 0 0 0 0 668
+////////////////////////////////////////////////////////////////////
+//       Class : Thread
+// Description : A thread; that is, a lightweight process.  This is an
+//               abstract base class; to use it, you must subclass
+//               from it and redefine thread_main().
+//
+//               The thread itself will keep a reference count on the
+//               Thread object while it is running; when the thread
+//               returns from its root function, the Thread object
+//               will automatically be destructed if no other pointers
+//               are referencing it.
+////////////////////////////////////////////////////////////////////
+
+154 11 PStatThread 0 141313 11 PStatThread 11 PStatThread 0 0 0 1 116 122 0 5 117 118 119 120 121 0 0 0 0 0 350
+////////////////////////////////////////////////////////////////////
+//       Class : PStatThread
+// Description : A lightweight class that represents a single thread
+//               of execution to PStats.  It corresponds one-to-one
+//               with Panda's Thread instance.
+////////////////////////////////////////////////////////////////////
+
+155 14 PStatCollector 0 141313 14 PStatCollector 14 PStatCollector 0 0 0 1 123 147 0 23 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 0 0 0 0 0 1326
+////////////////////////////////////////////////////////////////////
+//       Class : PStatCollector
+// Description : A lightweight class that represents a single element
+//               that may be timed and/or counted via stats.
+//
+//               Collectors can be used to measure two different kinds
+//               of values: elapsed time, and "other".
+//
+//               To measure elapsed time, call start() and stop() as
+//               appropriate to bracket the section of code you want
+//               to time (or use a PStatTimer to do this
+//               automatically).
+//
+//               To measure anything else, call set_level() and/or
+//               add_level() to set the "level" value associated with
+//               this collector.  The meaning of the value set for the
+//               "level" is entirely up to the user; it may represent
+//               the number of triangles rendered or the kilobytes of
+//               texture memory consumed, for instance.  The level set
+//               will remain fixed across multiple frames until it is
+//               reset via another set_level() or adjusted via a call
+//               to add_level().  It may also be completely removed
+//               via clear_level().
+////////////////////////////////////////////////////////////////////
+
+156 21 PStatCollectorForward 0 141313 21 PStatCollectorForward 21 PStatCollectorForward 0 0 0 1 148 149 0 0 0 0 1 0 157 0 0 0 0 401
+////////////////////////////////////////////////////////////////////
+//       Class : PStatCollectorForward
+// Description : This class serves as a cheap forward reference to a
+//               PStatCollector, so that classes that are defined
+//               before the pstats module may access the
+//               PStatCollector.
+////////////////////////////////////////////////////////////////////
+
+157 25 PStatCollectorForwardBase 0 2049 25 PStatCollectorForwardBase 25 PStatCollectorForwardBase 0 0 0 0 0 0 0 0 0 0 0 0 542
+////////////////////////////////////////////////////////////////////
+//       Class : PStatCollectorForwardBase
+// Description : This class serves as a cheap forward reference to a
+//               PStatCollector, which is defined in the pstatclient
+//               module (and is not directly accessible here in the
+//               express module).
+//
+//               This is subclassed as PStatCollectorForward, which
+//               defines the actual functionality.
+////////////////////////////////////////////////////////////////////
+
+158 13 PStatClient * 0 8576 13 PStatClient * 13 PStatClient * 0 0 150 0 0 0 0 0 0 0 0 0 0
+
+159 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
+
+160 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+161 19 PStatClient const * 0 8576 19 PStatClient const * 19 PStatClient const * 0 0 162 0 0 0 0 0 0 0 0 0 0
+
+162 17 PStatClient const 0 8832 17 PStatClient const 17 PStatClient const 0 0 150 0 0 0 0 0 0 0 0 0 0
+
+163 6 double 0 8194 6 double 6 double 0 3 0 0 0 0 0 0 0 0 0 0 0
+
+164 3 int 0 8194 3 int 3 int 0 1 0 0 0 0 0 0 0 0 0 0 0
+
+165 16 PStatCollector * 0 8576 16 PStatCollector * 16 PStatCollector * 0 0 155 0 0 0 0 0 0 0 0 0 0
+
+166 19 PStatCollectorDef * 0 8576 19 PStatCollectorDef * 19 PStatCollectorDef * 0 0 167 0 0 0 0 0 0 0 0 0 0
+
+167 17 PStatCollectorDef 0 1050624 17 PStatCollectorDef 17 PStatCollectorDef 0 0 0 0 0 0 0 0 0 0 0 0 284
+////////////////////////////////////////////////////////////////////
+//       Class : PStatCollectorDef
+// Description : Defines the details about the Collectors: the name,
+//               the suggested color, etc.
+////////////////////////////////////////////////////////////////////
+
+168 13 PStatThread * 0 8576 13 PStatThread * 13 PStatThread * 0 0 154 0 0 0 0 0 0 0 0 0 0
+
+169 8 Thread * 0 8576 8 Thread * 8 Thread * 0 0 153 0 0 0 0 0 0 0 0 0 0
+
+170 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
+
+171 19 ConnectionManager * 0 8576 19 ConnectionManager * 19 ConnectionManager * 0 0 151 0 0 0 0 0 0 0 0 0 0
+
+172 16 PStatsCallback * 0 8576 24 Thread::PStatsCallback * 24 Thread::PStatsCallback * 0 0 152 0 0 0 0 0 0 0 0 0 0
+
+173 19 PStatThread const * 0 8576 19 PStatThread const * 19 PStatThread const * 0 0 174 0 0 0 0 0 0 0 0 0 0
+
+174 17 PStatThread const 0 8832 17 PStatThread const 17 PStatThread const 0 0 154 0 0 0 0 0 0 0 0 0 0
+
+175 22 PStatFrameData const * 0 8576 22 PStatFrameData const * 22 PStatFrameData const * 0 0 176 0 0 0 0 0 0 0 0 0 0
+
+176 20 PStatFrameData const 0 8832 20 PStatFrameData const 20 PStatFrameData const 0 0 177 0 0 0 0 0 0 0 0 0 0
+
+177 14 PStatFrameData 0 1050624 14 PStatFrameData 14 PStatFrameData 0 0 0 0 0 0 0 0 0 0 0 0 436
+////////////////////////////////////////////////////////////////////
+//       Class : PStatFrameData
+// Description : Contains the raw timing and level data for a single
+//               frame.  This is a sequence of start/stop events, as
+//               well as a table of level values, associated with a
+//               number of collectors within a single frame.
+////////////////////////////////////////////////////////////////////
+
+178 22 PStatCollector const * 0 8576 22 PStatCollector const * 22 PStatCollector const * 0 0 179 0 0 0 0 0 0 0 0 0 0
+
+179 20 PStatCollector const 0 8832 20 PStatCollector const 20 PStatCollector const 0 0 155 0 0 0 0 0 0 0 0 0 0
+
+180 9 ostream * 0 8576 9 ostream * 9 ostream * 0 0 181 0 0 0 0 0 0 0 0 0 0
+
+181 7 ostream 0 2048 7 ostream 7 ostream 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+182 23 PStatCollectorForward * 0 8576 23 PStatCollectorForward * 23 PStatCollectorForward * 0 0 156 0 0 0 0 0 0 0 0 0 0
+
+0
+0
+3
+183 0 0 2 14 get_interfaces 18 get_num_interfaces 13 get_interface 
+184 0 0 1 14 get_collectors 18 get_num_collectors 13 get_collector 
+185 0 0 1 11 get_threads 15 get_num_threads 10 get_thread 

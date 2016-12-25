@@ -1,0 +1,3356 @@
+1436948651
+2 3
+13 libp3interval 4 ceEZ 14 panda3d.direct 
+161
+155 8 get_name 0 4 316 19 CInterval::get_name 0 1 1 247
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_name
+//       Access: Published
+//  Description: Returns the interval's name.
+////////////////////////////////////////////////////////////////////
+53
+inline string const &CInterval::get_name(void) const;
+
+156 12 get_duration 0 4 316 23 CInterval::get_duration 0 1 2 271
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_duration
+//       Access: Published
+//  Description: Returns the duration of the interval in seconds.
+////////////////////////////////////////////////////////////////////
+50
+inline double CInterval::get_duration(void) const;
+
+157 14 get_open_ended 0 4 316 25 CInterval::get_open_ended 0 1 3 685
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_open_ended
+//       Access: Published
+//  Description: Returns the state of the "open_ended" flag.  This is
+//               primarily intended for instantaneous intervals like
+//               FunctionIntervals; it indicates true if the interval
+//               has some lasting effect that should be applied even
+//               if the interval doesn't get started until after its
+//               finish time, or false if the interval is a transitive
+//               thing that doesn't need to be called late.
+////////////////////////////////////////////////////////////////////
+50
+inline bool CInterval::get_open_ended(void) const;
+
+158 9 get_state 0 4 316 20 CInterval::get_state 0 1 4 385
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_state
+//       Access: Published
+//  Description: Indicates the state the interval believes it is in:
+//               whether it has been started, is currently in the
+//               middle, or has been finalized.
+////////////////////////////////////////////////////////////////////
+57
+inline CInterval::State CInterval::get_state(void) const;
+
+159 10 is_stopped 0 4 316 21 CInterval::is_stopped 0 1 5 364
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::is_stopped
+//       Access: Published
+//  Description: Returns true if the interval is in either its initial
+//               or final states (but not in a running or paused
+//               state).
+////////////////////////////////////////////////////////////////////
+46
+inline bool CInterval::is_stopped(void) const;
+
+160 14 set_done_event 0 4 316 25 CInterval::set_done_event 0 1 6 426
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_done_event
+//       Access: Published
+//  Description: Sets the event that is generated whenever the
+//               interval reaches its final state, whether it is
+//               explicitly finished or whether it gets there on its
+//               own.
+////////////////////////////////////////////////////////////////////
+59
+inline void CInterval::set_done_event(string const &event);
+
+161 14 get_done_event 0 4 316 25 CInterval::get_done_event 0 1 7 429
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_done_event
+//       Access: Published
+//  Description: Returns the event that is generated whenever the
+//               interval reaches its final state, whether it is
+//               explicitly finished or whether it gets there on its
+//               own.
+////////////////////////////////////////////////////////////////////
+59
+inline string const &CInterval::get_done_event(void) const;
+
+162 5 set_t 0 4 316 16 CInterval::set_t 0 1 8 450
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_t
+//       Access: Published
+//  Description: Explicitly sets the time within the interval.
+//               Normally, you would use start() .. finish() to let
+//               the time play normally, but this may be used to set
+//               the time to some particular value.
+////////////////////////////////////////////////////////////////////
+32
+void CInterval::set_t(double t);
+
+163 5 get_t 0 4 316 16 CInterval::get_t 0 1 9 373
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_t
+//       Access: Published
+//  Description: Returns the current time of the interval: the last
+//               value of t passed to priv_initialize(), priv_step(), or
+//               priv_finalize().
+////////////////////////////////////////////////////////////////////
+43
+inline double CInterval::get_t(void) const;
+
+164 14 set_auto_pause 0 4 316 25 CInterval::set_auto_pause 0 1 10 624
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_auto_pause
+//       Access: Published
+//  Description: Changes the state of the 'auto_pause' flag.  If
+//               this is true, the interval may be arbitrarily
+//               interrupted when the system needs to reset due to
+//               some external event by calling
+//               CIntervalManager::interrupt().  If this
+//               is false (the default), the interval must always be
+//               explicitly finished or paused.
+////////////////////////////////////////////////////////////////////
+55
+inline void CInterval::set_auto_pause(bool auto_pause);
+
+165 14 get_auto_pause 0 4 316 25 CInterval::get_auto_pause 0 1 11 308
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_auto_pause
+//       Access: Published
+//  Description: Returns the state of the 'auto_pause' flag.  See
+//               set_auto_pause().
+////////////////////////////////////////////////////////////////////
+50
+inline bool CInterval::get_auto_pause(void) const;
+
+166 15 set_auto_finish 0 4 316 26 CInterval::set_auto_finish 0 1 12 623
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_auto_finish
+//       Access: Published
+//  Description: Changes the state of the 'auto_finish' flag.  If
+//               this is true, the interval may be arbitrarily
+//               finished when the system needs to reset due to
+//               some external event by calling
+//               CIntervalManager::interrupt().  If this
+//               is false (the default), the interval must always be
+//               explicitly finished or paused.
+////////////////////////////////////////////////////////////////////
+57
+inline void CInterval::set_auto_finish(bool auto_finish);
+
+167 15 get_auto_finish 0 4 316 26 CInterval::get_auto_finish 0 1 13 311
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_auto_finish
+//       Access: Published
+//  Description: Returns the state of the 'auto_finish' flag.  See
+//               set_auto_finish().
+////////////////////////////////////////////////////////////////////
+51
+inline bool CInterval::get_auto_finish(void) const;
+
+168 20 set_wants_t_callback 0 4 316 31 CInterval::set_wants_t_callback 0 1 14 533
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_wants_t_callback
+//       Access: Published
+//  Description: Changes the state of the 'wants_t_callback' flag.  If
+//               this is true, the interval will be returned by
+//               CIntervalManager::get_event() each time the
+//               interval's time value has been changed, regardless of
+//               whether it has any external events.
+////////////////////////////////////////////////////////////////////
+67
+inline void CInterval::set_wants_t_callback(bool wants_t_callback);
+
+169 20 get_wants_t_callback 0 4 316 31 CInterval::get_wants_t_callback 0 1 15 325
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_wants_t_callback
+//       Access: Published
+//  Description: Returns the state of the 'wants_t_callback' flag.
+//               See set_wants_t_callback().
+////////////////////////////////////////////////////////////////////
+56
+inline bool CInterval::get_wants_t_callback(void) const;
+
+170 11 set_manager 0 4 316 22 CInterval::set_manager 0 1 16 523
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_manager
+//       Access: Published
+//  Description: Indicates the CIntervalManager object which will be
+//               responsible for playing this interval.  This defaults
+//               to the global CIntervalManager; you should need to
+//               change this only if you have special requirements for
+//               playing this interval.
+////////////////////////////////////////////////////////////////////
+62
+inline void CInterval::set_manager(CIntervalManager *manager);
+
+171 11 get_manager 0 4 316 22 CInterval::get_manager 0 1 17 604
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_manager
+//       Access: Published
+//  Description: Returns the CIntervalManager object which will be
+//               responsible for playing this interval.  Note that
+//               this can only return a C++ object; if the particular
+//               CIntervalManager object has been extended in the
+//               scripting language, this will return the encapsulated
+//               C++ object, not the full extended object.
+////////////////////////////////////////////////////////////////////
+60
+inline CIntervalManager *CInterval::get_manager(void) const;
+
+172 5 start 0 4 316 16 CInterval::start 0 1 18 478
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::start
+//       Access: Published
+//  Description: Starts the interval playing by registering it with
+//               the current CIntervalManager.  The interval will
+//               play to the end and stop.
+//
+//               If end_t is less than zero, it indicates the end of
+//               the interval.
+////////////////////////////////////////////////////////////////////
+89
+void CInterval::start(double start_t = 0.0, double end_t = -1.0, double play_rate = 1.0);
+
+173 4 loop 0 4 316 15 CInterval::loop 0 1 19 587
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::loop
+//       Access: Published
+//  Description: Starts the interval playing by registering it with
+//               the current CIntervalManager.  The interval will
+//               play until it is interrupted with finish() or
+//               pause(), looping back to start_t when it reaches
+//               end_t.
+//
+//               If end_t is less than zero, it indicates the end of
+//               the interval.
+////////////////////////////////////////////////////////////////////
+88
+void CInterval::loop(double start_t = 0.0, double end_t = -1.0, double play_rate = 1.0);
+
+174 5 pause 0 4 316 16 CInterval::pause 0 1 20 379
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::pause
+//       Access: Published
+//  Description: Stops the interval from playing but leaves it in its
+//               current state.  It may later be resumed from this
+//               point by calling resume().
+////////////////////////////////////////////////////////////////////
+30
+double CInterval::pause(void);
+
+175 6 resume 0 4 316 17 CInterval::resume 0 2 21 22 628
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume
+//       Access: Published
+//  Description: Restarts the interval from its current point after a
+//               previous call to pause().
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume
+//       Access: Published
+//  Description: Restarts the interval from the indicated point after a
+//               previous call to pause().
+////////////////////////////////////////////////////////////////////
+69
+void CInterval::resume(void);
+void CInterval::resume(double start_t);
+
+176 12 resume_until 0 4 316 23 CInterval::resume_until 0 1 23 440
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume_until
+//       Access: Published
+//  Description: Restarts the interval from the current point after a
+//               previous call to pause() (or a previous
+//               play-to-point-and-stop), to play until the indicated
+//               point and then stop.
+////////////////////////////////////////////////////////////////////
+43
+void CInterval::resume_until(double end_t);
+
+177 6 finish 0 4 316 17 CInterval::finish 0 1 24 297
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::finish
+//       Access: Published
+//  Description: Stops the interval from playing and sets it to its
+//               final state.
+////////////////////////////////////////////////////////////////////
+29
+void CInterval::finish(void);
+
+178 16 clear_to_initial 0 4 316 27 CInterval::clear_to_initial 0 1 25 551
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::clear_to_initial
+//       Access: Published
+//  Description: Pauses the interval, if it is playing, and resets its
+//               state to its initial state, abandoning any state
+//               changes already in progress in the middle of the
+//               interval.  Calling this is like pausing the interval
+//               and discarding it, creating a new one in its place.
+////////////////////////////////////////////////////////////////////
+39
+void CInterval::clear_to_initial(void);
+
+179 10 is_playing 0 4 316 21 CInterval::is_playing 0 1 26 305
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::is_playing
+//       Access: Published
+//  Description: Returns true if the interval is currently playing,
+//               false otherwise.
+////////////////////////////////////////////////////////////////////
+39
+bool CInterval::is_playing(void) const;
+
+180 13 get_play_rate 0 4 316 24 CInterval::get_play_rate 0 1 27 326
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_play_rate
+//       Access: Published
+//  Description: Returns the play rate as set by the last call to
+//               start(), loop(), or set_play_rate().
+////////////////////////////////////////////////////////////////////
+44
+double CInterval::get_play_rate(void) const;
+
+181 13 set_play_rate 0 4 316 24 CInterval::set_play_rate 0 1 28 529
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_play_rate
+//       Access: Published
+//  Description: Changes the play rate of the interval.  If the
+//               interval is already started, this changes its speed
+//               on-the-fly.  Note that since play_rate is a parameter
+//               to start() and loop(), the next call to start() or
+//               loop() will reset this parameter.
+////////////////////////////////////////////////////////////////////
+48
+void CInterval::set_play_rate(double play_rate);
+
+182 13 priv_do_event 0 4 316 24 CInterval::priv_do_event 0 1 29 506
+// These cannot be declared private because they must be accessible
+// to Python, but the method names are prefixed with priv_ to remind
+// you that you probably don't want to be using them directly.
+
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_do_event
+//       Access: Published
+//  Description: Calls the appropriate event function indicated by the
+//               EventType.
+////////////////////////////////////////////////////////////////////
+68
+void CInterval::priv_do_event(double t, CInterval::EventType event);
+
+183 15 priv_initialize 0 6 316 26 CInterval::priv_initialize 0 1 30 485
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_initialize
+//       Access: Published, Virtual
+//  Description: This replaces the first call to priv_step(), and indicates
+//               that the interval has just begun.  This may be
+//               overridden by derived classes that need to do some
+//               explicit initialization on the first call.
+////////////////////////////////////////////////////////////////////
+50
+virtual void CInterval::priv_initialize(double t);
+
+184 12 priv_instant 0 6 316 23 CInterval::priv_instant 0 1 31 486
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_instant
+//       Access: Published, Virtual
+//  Description: This is called in lieu of priv_initialize() .. priv_step()
+//               .. priv_finalize(), when everything is to happen within
+//               one frame.  The interval should initialize itself,
+//               then leave itself in the final state.
+////////////////////////////////////////////////////////////////////
+43
+virtual void CInterval::priv_instant(void);
+
+185 9 priv_step 0 6 316 20 CInterval::priv_step 0 1 32 409
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_step
+//       Access: Published, Virtual
+//  Description: Advances the time on the interval.  The time may
+//               either increase (the normal case) or decrease
+//               (e.g. if the interval is being played by a slider).
+////////////////////////////////////////////////////////////////////
+44
+virtual void CInterval::priv_step(double t);
+
+186 13 priv_finalize 0 6 316 24 CInterval::priv_finalize 0 1 33 439
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_finalize
+//       Access: Published, Virtual
+//  Description: This is called to stop an interval, forcing it to
+//               whatever state it would be after it played all the
+//               way through.  It's generally invoked by
+//               set_final_t().
+////////////////////////////////////////////////////////////////////
+44
+virtual void CInterval::priv_finalize(void);
+
+187 23 priv_reverse_initialize 0 6 316 34 CInterval::priv_reverse_initialize 0 1 34 485
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_initialize
+//       Access: Published, Virtual
+//  Description: Similar to priv_initialize(), but this is called when the
+//               interval is being played backwards; it indicates that
+//               the interval should start at the finishing state and
+//               undo any intervening intervals.
+////////////////////////////////////////////////////////////////////
+58
+virtual void CInterval::priv_reverse_initialize(double t);
+
+188 20 priv_reverse_instant 0 6 316 31 CInterval::priv_reverse_instant 0 1 35 524
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_instant
+//       Access: Published, Virtual
+//  Description: This is called in lieu of priv_reverse_initialize()
+//               .. priv_step() .. priv_reverse_finalize(), when everything is
+//               to happen within one frame.  The interval should
+//               initialize itself, then leave itself in the initial
+//               state.
+////////////////////////////////////////////////////////////////////
+51
+virtual void CInterval::priv_reverse_instant(void);
+
+189 21 priv_reverse_finalize 0 6 316 32 CInterval::priv_reverse_finalize 0 1 36 393
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_finalize
+//       Access: Published, Virtual
+//  Description: Called generally following a priv_reverse_initialize(),
+//               this indicates the interval should set itself to the
+//               initial state.
+////////////////////////////////////////////////////////////////////
+52
+virtual void CInterval::priv_reverse_finalize(void);
+
+190 14 priv_interrupt 0 6 316 25 CInterval::priv_interrupt 0 1 37 812
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_interrupt
+//       Access: Published, Virtual
+//  Description: This is called while the interval is playing to
+//               indicate that it is about to be interrupted; that is,
+//               priv_step() will not be called for a length of time.  But
+//               the interval should remain in its current state in
+//               anticipation of being eventually restarted when the
+//               calls to priv_step() eventually resume.
+//
+//               The purpose of this function is to allow self-running
+//               intervals like sound intervals to stop the actual
+//               sound playback during the pause.
+////////////////////////////////////////////////////////////////////
+45
+virtual void CInterval::priv_interrupt(void);
+
+191 6 output 0 6 316 17 CInterval::output 0 1 38 226
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::output
+//       Access: Published, Virtual
+//  Description: 
+////////////////////////////////////////////////////////////////////
+51
+virtual void CInterval::output(ostream &out) const;
+
+192 5 write 0 6 316 16 CInterval::write 0 1 39 225
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::write
+//       Access: Published, Virtual
+//  Description: 
+////////////////////////////////////////////////////////////////////
+68
+virtual void CInterval::write(ostream &out, int indent_level) const;
+
+193 10 setup_play 0 4 316 21 CInterval::setup_play 0 1 40 831
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_play
+//       Access: Published
+//  Description: Called to prepare the interval for automatic timed
+//               playback, e.g. via a Python task.  The interval will
+//               be played from start_t to end_t, at a time factor
+//               specified by play_rate.  start_t must always be less
+//               than end_t (except for the exception for end_t == -1,
+//               below), but if play_rate is negative the interval
+//               will be played backwards.
+//
+//               Specify end_t of -1 to play the entire interval from
+//               start_t.
+//
+//               Call step_play() repeatedly to execute the interval.
+////////////////////////////////////////////////////////////////////
+95
+void CInterval::setup_play(double start_time, double end_time, double play_rate, bool do_loop);
+
+194 12 setup_resume 0 4 316 23 CInterval::setup_resume 0 1 41 366
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_resume
+//       Access: Published
+//  Description: Called to prepare the interval for restarting at the
+//               current point within the interval after an
+//               interruption.
+////////////////////////////////////////////////////////////////////
+35
+void CInterval::setup_resume(void);
+
+195 18 setup_resume_until 0 4 316 29 CInterval::setup_resume_until 0 1 42 470
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_resume_until
+//       Access: Published
+//  Description: Called to prepare the interval for restarting from
+//               the current point after a previous call to pause()
+//               (or a previous play-to-point-and-stop), to play until
+//               the indicated point and then stop.
+////////////////////////////////////////////////////////////////////
+49
+void CInterval::setup_resume_until(double end_t);
+
+196 9 step_play 0 4 316 20 CInterval::step_play 0 1 43 453
+////////////////////////////////////////////////////////////////////
+//     Function: CInterval::step_play
+//       Access: Published
+//  Description: Should be called once per frame to execute the
+//               automatic timed playback begun with setup_play().
+//
+//               Returns true if the interval should continue, false
+//               if it is done and should stop.
+////////////////////////////////////////////////////////////////////
+32
+bool CInterval::step_play(void);
+
+197 14 get_class_type 0 4 316 25 CInterval::get_class_type 0 1 44 0
+50
+static TypeHandle CInterval::get_class_type(void);
+
+198 18 get_bogus_variable 0 20 320 39 CConstraintInterval::get_bogus_variable 0 1 47 52
+getter for bool CConstraintInterval::bogus_variable;
+57
+bool CConstraintInterval::get_bogus_variable(void) const;
+
+199 18 set_bogus_variable 0 36 320 39 CConstraintInterval::set_bogus_variable 0 1 46 52
+setter for bool CConstraintInterval::bogus_variable;
+57
+void CConstraintInterval::set_bogus_variable(bool value);
+
+200 14 get_class_type 0 4 320 35 CConstraintInterval::get_class_type 0 1 45 0
+60
+static TypeHandle CConstraintInterval::get_class_type(void);
+
+201 20 ~CConstraintInterval 0 4 320 41 CConstraintInterval::~CConstraintInterval 0 0 0
+48
+CConstraintInterval::~CConstraintInterval(void);
+
+202 21 CConstrainHprInterval 0 4 322 44 CConstrainHprInterval::CConstrainHprInterval 0 1 48 682
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the orientation of one node to the orientation of
+//               another, possibly with an added rotation.
+//
+//               If wrt is true, the node's orientation will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the target
+//               node's local orientation will be copied unaltered.
+////////////////////////////////////////////////////////////////////
+176
+CConstrainHprInterval::CConstrainHprInterval(string const &name, double duration, NodePath const &node, NodePath const &target, bool wrt, LVecBase3 const hprOffset = (zero()));
+
+203 8 get_node 0 4 322 31 CConstrainHprInterval::get_node 0 1 49 257
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+////////////////////////////////////////////////////////////////////
+67
+inline NodePath const &CConstrainHprInterval::get_node(void) const;
+
+204 10 get_target 0 4 322 33 CConstrainHprInterval::get_target 0 1 50 259
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+////////////////////////////////////////////////////////////////////
+69
+inline NodePath const &CConstrainHprInterval::get_target(void) const;
+
+205 14 get_class_type 0 4 322 37 CConstrainHprInterval::get_class_type 0 1 51 0
+62
+static TypeHandle CConstrainHprInterval::get_class_type(void);
+
+206 22 ~CConstrainHprInterval 0 4 322 45 CConstrainHprInterval::~CConstrainHprInterval 0 0 0
+52
+CConstrainHprInterval::~CConstrainHprInterval(void);
+
+207 24 CConstrainPosHprInterval 0 4 323 50 CConstrainPosHprInterval::CConstrainPosHprInterval 0 1 52 720
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the position and orientation of one node to the
+//               position and orientation of another.
+//
+//               If wrt is true, the node's position and orientation
+//               will be transformed into the target node's parent's
+//               space before being copied.  If wrt is false, the
+//               target node's local position and orientation will be
+//               copied unaltered.
+////////////////////////////////////////////////////////////////////
+220
+CConstrainPosHprInterval::CConstrainPosHprInterval(string const &name, double duration, NodePath const &node, NodePath const &target, bool wrt, LVecBase3 const posOffset = (zero()), LVecBase3 const hprOffset = (zero()));
+
+208 8 get_node 0 4 323 34 CConstrainPosHprInterval::get_node 0 1 53 260
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+////////////////////////////////////////////////////////////////////
+70
+inline NodePath const &CConstrainPosHprInterval::get_node(void) const;
+
+209 10 get_target 0 4 323 36 CConstrainPosHprInterval::get_target 0 1 54 262
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+////////////////////////////////////////////////////////////////////
+72
+inline NodePath const &CConstrainPosHprInterval::get_target(void) const;
+
+210 14 get_class_type 0 4 323 40 CConstrainPosHprInterval::get_class_type 0 1 55 0
+65
+static TypeHandle CConstrainPosHprInterval::get_class_type(void);
+
+211 25 ~CConstrainPosHprInterval 0 4 323 51 CConstrainPosHprInterval::~CConstrainPosHprInterval 0 0 0
+58
+CConstrainPosHprInterval::~CConstrainPosHprInterval(void);
+
+212 21 CConstrainPosInterval 0 4 324 44 CConstrainPosInterval::CConstrainPosInterval 0 1 56 620
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the position of one node to the position of another.
+//
+//               If wrt is true, the node's position will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the target
+//               node's local position will be copied unaltered.
+////////////////////////////////////////////////////////////////////
+176
+CConstrainPosInterval::CConstrainPosInterval(string const &name, double duration, NodePath const &node, NodePath const &target, bool wrt, LVecBase3 const posOffset = (zero()));
+
+213 8 get_node 0 4 324 31 CConstrainPosInterval::get_node 0 1 57 257
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+////////////////////////////////////////////////////////////////////
+67
+inline NodePath const &CConstrainPosInterval::get_node(void) const;
+
+214 10 get_target 0 4 324 33 CConstrainPosInterval::get_target 0 1 58 259
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+////////////////////////////////////////////////////////////////////
+69
+inline NodePath const &CConstrainPosInterval::get_target(void) const;
+
+215 14 get_class_type 0 4 324 37 CConstrainPosInterval::get_class_type 0 1 59 0
+62
+static TypeHandle CConstrainPosInterval::get_class_type(void);
+
+216 22 ~CConstrainPosInterval 0 4 324 45 CConstrainPosInterval::~CConstrainPosInterval 0 0 0
+52
+CConstrainPosInterval::~CConstrainPosInterval(void);
+
+217 27 CConstrainTransformInterval 0 4 325 56 CConstrainTransformInterval::CConstrainTransformInterval 0 1 60 700
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the transform of one node to the transform of another.
+//               To clarify, the transform of node will be copied to target.
+//
+//               If wrt is true, the node's transform will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the node's
+//               local transform will be copied unaltered.
+////////////////////////////////////////////////////////////////////
+150
+CConstrainTransformInterval::CConstrainTransformInterval(string const &name, double duration, NodePath const &node, NodePath const &target, bool wrt);
+
+218 8 get_node 0 4 325 37 CConstrainTransformInterval::get_node 0 1 61 263
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+////////////////////////////////////////////////////////////////////
+73
+inline NodePath const &CConstrainTransformInterval::get_node(void) const;
+
+219 10 get_target 0 4 325 39 CConstrainTransformInterval::get_target 0 1 62 265
+////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+////////////////////////////////////////////////////////////////////
+75
+inline NodePath const &CConstrainTransformInterval::get_target(void) const;
+
+220 14 get_class_type 0 4 325 43 CConstrainTransformInterval::get_class_type 0 1 63 0
+68
+static TypeHandle CConstrainTransformInterval::get_class_type(void);
+
+221 28 ~CConstrainTransformInterval 0 4 325 57 CConstrainTransformInterval::~CConstrainTransformInterval 0 0 0
+64
+CConstrainTransformInterval::~CConstrainTransformInterval(void);
+
+222 16 CIntervalManager 0 4 326 34 CIntervalManager::CIntervalManager 0 1 64 229
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+41
+CIntervalManager::CIntervalManager(void);
+
+223 17 ~CIntervalManager 0 4 326 35 CIntervalManager::~CIntervalManager 0 0 228
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::Destructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+42
+CIntervalManager::~CIntervalManager(void);
+
+224 15 set_event_queue 0 4 326 33 CIntervalManager::set_event_queue 0 1 65 703
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::set_event_queue
+//       Access: Published
+//  Description: Specifies a custom event queue to be used for
+//               throwing done events from intervals as they finish.
+//               If this is not specified, the global event queue is
+//               used.
+//
+//               The caller maintains ownership of the EventQueue
+//               object; it is the caller's responsibility to ensure
+//               that the supplied EventQueue does not destruct during
+//               the lifetime of the CIntervalManager.
+////////////////////////////////////////////////////////////////////
+71
+inline void CIntervalManager::set_event_queue(EventQueue *event_queue);
+
+225 15 get_event_queue 0 4 326 33 CIntervalManager::get_event_queue 0 1 66 347
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_event_queue
+//       Access: Published
+//  Description: Returns the custom event queue to be used for
+//               throwing done events from intervals as they finish.
+////////////////////////////////////////////////////////////////////
+65
+inline EventQueue *CIntervalManager::get_event_queue(void) const;
+
+226 14 add_c_interval 0 4 326 32 CIntervalManager::add_c_interval 0 1 67 1079
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::add_c_interval
+//       Access: Published
+//  Description: Adds the interval to the manager, and returns a
+//               unique index for the interval.  This index will be
+//               unique among all the currently added intervals, but
+//               not unique across all intervals ever added to the
+//               manager.  The maximum index value will never exceed
+//               the maximum number of intervals added at any given
+//               time.
+//
+//               If the external flag is true, the interval is
+//               understood to also be stored in the scripting
+//               language data structures.  In this case, it will be
+//               available for information returned by
+//               get_next_event() and get_next_removal().  If external
+//               is false, the interval's index will never be returned
+//               by these two functions.
+////////////////////////////////////////////////////////////////////
+73
+int CIntervalManager::add_c_interval(CInterval *interval, bool external);
+
+227 15 find_c_interval 0 4 326 33 CIntervalManager::find_c_interval 0 1 68 356
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::find_c_interval
+//       Access: Published
+//  Description: Returns the index associated with the named interval,
+//               if there is such an interval, or -1 if there is not.
+////////////////////////////////////////////////////////////////////
+64
+int CIntervalManager::find_c_interval(string const &name) const;
+
+228 14 get_c_interval 0 4 326 32 CIntervalManager::get_c_interval 0 1 69 285
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_c_interval
+//       Access: Published
+//  Description: Returns the interval associated with the given index.
+////////////////////////////////////////////////////////////////////
+61
+CInterval *CIntervalManager::get_c_interval(int index) const;
+
+229 17 remove_c_interval 0 4 326 35 CIntervalManager::remove_c_interval 0 1 70 472
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::remove_c_interval
+//       Access: Published
+//  Description: Removes the indicated interval from the queue
+//               immediately.  It will not be returned from
+//               get_next_removal(), and none of its pending events,
+//               if any, will be returned by get_next_event().
+////////////////////////////////////////////////////////////////////
+52
+void CIntervalManager::remove_c_interval(int index);
+
+230 9 interrupt 0 4 326 27 CIntervalManager::interrupt 0 1 71 605
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::interrupt
+//       Access: Published
+//  Description: Pauses or finishes (removes from the active queue)
+//               all intervals tagged with auto_pause or auto_finish
+//               set to true.  These are intervals that someone fired
+//               up but won't necessarily expect to clean up; they can
+//               be interrupted at will when necessary.
+//
+//               Returns the number of intervals affected.
+////////////////////////////////////////////////////////////////////
+38
+int CIntervalManager::interrupt(void);
+
+231 17 get_num_intervals 0 4 326 35 CIntervalManager::get_num_intervals 0 1 72 284
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_num_intervals
+//       Access: Published
+//  Description: Returns the number of currently active intervals.
+////////////////////////////////////////////////////////////////////
+52
+int CIntervalManager::get_num_intervals(void) const;
+
+232 13 get_max_index 0 4 326 31 CIntervalManager::get_max_index 0 1 73 591
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_max_index
+//       Access: Published
+//  Description: Returns one more than the largest interval index
+//               number in the manager.  If you walk through all the
+//               values between (0, get_max_index()] and call
+//               get_c_interval() on each number, you will retrieve
+//               all of the managed intervals (and possibly a number
+//               of NULL pointers as well).
+////////////////////////////////////////////////////////////////////
+48
+int CIntervalManager::get_max_index(void) const;
+
+233 4 step 0 4 326 22 CIntervalManager::step 0 1 74 771
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::step
+//       Access: Published
+//  Description: This should be called every frame to do the
+//               processing for all the active intervals.  It will
+//               call step_play() for each interval that has been
+//               added and that has not yet been removed.
+//
+//               After each call to step(), the scripting language
+//               should call get_next_event() and get_next_removal()
+//               repeatedly to process all the high-level
+//               (e.g. Python-interval-based) events and to manage the
+//               high-level list of intervals.
+////////////////////////////////////////////////////////////////////
+34
+void CIntervalManager::step(void);
+
+234 14 get_next_event 0 4 326 32 CIntervalManager::get_next_event 0 1 75 911
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_next_event
+//       Access: Published
+//  Description: This should be called by the scripting language after
+//               each call to step().  It returns the index number of
+//               the next interval that has events requiring servicing
+//               by the scripting language, or -1 if no more intervals
+//               have any events pending.
+//
+//               If this function returns something other than -1, it
+//               is the scripting language's responsibility to query
+//               the indicated interval for its next event via
+//               get_event_index(), and eventually pop_event().
+//
+//               Then get_next_event() should be called again until it
+//               returns -1.
+////////////////////////////////////////////////////////////////////
+43
+int CIntervalManager::get_next_event(void);
+
+235 16 get_next_removal 0 4 326 34 CIntervalManager::get_next_removal 0 1 76 694
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_next_removal
+//       Access: Published
+//  Description: This should be called by the scripting language after
+//               each call to step().  It returns the index number of
+//               an interval that was recently removed, or -1 if no
+//               intervals were removed.
+//
+//               If this returns something other than -1, the
+//               scripting language should clean up its own data
+//               structures accordingly, and then call
+//               get_next_removal() again.
+////////////////////////////////////////////////////////////////////
+45
+int CIntervalManager::get_next_removal(void);
+
+236 6 output 0 4 326 24 CIntervalManager::output 0 1 77 224
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::output
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+50
+void CIntervalManager::output(ostream &out) const;
+
+237 5 write 0 4 326 23 CIntervalManager::write 0 1 78 223
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::write
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+49
+void CIntervalManager::write(ostream &out) const;
+
+238 14 get_global_ptr 0 4 326 32 CIntervalManager::get_global_ptr 0 1 79 319
+////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_global_ptr
+//       Access: Published, Static
+//  Description: Returns the pointer to the one global
+//               CIntervalManager object.
+////////////////////////////////////////////////////////////////////
+64
+static CIntervalManager *CIntervalManager::get_global_ptr(void);
+
+239 14 get_blend_type 0 4 327 29 CLerpInterval::get_blend_type 0 1 80 411
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpInterval::get_blend_type
+//       Access: Published
+//  Description: Returns the blend type specified for the interval.
+//               This controls how the linear interpolation behaves
+//               near the beginning and end of the lerp period.
+////////////////////////////////////////////////////////////////////
+74
+inline CLerpInterval::BlendType CLerpInterval::get_blend_type(void) const;
+
+240 17 string_blend_type 0 4 327 32 CLerpInterval::string_blend_type 0 1 81 403
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpInterval::string_blend_type
+//       Access: Published, Static
+//  Description: Returns the BlendType enumerated value corresponding
+//               to the indicated string, or BT_invalid if the string
+//               doesn't match anything.
+////////////////////////////////////////////////////////////////////
+91
+static CLerpInterval::BlendType CLerpInterval::string_blend_type(string const &blend_type);
+
+241 14 get_class_type 0 4 327 29 CLerpInterval::get_class_type 0 1 82 0
+54
+static TypeHandle CLerpInterval::get_class_type(void);
+
+242 14 ~CLerpInterval 0 4 327 29 CLerpInterval::~CLerpInterval 0 0 0
+36
+CLerpInterval::~CLerpInterval(void);
+
+243 23 CLerpAnimEffectInterval 0 4 329 48 CLerpAnimEffectInterval::CLerpAnimEffectInterval 0 1 83 236
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpAnimEffectInterval::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+130
+inline CLerpAnimEffectInterval::CLerpAnimEffectInterval(string const &name, double duration, CLerpInterval::BlendType blend_type);
+
+244 11 add_control 0 4 329 36 CLerpAnimEffectInterval::add_control 0 1 84 573
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpAnimEffectInterval::add_control
+//       Access: Published
+//  Description: Adds another AnimControl to the list of AnimControls
+//               affected by the lerp.  This control will be lerped
+//               from begin_effect to end_effect over the period of
+//               the lerp.
+//
+//               The AnimControl name parameter is only used when
+//               formatting the interval for output.
+////////////////////////////////////////////////////////////////////
+129
+inline void CLerpAnimEffectInterval::add_control(AnimControl *control, string const &name, float begin_effect, float end_effect);
+
+245 14 get_class_type 0 4 329 39 CLerpAnimEffectInterval::get_class_type 0 1 85 0
+64
+static TypeHandle CLerpAnimEffectInterval::get_class_type(void);
+
+246 24 ~CLerpAnimEffectInterval 0 4 329 49 CLerpAnimEffectInterval::~CLerpAnimEffectInterval 0 0 0
+56
+CLerpAnimEffectInterval::~CLerpAnimEffectInterval(void);
+
+247 21 CLerpNodePathInterval 0 4 330 44 CLerpNodePathInterval::CLerpNodePathInterval 0 1 86 1792
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::Constructor
+//       Access: Published
+//  Description: Constructs a lerp interval that will lerp some
+//               properties on the indicated node, possibly relative
+//               to the indicated other node (if other is nonempty).
+//
+//               You must call set_end_pos(), etc. for the various
+//               properties you wish to lerp before the first call to
+//               priv_initialize().  If you want to set a starting value
+//               for any of the properties, you may call
+//               set_start_pos(), etc.; otherwise, the starting value
+//               is taken from the actual node's value at the time the
+//               lerp is performed.
+//
+//               The starting values may be explicitly specified or
+//               omitted.  The value of bake_in_start determines the
+//               behavior if the starting values are omitted.  If
+//               bake_in_start is true, the values are obtained the
+//               first time the lerp runs, and thenceforth are stored
+//               within the interval.  If bake_in_start is false, the
+//               starting value is computed each frame, based on
+//               assuming the current value represents the value set
+//               from the last time the interval was run.  This
+//               "smart" behavior allows code to manipulate the object
+//               event while it is being lerped, and the lerp
+//               continues to apply in a sensible way.
+//
+//               If fluid is true, the prev_transform is not adjusted
+//               by the lerp; otherwise, it is reset.
+////////////////////////////////////////////////////////////////////
+196
+CLerpNodePathInterval::CLerpNodePathInterval(string const &name, double duration, CLerpInterval::BlendType blend_type, bool bake_in_start, bool fluid, NodePath const &node, NodePath const &other);
+
+248 8 get_node 0 4 330 31 CLerpNodePathInterval::get_node 0 1 87 261
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_node
+//       Access: Published
+//  Description: Returns the node being lerped.
+////////////////////////////////////////////////////////////////////
+67
+inline NodePath const &CLerpNodePathInterval::get_node(void) const;
+
+249 9 get_other 0 4 330 32 CLerpNodePathInterval::get_other 0 1 88 451
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_other
+//       Access: Published
+//  Description: Returns the "other" node, which the lerped node is
+//               being moved relative to.  If this is an empty node
+//               path, the lerped node is being moved in its own
+//               coordinate system.
+////////////////////////////////////////////////////////////////////
+68
+inline NodePath const &CLerpNodePathInterval::get_other(void) const;
+
+250 13 set_start_pos 0 4 330 36 CLerpNodePathInterval::set_start_pos 0 1 89 547
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_pos
+//       Access: Published
+//  Description: Indicates the initial position of the lerped node.
+//               This is meaningful only if set_end_pos() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               position at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+71
+inline void CLerpNodePathInterval::set_start_pos(LVecBase3 const &pos);
+
+251 11 set_end_pos 0 4 330 34 CLerpNodePathInterval::set_end_pos 0 1 90 531
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_pos
+//       Access: Published
+//  Description: Indicates that the position of the node should be
+//               lerped, and specifies the final position of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's position will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+69
+inline void CLerpNodePathInterval::set_end_pos(LVecBase3 const &pos);
+
+252 13 set_start_hpr 0 4 330 36 CLerpNodePathInterval::set_start_hpr 0 1 91 589
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_hpr
+//       Access: Published
+//  Description: Indicates the initial rotation of the lerped node.
+//               This is meaningful only if either set_end_hpr() or
+//               set_end_quat() is also called.  This parameter is
+//               optional; if unspecified, the value will be taken
+//               from the node's actual rotation at the time the lerp
+//               is performed.
+////////////////////////////////////////////////////////////////////
+71
+inline void CLerpNodePathInterval::set_start_hpr(LVecBase3 const &hpr);
+
+253 11 set_end_hpr 0 4 330 34 CLerpNodePathInterval::set_end_hpr 0 2 92 93 1369
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_hpr
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_quat().  If
+//               neither set_end_hpr() nor set_end_quat() is called,
+//               the node's rotation will not be affected by the lerp.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_hpr
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This special function is overloaded to accept a
+//               quaternion, even though the function name is
+//               set_end_hpr().  The quaternion will be implicitly
+//               converted to a HPR trio, and the lerp will be
+//               performed in HPR space, componentwise.
+////////////////////////////////////////////////////////////////////
+142
+inline void CLerpNodePathInterval::set_end_hpr(LVecBase3 const &hpr);
+inline void CLerpNodePathInterval::set_end_hpr(LQuaternion const &quat);
+
+254 14 set_start_quat 0 4 330 37 CLerpNodePathInterval::set_start_quat 0 1 94 590
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_quat
+//       Access: Published
+//  Description: Indicates the initial rotation of the lerped node.
+//               This is meaningful only if either set_end_quat() or
+//               set_end_hpr() is also called.  This parameter is
+//               optional; if unspecified, the value will be taken
+//               from the node's actual rotation at the time the lerp
+//               is performed.
+////////////////////////////////////////////////////////////////////
+75
+inline void CLerpNodePathInterval::set_start_quat(LQuaternion const &quat);
+
+255 12 set_end_quat 0 4 330 35 CLerpNodePathInterval::set_end_quat 0 2 95 96 1589
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_quat
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_hpr().  If
+//               neither set_end_quat() nor set_end_hpr() is called,
+//               the node's rotation will not be affected by the lerp.
+//
+//               This special function is overloaded to accept a HPR
+//               trio, even though the function name is
+//               set_end_quat().  The HPR will be implicitly converted
+//               to a quaternion, and the lerp will be performed in
+//               quaternion space, as a spherical lerp.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_quat
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_hpr().  If
+//               neither set_end_quat() nor set_end_hpr() is called,
+//               the node's rotation will not be affected by the lerp.
+////////////////////////////////////////////////////////////////////
+144
+inline void CLerpNodePathInterval::set_end_quat(LVecBase3 const &hpr);
+inline void CLerpNodePathInterval::set_end_quat(LQuaternion const &quat);
+
+256 15 set_start_scale 0 4 330 38 CLerpNodePathInterval::set_start_scale 0 2 97 98 1092
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_scale
+//       Access: Published
+//  Description: Indicates the initial scale of the lerped node.
+//               This is meaningful only if set_end_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               scale at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_scale
+//       Access: Published
+//  Description: Indicates the initial scale of the lerped node.
+//               This is meaningful only if set_end_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               scale at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+146
+inline void CLerpNodePathInterval::set_start_scale(LVecBase3 const &scale);
+inline void CLerpNodePathInterval::set_start_scale(PN_stdfloat scale);
+
+257 13 set_end_scale 0 4 330 36 CLerpNodePathInterval::set_end_scale 0 2 99 100 1050
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_scale
+//       Access: Published
+//  Description: Indicates that the scale of the node should be
+//               lerped, and specifies the final scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's scale will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_scale
+//       Access: Published
+//  Description: Indicates that the scale of the node should be
+//               lerped, and specifies the final scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's scale will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+142
+inline void CLerpNodePathInterval::set_end_scale(LVecBase3 const &scale);
+inline void CLerpNodePathInterval::set_end_scale(PN_stdfloat scale);
+
+258 15 set_start_shear 0 4 330 38 CLerpNodePathInterval::set_start_shear 0 1 101 545
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_shear
+//       Access: Published
+//  Description: Indicates the initial shear of the lerped node.
+//               This is meaningful only if set_end_shear() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               shear at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+75
+inline void CLerpNodePathInterval::set_start_shear(LVecBase3 const &shear);
+
+259 13 set_end_shear 0 4 330 36 CLerpNodePathInterval::set_end_shear 0 1 102 524
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_shear
+//       Access: Published
+//  Description: Indicates that the shear of the node should be
+//               lerped, and specifies the final shear of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's shear will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+73
+inline void CLerpNodePathInterval::set_end_shear(LVecBase3 const &shear);
+
+260 15 set_start_color 0 4 330 38 CLerpNodePathInterval::set_start_color 0 1 103 545
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_color
+//       Access: Published
+//  Description: Indicates the initial color of the lerped node.
+//               This is meaningful only if set_end_color() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               color at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+75
+inline void CLerpNodePathInterval::set_start_color(LVecBase4 const &color);
+
+261 13 set_end_color 0 4 330 36 CLerpNodePathInterval::set_end_color 0 1 104 524
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_color
+//       Access: Published
+//  Description: Indicates that the color of the node should be
+//               lerped, and specifies the final color of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's color will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+73
+inline void CLerpNodePathInterval::set_end_color(LVecBase4 const &color);
+
+262 21 set_start_color_scale 0 4 330 44 CLerpNodePathInterval::set_start_color_scale 0 1 105 569
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_color_scale
+//       Access: Published
+//  Description: Indicates the initial color scale of the lerped node.
+//               This is meaningful only if set_end_color_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               color scale at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+87
+inline void CLerpNodePathInterval::set_start_color_scale(LVecBase4 const &color_scale);
+
+263 19 set_end_color_scale 0 4 330 42 CLerpNodePathInterval::set_end_color_scale 0 1 106 548
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_color_scale
+//       Access: Published
+//  Description: Indicates that the color scale of the node should be
+//               lerped, and specifies the final color scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's color scale will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+85
+inline void CLerpNodePathInterval::set_end_color_scale(LVecBase4 const &color_scale);
+
+264 17 set_texture_stage 0 4 330 40 CLerpNodePathInterval::set_texture_stage 0 1 107 426
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_texture_stage
+//       Access: Published
+//  Description: Indicates the texture stage that is adjusted by
+//               tex_offset, tex_rotate, and/or tex_scale.  If this is
+//               not set, the default is the default texture stage.
+////////////////////////////////////////////////////////////////////
+74
+inline void CLerpNodePathInterval::set_texture_stage(TextureStage *stage);
+
+265 20 set_start_tex_offset 0 4 330 43 CLerpNodePathInterval::set_start_tex_offset 0 1 108 563
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_offset
+//       Access: Published
+//  Description: Indicates the initial UV offset of the lerped node.
+//               This is meaningful only if set_end_tex_offset() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV offset at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+85
+inline void CLerpNodePathInterval::set_start_tex_offset(LVecBase2 const &tex_offset);
+
+266 18 set_end_tex_offset 0 4 330 41 CLerpNodePathInterval::set_end_tex_offset 0 1 109 541
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_offset
+//       Access: Published
+//  Description: Indicates that the UV offset of the node should be
+//               lerped, and specifies the final UV offset of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV offset will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+83
+inline void CLerpNodePathInterval::set_end_tex_offset(LVecBase2 const &tex_offset);
+
+267 20 set_start_tex_rotate 0 4 330 43 CLerpNodePathInterval::set_start_tex_rotate 0 1 110 563
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_rotate
+//       Access: Published
+//  Description: Indicates the initial UV rotate of the lerped node.
+//               This is meaningful only if set_end_tex_rotate() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV rotate at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+80
+inline void CLerpNodePathInterval::set_start_tex_rotate(PN_stdfloat tex_rotate);
+
+268 18 set_end_tex_rotate 0 4 330 41 CLerpNodePathInterval::set_end_tex_rotate 0 1 111 541
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_rotate
+//       Access: Published
+//  Description: Indicates that the UV rotate of the node should be
+//               lerped, and specifies the final UV rotate of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV rotate will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+78
+inline void CLerpNodePathInterval::set_end_tex_rotate(PN_stdfloat tex_rotate);
+
+269 19 set_start_tex_scale 0 4 330 42 CLerpNodePathInterval::set_start_tex_scale 0 1 112 559
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_scale
+//       Access: Published
+//  Description: Indicates the initial UV scale of the lerped node.
+//               This is meaningful only if set_end_tex_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV scale at the time the lerp is performed.
+////////////////////////////////////////////////////////////////////
+83
+inline void CLerpNodePathInterval::set_start_tex_scale(LVecBase2 const &tex_scale);
+
+270 17 set_end_tex_scale 0 4 330 40 CLerpNodePathInterval::set_end_tex_scale 0 1 113 537
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_scale
+//       Access: Published
+//  Description: Indicates that the UV scale of the node should be
+//               lerped, and specifies the final UV scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV scale will not be
+//               affected by the lerp.
+////////////////////////////////////////////////////////////////////
+81
+inline void CLerpNodePathInterval::set_end_tex_scale(LVecBase2 const &tex_scale);
+
+271 12 set_override 0 4 330 35 CLerpNodePathInterval::set_override 0 1 114 623
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_override
+//       Access: Published
+//  Description: Changes the override value that will be associated
+//               with any state changes applied by the lerp.  If this
+//               lerp is changing state (for instance, a color lerp or
+//               a tex matrix lerp), then the new attributes created
+//               by this lerp will be assigned the indicated override
+//               value when they are applied to the node.
+////////////////////////////////////////////////////////////////////
+62
+inline void CLerpNodePathInterval::set_override(int override);
+
+272 12 get_override 0 4 330 35 CLerpNodePathInterval::get_override 0 1 115 384
+////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_override
+//       Access: Published
+//  Description: Returns the override value that will be associated
+//               with any state changes applied by the lerp.  See
+//               set_override().
+////////////////////////////////////////////////////////////////////
+59
+inline int CLerpNodePathInterval::get_override(void) const;
+
+273 14 get_class_type 0 4 330 37 CLerpNodePathInterval::get_class_type 0 1 116 0
+62
+static TypeHandle CLerpNodePathInterval::get_class_type(void);
+
+274 22 ~CLerpNodePathInterval 0 4 330 45 CLerpNodePathInterval::~CLerpNodePathInterval 0 0 0
+52
+CLerpNodePathInterval::~CLerpNodePathInterval(void);
+
+275 13 CMetaInterval 0 4 331 28 CMetaInterval::CMetaInterval 0 1 117 226
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+49
+CMetaInterval::CMetaInterval(string const &name);
+
+276 13 set_precision 0 4 331 28 CMetaInterval::set_precision 0 1 118 712
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::set_precision
+//       Access: Published
+//  Description: Indicates the precision with which time measurements
+//               are compared.  For numerical accuracy, all
+//               floating-point time values are converted to integer
+//               values internally by scaling by the precision factor.
+//               The larger the number given here, the smaller the
+//               delta of time that can be differentiated; the
+//               limit is the maximum integer that can be represented
+//               in the system.
+////////////////////////////////////////////////////////////////////
+59
+inline void CMetaInterval::set_precision(double precision);
+
+277 13 get_precision 0 4 331 28 CMetaInterval::get_precision 0 1 119 331
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_precision
+//       Access: Published
+//  Description: Returns the precision with which time measurements
+//               are compared.  See set_precision().
+////////////////////////////////////////////////////////////////////
+55
+inline double CMetaInterval::get_precision(void) const;
+
+278 15 clear_intervals 0 4 331 30 CMetaInterval::clear_intervals 0 1 120 314
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::clear_intervals
+//       Access: Published
+//  Description: Resets the list of intervals and prepares for
+//               receiving a new list.
+////////////////////////////////////////////////////////////////////
+42
+void CMetaInterval::clear_intervals(void);
+
+279 10 push_level 0 4 331 25 CMetaInterval::push_level 0 1 121 647
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::push_level
+//       Access: Published
+//  Description: Marks the beginning of a nested level of child
+//               intervals.  Within the nested level, a RelativeStart
+//               time of RS_level_begin refers to the start of the
+//               level, and the first interval added within the level
+//               is always relative to the start of the level.
+//
+//               The return value is the index of the def entry
+//               created by this push.
+////////////////////////////////////////////////////////////////////
+104
+int CMetaInterval::push_level(string const &name, double rel_time, CMetaInterval::RelativeStart rel_to);
+
+280 14 add_c_interval 0 4 331 29 CMetaInterval::add_c_interval 0 1 122 512
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::add_c_interval
+//       Access: Published
+//  Description: Adds a new CInterval to the list.  The interval will
+//               be played when the indicated time (relative to the
+//               given point) has been reached.
+//
+//               The return value is the index of the def entry
+//               representing the new interval.
+////////////////////////////////////////////////////////////////////
+152
+int CMetaInterval::add_c_interval(CInterval *c_interval, double rel_time = 0.0, CMetaInterval::RelativeStart rel_to = ::CMetaInterval::RS_previous_end);
+
+281 13 add_ext_index 0 4 331 28 CMetaInterval::add_ext_index 0 1 123 1156
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::add_ext_index
+//       Access: Published
+//  Description: Adds a new external interval to the list.  This
+//               represents some object in the external scripting
+//               language that has properties similar to a CInterval
+//               (for instance, a Python Interval object).
+//
+//               The CMetaInterval object cannot play this external
+//               interval directly, but it records a placeholder for
+//               it and will ask the scripting language to play it
+//               when it is time, via is_event_ready() and related
+//               methods.
+//
+//               The ext_index number itself is simply a handle that
+//               the scripting language makes up and associates with
+//               its interval object somehow.  The CMetaInterval
+//               object does not attempt to interpret this value.
+//
+//               The return value is the index of the def entry
+//               representing the new interval.
+////////////////////////////////////////////////////////////////////
+156
+int CMetaInterval::add_ext_index(int ext_index, string const &name, double duration, bool open_ended, double rel_time, CMetaInterval::RelativeStart rel_to);
+
+282 9 pop_level 0 4 331 24 CMetaInterval::pop_level 0 1 124 645
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::pop_level
+//       Access: Published
+//  Description: Finishes a level marked by a previous call to
+//               push_level(), and returns to the previous level.
+//
+//               If the duration is not negative, it represents a
+//               phony duration to assign to the level, for the
+//               purposes of sequencing later intervals.  Otherwise,
+//               the level's duration is computed based on the
+//               intervals within the level.
+////////////////////////////////////////////////////////////////////
+53
+int CMetaInterval::pop_level(double duration = -1.0);
+
+283 23 set_interval_start_time 0 4 331 38 CMetaInterval::set_interval_start_time 0 1 125 824
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::set_interval_start_time
+//       Access: Published
+//  Description: Adjusts the start time of the child interval with the
+//               given name, if found.  This may be either a C++
+//               interval added via add_c_interval(), or an external
+//               interval added via add_ext_index(); the name must
+//               match exactly.
+//
+//               If the interval is found, its start time is adjusted,
+//               and all subsequent intervals are adjusting
+//               accordingly, and true is returned.  If a matching
+//               interval is not found, nothing is changed and false
+//               is returned.
+////////////////////////////////////////////////////////////////////
+152
+bool CMetaInterval::set_interval_start_time(string const &name, double rel_time, CMetaInterval::RelativeStart rel_to = ::CMetaInterval::RS_level_begin);
+
+284 23 get_interval_start_time 0 4 331 38 CMetaInterval::get_interval_start_time 0 1 126 451
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_interval_start_time
+//       Access: Published
+//  Description: Returns the actual start time, relative to the
+//               beginning of the interval, of the child interval with
+//               the given name, if found, or -1 if the interval is
+//               not found.
+////////////////////////////////////////////////////////////////////
+72
+double CMetaInterval::get_interval_start_time(string const &name) const;
+
+285 21 get_interval_end_time 0 4 331 36 CMetaInterval::get_interval_end_time 0 1 127 447
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_interval_end_time
+//       Access: Published
+//  Description: Returns the actual end time, relative to the
+//               beginning of the interval, of the child interval with
+//               the given name, if found, or -1 if the interval is
+//               not found.
+////////////////////////////////////////////////////////////////////
+70
+double CMetaInterval::get_interval_end_time(string const &name) const;
+
+286 12 get_num_defs 0 4 331 27 CMetaInterval::get_num_defs 0 1 128 359
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_num_defs
+//       Access: Published
+//  Description: Returns the number of interval and push/pop
+//               definitions that have been added to the meta
+//               interval.
+////////////////////////////////////////////////////////////////////
+51
+inline int CMetaInterval::get_num_defs(void) const;
+
+287 12 get_def_type 0 4 331 27 CMetaInterval::get_def_type 0 1 129 312
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_def_type
+//       Access: Published
+//  Description: Returns the type of the nth interval definition that
+//               has been added.
+////////////////////////////////////////////////////////////////////
+71
+inline CMetaInterval::DefType CMetaInterval::get_def_type(int n) const;
+
+288 14 get_c_interval 0 4 331 29 CMetaInterval::get_c_interval 0 1 130 409
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_c_interval
+//       Access: Published
+//  Description: Return the CInterval pointer associated with the nth
+//               interval definition.  It is only valid to call this
+//               if get_def_type(n) returns DT_c_interval.
+////////////////////////////////////////////////////////////////////
+61
+inline CInterval *CMetaInterval::get_c_interval(int n) const;
+
+289 13 get_ext_index 0 4 331 28 CMetaInterval::get_ext_index 0 1 131 420
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_ext_index
+//       Access: Published
+//  Description: Return the external interval index number associated
+//               with the nth interval definition.  It is only valid
+//               to call this if get_def_type(n) returns DT_ext_index.
+////////////////////////////////////////////////////////////////////
+53
+inline int CMetaInterval::get_ext_index(int n) const;
+
+290 14 is_event_ready 0 4 331 29 CMetaInterval::is_event_ready 0 1 132 544
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::is_event_ready
+//       Access: Published
+//  Description: Returns true if a recent call to priv_initialize(),
+//               priv_step(), or priv_finalize() has left some external
+//               intervals ready to play.  If this returns true, call
+//               get_event_index(), get_event_t(), and pop_event() to
+//               retrieve the relevant information.
+////////////////////////////////////////////////////////////////////
+48
+inline bool CMetaInterval::is_event_ready(void);
+
+291 15 get_event_index 0 4 331 30 CMetaInterval::get_event_index 0 1 133 444
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_index
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the index number (added via
+//               add_event_index()) of the external interval that needs
+//               to be played.
+////////////////////////////////////////////////////////////////////
+54
+inline int CMetaInterval::get_event_index(void) const;
+
+292 11 get_event_t 0 4 331 26 CMetaInterval::get_event_t 0 1 134 380
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_t
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the t value that should be fed to
+//               the given interval.
+////////////////////////////////////////////////////////////////////
+53
+inline double CMetaInterval::get_event_t(void) const;
+
+293 14 get_event_type 0 4 331 29 CMetaInterval::get_event_type 0 1 135 410
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_type
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the type of the event (initialize,
+//               step, finalize, etc.) for the given interval.
+////////////////////////////////////////////////////////////////////
+70
+inline CInterval::EventType CMetaInterval::get_event_type(void) const;
+
+294 9 pop_event 0 4 331 24 CMetaInterval::pop_event 0 1 136 591
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::pop_event
+//       Access: Published
+//  Description: Acknowledges that the external interval on the top of
+//               the queue has been extracted, and is about to be
+//               serviced by the scripting language.  This prepares
+//               the interval so the next call to is_event_ready()
+//               will return information about the next external
+//               interval on the queue, if any.
+////////////////////////////////////////////////////////////////////
+36
+void CMetaInterval::pop_event(void);
+
+295 8 timeline 0 4 331 23 CMetaInterval::timeline 0 1 137 302
+////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::timeline
+//       Access: Published
+//  Description: Outputs a list of all events in the order in which
+//               they occur.
+////////////////////////////////////////////////////////////////////
+49
+void CMetaInterval::timeline(ostream &out) const;
+
+296 14 get_class_type 0 4 331 29 CMetaInterval::get_class_type 0 1 138 0
+54
+static TypeHandle CMetaInterval::get_class_type(void);
+
+297 12 HideInterval 0 4 334 26 HideInterval::HideInterval 0 1 139 225
+////////////////////////////////////////////////////////////////////
+//     Function: HideInterval::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+80
+HideInterval::HideInterval(NodePath const &node, string const &name = string());
+
+298 14 get_class_type 0 4 334 28 HideInterval::get_class_type 0 1 140 0
+53
+static TypeHandle HideInterval::get_class_type(void);
+
+299 13 ~HideInterval 0 4 334 27 HideInterval::~HideInterval 0 0 0
+34
+HideInterval::~HideInterval(void);
+
+300 11 operator () 0 6 335 26 LerpBlendType::operator () 0 1 141 0
+65
+virtual PN_stdfloat LerpBlendType::operator ()(PN_stdfloat ) = 0;
+
+301 14 get_class_type 0 4 335 29 LerpBlendType::get_class_type 0 1 142 27
+// now for typehandle stuff
+54
+static TypeHandle LerpBlendType::get_class_type(void);
+
+302 15 EaseInBlendType 0 4 336 32 EaseInBlendType::EaseInBlendType 0 1 143 0
+39
+EaseInBlendType::EaseInBlendType(void);
+
+303 14 get_class_type 0 4 336 31 EaseInBlendType::get_class_type 0 1 144 27
+// now for typehandle stuff
+56
+static TypeHandle EaseInBlendType::get_class_type(void);
+
+304 16 EaseOutBlendType 0 4 337 34 EaseOutBlendType::EaseOutBlendType 0 1 145 0
+41
+EaseOutBlendType::EaseOutBlendType(void);
+
+305 14 get_class_type 0 4 337 32 EaseOutBlendType::get_class_type 0 1 146 27
+// now for typehandle stuff
+57
+static TypeHandle EaseOutBlendType::get_class_type(void);
+
+306 18 EaseInOutBlendType 0 4 338 38 EaseInOutBlendType::EaseInOutBlendType 0 1 147 0
+45
+EaseInOutBlendType::EaseInOutBlendType(void);
+
+307 14 get_class_type 0 4 338 34 EaseInOutBlendType::get_class_type 0 1 148 27
+// now for typehandle stuff
+59
+static TypeHandle EaseInOutBlendType::get_class_type(void);
+
+308 11 NoBlendType 0 4 339 24 NoBlendType::NoBlendType 0 1 149 0
+31
+NoBlendType::NoBlendType(void);
+
+309 14 get_class_type 0 4 339 27 NoBlendType::get_class_type 0 1 150 27
+// now for typehandle stuff
+52
+static TypeHandle NoBlendType::get_class_type(void);
+
+310 12 ShowInterval 0 4 340 26 ShowInterval::ShowInterval 0 1 151 225
+////////////////////////////////////////////////////////////////////
+//     Function: ShowInterval::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+80
+ShowInterval::ShowInterval(NodePath const &node, string const &name = string());
+
+311 14 get_class_type 0 4 340 28 ShowInterval::get_class_type 0 1 152 0
+53
+static TypeHandle ShowInterval::get_class_type(void);
+
+312 13 ~ShowInterval 0 4 340 27 ShowInterval::~ShowInterval 0 0 0
+34
+ShowInterval::~ShowInterval(void);
+
+313 12 WaitInterval 0 4 341 26 WaitInterval::WaitInterval 0 1 153 339
+////////////////////////////////////////////////////////////////////
+//     Function: WaitInterval::Constructor
+//       Access: Published
+//  Description: All Wait intervals have the same name.  No one really
+//               cares if their names are unique, after all.
+////////////////////////////////////////////////////////////////////
+51
+inline WaitInterval::WaitInterval(double duration);
+
+314 14 get_class_type 0 4 341 28 WaitInterval::get_class_type 0 1 154 0
+53
+static TypeHandle WaitInterval::get_class_type(void);
+
+315 13 ~WaitInterval 0 4 341 27 WaitInterval::~WaitInterval 0 0 0
+34
+WaitInterval::~WaitInterval(void);
+
+154
+1 0 0 6 3 344 0 0 247 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_name
+//       Access: Published
+//  Description: Returns the interval's name.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+2 0 0 6 4 345 0 0 271 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_duration
+//       Access: Published
+//  Description: Returns the duration of the interval in seconds.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+3 0 0 6 5 321 0 0 685 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_open_ended
+//       Access: Published
+//  Description: Returns the state of the "open_ended" flag.  This is
+//               primarily intended for instantaneous intervals like
+//               FunctionIntervals; it indicates true if the interval
+//               has some lasting effect that should be applied even
+//               if the interval doesn't get started until after its
+//               finish time, or false if the interval is a transitive
+//               thing that doesn't need to be called late.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+4 0 0 6 8 319 0 0 385 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_state
+//       Access: Published
+//  Description: Indicates the state the interval believes it is in:
+//               whether it has been started, is currently in the
+//               middle, or has been finalized.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+5 0 0 6 9 321 0 0 364 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::is_stopped
+//       Access: Published
+//  Description: Returns true if the interval is in either its initial
+//               or final states (but not in a running or paused
+//               state).
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+6 0 0 4 10 347 0 0 426 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_done_event
+//       Access: Published
+//  Description: Sets the event that is generated whenever the
+//               interval reaches its final state, whether it is
+//               explicitly finished or whether it gets there on its
+//               own.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  5 event 1 344  
+7 0 0 6 11 344 0 0 429 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_done_event
+//       Access: Published
+//  Description: Returns the event that is generated whenever the
+//               interval reaches its final state, whether it is
+//               explicitly finished or whether it gets there on its
+//               own.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+8 0 0 4 12 347 0 0 450 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_t
+//       Access: Published
+//  Description: Explicitly sets the time within the interval.
+//               Normally, you would use start() .. finish() to let
+//               the time play normally, but this may be used to set
+//               the time to some particular value.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  1 t 1 345  
+9 0 0 6 13 345 0 0 373 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_t
+//       Access: Published
+//  Description: Returns the current time of the interval: the last
+//               value of t passed to priv_initialize(), priv_step(), or
+//               priv_finalize().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+10 0 0 4 14 347 0 0 624 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_auto_pause
+//       Access: Published
+//  Description: Changes the state of the 'auto_pause' flag.  If
+//               this is true, the interval may be arbitrarily
+//               interrupted when the system needs to reset due to
+//               some external event by calling
+//               CIntervalManager::interrupt().  If this
+//               is false (the default), the interval must always be
+//               explicitly finished or paused.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  10 auto_pause 1 321  
+11 0 0 6 15 321 0 0 308 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_auto_pause
+//       Access: Published
+//  Description: Returns the state of the 'auto_pause' flag.  See
+//               set_auto_pause().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+12 0 0 4 16 347 0 0 623 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_auto_finish
+//       Access: Published
+//  Description: Changes the state of the 'auto_finish' flag.  If
+//               this is true, the interval may be arbitrarily
+//               finished when the system needs to reset due to
+//               some external event by calling
+//               CIntervalManager::interrupt().  If this
+//               is false (the default), the interval must always be
+//               explicitly finished or paused.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  11 auto_finish 1 321  
+13 0 0 6 17 321 0 0 311 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_auto_finish
+//       Access: Published
+//  Description: Returns the state of the 'auto_finish' flag.  See
+//               set_auto_finish().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+14 0 0 4 18 347 0 0 533 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_wants_t_callback
+//       Access: Published
+//  Description: Changes the state of the 'wants_t_callback' flag.  If
+//               this is true, the interval will be returned by
+//               CIntervalManager::get_event() each time the
+//               interval's time value has been changed, regardless of
+//               whether it has any external events.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  16 wants_t_callback 1 321  
+15 0 0 6 19 321 0 0 325 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_wants_t_callback
+//       Access: Published
+//  Description: Returns the state of the 'wants_t_callback' flag.
+//               See set_wants_t_callback().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+16 0 0 4 20 347 0 0 523 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_manager
+//       Access: Published
+//  Description: Indicates the CIntervalManager object which will be
+//               responsible for playing this interval.  This defaults
+//               to the global CIntervalManager; you should need to
+//               change this only if you have special requirements for
+//               playing this interval.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  7 manager 1 348  
+17 0 0 6 21 348 0 0 604 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_manager
+//       Access: Published
+//  Description: Returns the CIntervalManager object which will be
+//               responsible for playing this interval.  Note that
+//               this can only return a C++ object; if the particular
+//               CIntervalManager object has been extended in the
+//               scripting language, this will return the encapsulated
+//               C++ object, not the full extended object.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+18 0 0 4 22 347 0 0 478 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::start
+//       Access: Published
+//  Description: Starts the interval playing by registering it with
+//               the current CIntervalManager.  The interval will
+//               play to the end and stop.
+//
+//               If end_t is less than zero, it indicates the end of
+//               the interval.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 346  7 start_t 1 345  5 end_t 1 345  9 play_rate 1 345  
+19 0 0 4 23 347 0 0 587 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::loop
+//       Access: Published
+//  Description: Starts the interval playing by registering it with
+//               the current CIntervalManager.  The interval will
+//               play until it is interrupted with finish() or
+//               pause(), looping back to start_t when it reaches
+//               end_t.
+//
+//               If end_t is less than zero, it indicates the end of
+//               the interval.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 346  7 start_t 1 345  5 end_t 1 345  9 play_rate 1 345  
+20 0 0 6 24 345 0 0 379 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::pause
+//       Access: Published
+//  Description: Stops the interval from playing but leaves it in its
+//               current state.  It may later be resumed from this
+//               point by calling resume().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+21 0 0 4 25 347 0 0 312 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume
+//       Access: Published
+//  Description: Restarts the interval from its current point after a
+//               previous call to pause().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+22 0 0 4 25 347 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume
+//       Access: Published
+//  Description: Restarts the interval from the indicated point after a
+//               previous call to pause().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  7 start_t 1 345  
+23 0 0 4 26 347 0 0 440 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::resume_until
+//       Access: Published
+//  Description: Restarts the interval from the current point after a
+//               previous call to pause() (or a previous
+//               play-to-point-and-stop), to play until the indicated
+//               point and then stop.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  5 end_t 1 345  
+24 0 0 4 27 347 0 0 297 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::finish
+//       Access: Published
+//  Description: Stops the interval from playing and sets it to its
+//               final state.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+25 0 0 4 28 347 0 0 551 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::clear_to_initial
+//       Access: Published
+//  Description: Pauses the interval, if it is playing, and resets its
+//               state to its initial state, abandoning any state
+//               changes already in progress in the middle of the
+//               interval.  Calling this is like pausing the interval
+//               and discarding it, creating a new one in its place.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+26 0 0 6 29 321 0 0 305 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::is_playing
+//       Access: Published
+//  Description: Returns true if the interval is currently playing,
+//               false otherwise.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+27 0 0 6 30 345 0 0 326 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::get_play_rate
+//       Access: Published
+//  Description: Returns the play rate as set by the last call to
+//               start(), loop(), or set_play_rate().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 342  
+28 0 0 4 31 347 0 0 529 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::set_play_rate
+//       Access: Published
+//  Description: Changes the play rate of the interval.  If the
+//               interval is already started, this changes its speed
+//               on-the-fly.  Note that since play_rate is a parameter
+//               to start() and loop(), the next call to start() or
+//               loop() will reset this parameter.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  9 play_rate 1 345  
+29 0 0 4 32 347 0 0 305 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_do_event
+//       Access: Published
+//  Description: Calls the appropriate event function indicated by the
+//               EventType.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 346  1 t 1 345  5 event 1 318  
+30 0 0 4 33 347 0 0 485 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_initialize
+//       Access: Published, Virtual
+//  Description: This replaces the first call to priv_step(), and indicates
+//               that the interval has just begun.  This may be
+//               overridden by derived classes that need to do some
+//               explicit initialization on the first call.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  1 t 1 345  
+31 0 0 4 34 347 0 0 486 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_instant
+//       Access: Published, Virtual
+//  Description: This is called in lieu of priv_initialize() .. priv_step()
+//               .. priv_finalize(), when everything is to happen within
+//               one frame.  The interval should initialize itself,
+//               then leave itself in the final state.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+32 0 0 4 35 347 0 0 409 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_step
+//       Access: Published, Virtual
+//  Description: Advances the time on the interval.  The time may
+//               either increase (the normal case) or decrease
+//               (e.g. if the interval is being played by a slider).
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  1 t 1 345  
+33 0 0 4 36 347 0 0 439 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_finalize
+//       Access: Published, Virtual
+//  Description: This is called to stop an interval, forcing it to
+//               whatever state it would be after it played all the
+//               way through.  It's generally invoked by
+//               set_final_t().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+34 0 0 4 37 347 0 0 485 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_initialize
+//       Access: Published, Virtual
+//  Description: Similar to priv_initialize(), but this is called when the
+//               interval is being played backwards; it indicates that
+//               the interval should start at the finishing state and
+//               undo any intervening intervals.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  1 t 1 345  
+35 0 0 4 38 347 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_instant
+//       Access: Published, Virtual
+//  Description: This is called in lieu of priv_reverse_initialize()
+//               .. priv_step() .. priv_reverse_finalize(), when everything is
+//               to happen within one frame.  The interval should
+//               initialize itself, then leave itself in the initial
+//               state.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+36 0 0 4 39 347 0 0 393 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::reverse_finalize
+//       Access: Published, Virtual
+//  Description: Called generally following a priv_reverse_initialize(),
+//               this indicates the interval should set itself to the
+//               initial state.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+37 0 0 4 40 347 0 0 812 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::priv_interrupt
+//       Access: Published, Virtual
+//  Description: This is called while the interval is playing to
+//               indicate that it is about to be interrupted; that is,
+//               priv_step() will not be called for a length of time.  But
+//               the interval should remain in its current state in
+//               anticipation of being eventually restarted when the
+//               calls to priv_step() eventually resume.
+//
+//               The purpose of this function is to allow self-running
+//               intervals like sound intervals to stop the actual
+//               sound playback during the pause.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+38 0 0 4 41 347 0 0 226 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::output
+//       Access: Published, Virtual
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 this 3 342  3 out 1 349  
+39 0 0 4 42 347 0 0 225 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::write
+//       Access: Published, Virtual
+//  Description: 
+//////////////////////////////////////////////////////////////////// 3 4 this 3 342  3 out 1 349  12 indent_level 1 351  
+40 0 0 4 43 347 0 0 831 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_play
+//       Access: Published
+//  Description: Called to prepare the interval for automatic timed
+//               playback, e.g. via a Python task.  The interval will
+//               be played from start_t to end_t, at a time factor
+//               specified by play_rate.  start_t must always be less
+//               than end_t (except for the exception for end_t == -1,
+//               below), but if play_rate is negative the interval
+//               will be played backwards.
+//
+//               Specify end_t of -1 to play the entire interval from
+//               start_t.
+//
+//               Call step_play() repeatedly to execute the interval.
+//////////////////////////////////////////////////////////////////// 5 4 this 3 346  10 start_time 1 345  8 end_time 1 345  9 play_rate 1 345  7 do_loop 1 321  
+41 0 0 4 44 347 0 0 366 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_resume
+//       Access: Published
+//  Description: Called to prepare the interval for restarting at the
+//               current point within the interval after an
+//               interruption.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+42 0 0 4 45 347 0 0 470 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::setup_resume_until
+//       Access: Published
+//  Description: Called to prepare the interval for restarting from
+//               the current point after a previous call to pause()
+//               (or a previous play-to-point-and-stop), to play until
+//               the indicated point and then stop.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 346  5 end_t 1 345  
+43 0 0 6 46 321 0 0 453 ////////////////////////////////////////////////////////////////////
+//     Function: CInterval::step_play
+//       Access: Published
+//  Description: Should be called once per frame to execute the
+//               automatic timed playback begun with setup_play().
+//
+//               Returns true if the interval should continue, false
+//               if it is done and should stop.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 346  
+44 0 0 7 47 353 0 0 0 0 
+45 0 0 7 53 353 0 0 0 0 
+46 0 0 4 51 347 0 0 0 2 4 this 3 354  5 value 1 321  
+47 0 0 6 50 321 0 0 0 1 4 this 3 355  
+48 0 0 7 56 364 206 0 682 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the orientation of one node to the orientation of
+//               another, possibly with an added rotation.
+//
+//               If wrt is true, the node's orientation will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the target
+//               node's local orientation will be copied unaltered.
+//////////////////////////////////////////////////////////////////// 6 4 name 1 344  8 duration 1 345  4 node 1 357  6 target 1 357  3 wrt 1 321  9 hprOffset 1 360  
+49 0 0 6 57 357 0 0 257 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 365  
+50 0 0 6 58 357 0 0 259 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainHprInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 365  
+51 0 0 7 59 353 0 0 0 0 
+52 0 0 7 62 367 211 0 720 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the position and orientation of one node to the
+//               position and orientation of another.
+//
+//               If wrt is true, the node's position and orientation
+//               will be transformed into the target node's parent's
+//               space before being copied.  If wrt is false, the
+//               target node's local position and orientation will be
+//               copied unaltered.
+//////////////////////////////////////////////////////////////////// 7 4 name 1 344  8 duration 1 345  4 node 1 357  6 target 1 357  3 wrt 1 321  9 posOffset 1 360  9 hprOffset 1 360  
+53 0 0 6 63 357 0 0 260 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 368  
+54 0 0 6 64 357 0 0 262 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosHprInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 368  
+55 0 0 7 65 353 0 0 0 0 
+56 0 0 7 68 370 216 0 620 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the position of one node to the position of another.
+//
+//               If wrt is true, the node's position will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the target
+//               node's local position will be copied unaltered.
+//////////////////////////////////////////////////////////////////// 6 4 name 1 344  8 duration 1 345  4 node 1 357  6 target 1 357  3 wrt 1 321  9 posOffset 1 360  
+57 0 0 6 69 357 0 0 257 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 371  
+58 0 0 6 70 357 0 0 259 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainPosInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 371  
+59 0 0 7 71 353 0 0 0 0 
+60 0 0 7 74 373 221 0 700 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::Constructor
+//       Access: Published
+//  Description: Constructs a constraint interval that will constrain
+//               the transform of one node to the transform of another.
+//               To clarify, the transform of node will be copied to target.
+//
+//               If wrt is true, the node's transform will be
+//               transformed into the target node's parent's  space
+//               before being copied.  If wrt is false, the node's
+//               local transform will be copied unaltered.
+//////////////////////////////////////////////////////////////////// 5 4 name 1 344  8 duration 1 345  4 node 1 357  6 target 1 357  3 wrt 1 321  
+61 0 0 6 75 357 0 0 263 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::get_node
+//       Access: Published
+//  Description: Returns the "source" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 374  
+62 0 0 6 76 357 0 0 265 ////////////////////////////////////////////////////////////////////
+//     Function: CConstrainTransformInterval::get_target
+//       Access: Published
+//  Description: Returns the "target" node.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 374  
+63 0 0 7 77 353 0 0 0 0 
+64 0 0 7 80 348 223 0 229 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 0 
+65 0 0 4 82 347 0 0 703 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::set_event_queue
+//       Access: Published
+//  Description: Specifies a custom event queue to be used for
+//               throwing done events from intervals as they finish.
+//               If this is not specified, the global event queue is
+//               used.
+//
+//               The caller maintains ownership of the EventQueue
+//               object; it is the caller's responsibility to ensure
+//               that the supplied EventQueue does not destruct during
+//               the lifetime of the CIntervalManager.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 348  11 event_queue 1 376  
+66 0 0 6 83 376 0 0 347 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_event_queue
+//       Access: Published
+//  Description: Returns the custom event queue to be used for
+//               throwing done events from intervals as they finish.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 378  
+67 0 0 6 84 351 0 0 1079 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::add_c_interval
+//       Access: Published
+//  Description: Adds the interval to the manager, and returns a
+//               unique index for the interval.  This index will be
+//               unique among all the currently added intervals, but
+//               not unique across all intervals ever added to the
+//               manager.  The maximum index value will never exceed
+//               the maximum number of intervals added at any given
+//               time.
+//
+//               If the external flag is true, the interval is
+//               understood to also be stored in the scripting
+//               language data structures.  In this case, it will be
+//               available for information returned by
+//               get_next_event() and get_next_removal().  If external
+//               is false, the interval's index will never be returned
+//               by these two functions.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 348  8 interval 1 346  8 external 1 321  
+68 0 0 6 85 351 0 0 356 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::find_c_interval
+//       Access: Published
+//  Description: Returns the index associated with the named interval,
+//               if there is such an interval, or -1 if there is not.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 378  4 name 1 344  
+69 0 0 7 86 346 0 0 285 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_c_interval
+//       Access: Published
+//  Description: Returns the interval associated with the given index.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 378  5 index 1 351  
+70 0 0 4 87 347 0 0 472 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::remove_c_interval
+//       Access: Published
+//  Description: Removes the indicated interval from the queue
+//               immediately.  It will not be returned from
+//               get_next_removal(), and none of its pending events,
+//               if any, will be returned by get_next_event().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 348  5 index 1 351  
+71 0 0 6 88 351 0 0 605 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::interrupt
+//       Access: Published
+//  Description: Pauses or finishes (removes from the active queue)
+//               all intervals tagged with auto_pause or auto_finish
+//               set to true.  These are intervals that someone fired
+//               up but won't necessarily expect to clean up; they can
+//               be interrupted at will when necessary.
+//
+//               Returns the number of intervals affected.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 348  
+72 0 0 6 89 351 0 0 284 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_num_intervals
+//       Access: Published
+//  Description: Returns the number of currently active intervals.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 378  
+73 0 0 6 90 351 0 0 591 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_max_index
+//       Access: Published
+//  Description: Returns one more than the largest interval index
+//               number in the manager.  If you walk through all the
+//               values between (0, get_max_index()] and call
+//               get_c_interval() on each number, you will retrieve
+//               all of the managed intervals (and possibly a number
+//               of NULL pointers as well).
+//////////////////////////////////////////////////////////////////// 1 4 this 3 378  
+74 0 0 4 91 347 0 0 771 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::step
+//       Access: Published
+//  Description: This should be called every frame to do the
+//               processing for all the active intervals.  It will
+//               call step_play() for each interval that has been
+//               added and that has not yet been removed.
+//
+//               After each call to step(), the scripting language
+//               should call get_next_event() and get_next_removal()
+//               repeatedly to process all the high-level
+//               (e.g. Python-interval-based) events and to manage the
+//               high-level list of intervals.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 348  
+75 0 0 6 92 351 0 0 911 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_next_event
+//       Access: Published
+//  Description: This should be called by the scripting language after
+//               each call to step().  It returns the index number of
+//               the next interval that has events requiring servicing
+//               by the scripting language, or -1 if no more intervals
+//               have any events pending.
+//
+//               If this function returns something other than -1, it
+//               is the scripting language's responsibility to query
+//               the indicated interval for its next event via
+//               get_event_index(), and eventually pop_event().
+//
+//               Then get_next_event() should be called again until it
+//               returns -1.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 348  
+76 0 0 6 93 351 0 0 694 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_next_removal
+//       Access: Published
+//  Description: This should be called by the scripting language after
+//               each call to step().  It returns the index number of
+//               an interval that was recently removed, or -1 if no
+//               intervals were removed.
+//
+//               If this returns something other than -1, the
+//               scripting language should clean up its own data
+//               structures accordingly, and then call
+//               get_next_removal() again.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 348  
+77 0 0 4 94 347 0 0 224 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::output
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 this 3 378  3 out 1 349  
+78 0 0 4 95 347 0 0 223 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::write
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 this 3 378  3 out 1 349  
+79 0 0 6 96 348 0 0 319 ////////////////////////////////////////////////////////////////////
+//     Function: CIntervalManager::get_global_ptr
+//       Access: Published, Static
+//  Description: Returns the pointer to the one global
+//               CIntervalManager object.
+//////////////////////////////////////////////////////////////////// 0 
+80 0 0 6 99 328 0 0 411 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpInterval::get_blend_type
+//       Access: Published
+//  Description: Returns the blend type specified for the interval.
+//               This controls how the linear interpolation behaves
+//               near the beginning and end of the lerp period.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 380  
+81 0 0 6 100 328 0 0 403 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpInterval::string_blend_type
+//       Access: Published, Static
+//  Description: Returns the BlendType enumerated value corresponding
+//               to the indicated string, or BT_invalid if the string
+//               doesn't match anything.
+//////////////////////////////////////////////////////////////////// 1 10 blend_type 1 344  
+82 0 0 7 101 353 0 0 0 0 
+83 0 0 7 104 382 246 0 236 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpAnimEffectInterval::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 3 4 name 1 344  8 duration 1 345  10 blend_type 1 328  
+84 0 0 4 105 347 0 0 573 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpAnimEffectInterval::add_control
+//       Access: Published
+//  Description: Adds another AnimControl to the list of AnimControls
+//               affected by the lerp.  This control will be lerped
+//               from begin_effect to end_effect over the period of
+//               the lerp.
+//
+//               The AnimControl name parameter is only used when
+//               formatting the interval for output.
+//////////////////////////////////////////////////////////////////// 5 4 this 3 382  7 control 1 383  4 name 1 344  12 begin_effect 1 385  10 end_effect 1 385  
+85 0 0 7 106 353 0 0 0 0 
+86 0 0 7 109 386 274 0 1792 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::Constructor
+//       Access: Published
+//  Description: Constructs a lerp interval that will lerp some
+//               properties on the indicated node, possibly relative
+//               to the indicated other node (if other is nonempty).
+//
+//               You must call set_end_pos(), etc. for the various
+//               properties you wish to lerp before the first call to
+//               priv_initialize().  If you want to set a starting value
+//               for any of the properties, you may call
+//               set_start_pos(), etc.; otherwise, the starting value
+//               is taken from the actual node's value at the time the
+//               lerp is performed.
+//
+//               The starting values may be explicitly specified or
+//               omitted.  The value of bake_in_start determines the
+//               behavior if the starting values are omitted.  If
+//               bake_in_start is true, the values are obtained the
+//               first time the lerp runs, and thenceforth are stored
+//               within the interval.  If bake_in_start is false, the
+//               starting value is computed each frame, based on
+//               assuming the current value represents the value set
+//               from the last time the interval was run.  This
+//               "smart" behavior allows code to manipulate the object
+//               event while it is being lerped, and the lerp
+//               continues to apply in a sensible way.
+//
+//               If fluid is true, the prev_transform is not adjusted
+//               by the lerp; otherwise, it is reset.
+//////////////////////////////////////////////////////////////////// 7 4 name 1 344  8 duration 1 345  10 blend_type 1 328  13 bake_in_start 1 321  5 fluid 1 321  4 node 1 357  5 other 1 357  
+87 0 0 6 110 357 0 0 261 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_node
+//       Access: Published
+//  Description: Returns the node being lerped.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 387  
+88 0 0 6 111 357 0 0 451 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_other
+//       Access: Published
+//  Description: Returns the "other" node, which the lerped node is
+//               being moved relative to.  If this is an empty node
+//               path, the lerped node is being moved in its own
+//               coordinate system.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 387  
+89 0 0 4 112 347 0 0 547 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_pos
+//       Access: Published
+//  Description: Indicates the initial position of the lerped node.
+//               This is meaningful only if set_end_pos() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               position at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  3 pos 1 360  
+90 0 0 4 113 347 0 0 531 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_pos
+//       Access: Published
+//  Description: Indicates that the position of the node should be
+//               lerped, and specifies the final position of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's position will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  3 pos 1 360  
+91 0 0 4 114 347 0 0 589 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_hpr
+//       Access: Published
+//  Description: Indicates the initial rotation of the lerped node.
+//               This is meaningful only if either set_end_hpr() or
+//               set_end_quat() is also called.  This parameter is
+//               optional; if unspecified, the value will be taken
+//               from the node's actual rotation at the time the lerp
+//               is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  3 hpr 1 360  
+92 0 0 4 115 347 0 0 735 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_hpr
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This special function is overloaded to accept a
+//               quaternion, even though the function name is
+//               set_end_hpr().  The quaternion will be implicitly
+//               converted to a HPR trio, and the lerp will be
+//               performed in HPR space, componentwise.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  4 quat 1 389  
+93 0 0 4 115 347 0 0 632 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_hpr
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_quat().  If
+//               neither set_end_hpr() nor set_end_quat() is called,
+//               the node's rotation will not be affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  3 hpr 1 360  
+94 0 0 4 116 347 0 0 590 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_quat
+//       Access: Published
+//  Description: Indicates the initial rotation of the lerped node.
+//               This is meaningful only if either set_end_quat() or
+//               set_end_hpr() is also called.  This parameter is
+//               optional; if unspecified, the value will be taken
+//               from the node's actual rotation at the time the lerp
+//               is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  4 quat 1 389  
+95 0 0 4 117 347 0 0 632 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_quat
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_hpr().  If
+//               neither set_end_quat() nor set_end_hpr() is called,
+//               the node's rotation will not be affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  4 quat 1 389  
+96 0 0 4 117 347 0 0 955 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_quat
+//       Access: Published
+//  Description: Indicates that the rotation of the node should be
+//               lerped, and specifies the final rotation of the node.
+//               This should be called before priv_initialize().
+//
+//               This replaces a previous call to set_end_hpr().  If
+//               neither set_end_quat() nor set_end_hpr() is called,
+//               the node's rotation will not be affected by the lerp.
+//
+//               This special function is overloaded to accept a HPR
+//               trio, even though the function name is
+//               set_end_quat().  The HPR will be implicitly converted
+//               to a quaternion, and the lerp will be performed in
+//               quaternion space, as a spherical lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  3 hpr 1 360  
+97 0 0 4 118 347 0 0 545 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_scale
+//       Access: Published
+//  Description: Indicates the initial scale of the lerped node.
+//               This is meaningful only if set_end_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               scale at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 scale 1 360  
+98 0 0 4 118 347 0 0 545 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_scale
+//       Access: Published
+//  Description: Indicates the initial scale of the lerped node.
+//               This is meaningful only if set_end_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               scale at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 scale 1 393  
+99 0 0 4 119 347 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_scale
+//       Access: Published
+//  Description: Indicates that the scale of the node should be
+//               lerped, and specifies the final scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's scale will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 scale 1 360  
+100 0 0 4 119 347 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_scale
+//       Access: Published
+//  Description: Indicates that the scale of the node should be
+//               lerped, and specifies the final scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's scale will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 scale 1 393  
+101 0 0 4 120 347 0 0 545 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_shear
+//       Access: Published
+//  Description: Indicates the initial shear of the lerped node.
+//               This is meaningful only if set_end_shear() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               shear at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 shear 1 360  
+102 0 0 4 121 347 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_shear
+//       Access: Published
+//  Description: Indicates that the shear of the node should be
+//               lerped, and specifies the final shear of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's shear will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 shear 1 360  
+103 0 0 4 122 347 0 0 545 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_color
+//       Access: Published
+//  Description: Indicates the initial color of the lerped node.
+//               This is meaningful only if set_end_color() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               color at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 color 1 394  
+104 0 0 4 123 347 0 0 524 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_color
+//       Access: Published
+//  Description: Indicates that the color of the node should be
+//               lerped, and specifies the final color of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's color will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 color 1 394  
+105 0 0 4 124 347 0 0 569 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_color_scale
+//       Access: Published
+//  Description: Indicates the initial color scale of the lerped node.
+//               This is meaningful only if set_end_color_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               color scale at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  11 color_scale 1 394  
+106 0 0 4 125 347 0 0 548 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_color_scale
+//       Access: Published
+//  Description: Indicates that the color scale of the node should be
+//               lerped, and specifies the final color scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's color scale will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  11 color_scale 1 394  
+107 0 0 4 126 347 0 0 426 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_texture_stage
+//       Access: Published
+//  Description: Indicates the texture stage that is adjusted by
+//               tex_offset, tex_rotate, and/or tex_scale.  If this is
+//               not set, the default is the default texture stage.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  5 stage 1 398  
+108 0 0 4 127 347 0 0 563 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_offset
+//       Access: Published
+//  Description: Indicates the initial UV offset of the lerped node.
+//               This is meaningful only if set_end_tex_offset() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV offset at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  10 tex_offset 1 400  
+109 0 0 4 128 347 0 0 541 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_offset
+//       Access: Published
+//  Description: Indicates that the UV offset of the node should be
+//               lerped, and specifies the final UV offset of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV offset will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  10 tex_offset 1 400  
+110 0 0 4 129 347 0 0 563 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_rotate
+//       Access: Published
+//  Description: Indicates the initial UV rotate of the lerped node.
+//               This is meaningful only if set_end_tex_rotate() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV rotate at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  10 tex_rotate 1 393  
+111 0 0 4 130 347 0 0 541 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_rotate
+//       Access: Published
+//  Description: Indicates that the UV rotate of the node should be
+//               lerped, and specifies the final UV rotate of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV rotate will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  10 tex_rotate 1 393  
+112 0 0 4 131 347 0 0 559 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_start_tex_scale
+//       Access: Published
+//  Description: Indicates the initial UV scale of the lerped node.
+//               This is meaningful only if set_end_tex_scale() is also
+//               called.  This parameter is optional; if unspecified,
+//               the value will be taken from the node's actual
+//               UV scale at the time the lerp is performed.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  9 tex_scale 1 400  
+113 0 0 4 132 347 0 0 537 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_end_tex_scale
+//       Access: Published
+//  Description: Indicates that the UV scale of the node should be
+//               lerped, and specifies the final UV scale of the node.
+//               This should be called before priv_initialize().  If this
+//               is not called, the node's UV scale will not be
+//               affected by the lerp.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  9 tex_scale 1 400  
+114 0 0 4 133 347 0 0 623 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::set_override
+//       Access: Published
+//  Description: Changes the override value that will be associated
+//               with any state changes applied by the lerp.  If this
+//               lerp is changing state (for instance, a color lerp or
+//               a tex matrix lerp), then the new attributes created
+//               by this lerp will be assigned the indicated override
+//               value when they are applied to the node.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 386  8 override 1 351  
+115 0 0 6 134 351 0 0 384 ////////////////////////////////////////////////////////////////////
+//     Function: CLerpNodePathInterval::get_override
+//       Access: Published
+//  Description: Returns the override value that will be associated
+//               with any state changes applied by the lerp.  See
+//               set_override().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 387  
+116 0 0 7 135 353 0 0 0 0 
+117 0 0 7 138 404 0 0 226 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 1 4 name 1 344  
+118 0 0 4 140 347 0 0 712 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::set_precision
+//       Access: Published
+//  Description: Indicates the precision with which time measurements
+//               are compared.  For numerical accuracy, all
+//               floating-point time values are converted to integer
+//               values internally by scaling by the precision factor.
+//               The larger the number given here, the smaller the
+//               delta of time that can be differentiated; the
+//               limit is the maximum integer that can be represented
+//               in the system.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 404  9 precision 1 345  
+119 0 0 6 141 345 0 0 331 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_precision
+//       Access: Published
+//  Description: Returns the precision with which time measurements
+//               are compared.  See set_precision().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 405  
+120 0 0 4 142 347 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::clear_intervals
+//       Access: Published
+//  Description: Resets the list of intervals and prepares for
+//               receiving a new list.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 404  
+121 0 0 6 143 351 0 0 647 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::push_level
+//       Access: Published
+//  Description: Marks the beginning of a nested level of child
+//               intervals.  Within the nested level, a RelativeStart
+//               time of RS_level_begin refers to the start of the
+//               level, and the first interval added within the level
+//               is always relative to the start of the level.
+//
+//               The return value is the index of the def entry
+//               created by this push.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 404  4 name 1 344  8 rel_time 1 345  6 rel_to 1 332  
+122 0 0 6 144 351 0 0 512 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::add_c_interval
+//       Access: Published
+//  Description: Adds a new CInterval to the list.  The interval will
+//               be played when the indicated time (relative to the
+//               given point) has been reached.
+//
+//               The return value is the index of the def entry
+//               representing the new interval.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 404  10 c_interval 1 346  8 rel_time 1 345  6 rel_to 1 332  
+123 0 0 6 145 351 0 0 1156 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::add_ext_index
+//       Access: Published
+//  Description: Adds a new external interval to the list.  This
+//               represents some object in the external scripting
+//               language that has properties similar to a CInterval
+//               (for instance, a Python Interval object).
+//
+//               The CMetaInterval object cannot play this external
+//               interval directly, but it records a placeholder for
+//               it and will ask the scripting language to play it
+//               when it is time, via is_event_ready() and related
+//               methods.
+//
+//               The ext_index number itself is simply a handle that
+//               the scripting language makes up and associates with
+//               its interval object somehow.  The CMetaInterval
+//               object does not attempt to interpret this value.
+//
+//               The return value is the index of the def entry
+//               representing the new interval.
+//////////////////////////////////////////////////////////////////// 7 4 this 3 404  9 ext_index 1 351  4 name 1 344  8 duration 1 345  10 open_ended 1 321  8 rel_time 1 345  6 rel_to 1 332  
+124 0 0 6 146 351 0 0 645 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::pop_level
+//       Access: Published
+//  Description: Finishes a level marked by a previous call to
+//               push_level(), and returns to the previous level.
+//
+//               If the duration is not negative, it represents a
+//               phony duration to assign to the level, for the
+//               purposes of sequencing later intervals.  Otherwise,
+//               the level's duration is computed based on the
+//               intervals within the level.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 404  8 duration 1 345  
+125 0 0 6 147 321 0 0 824 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::set_interval_start_time
+//       Access: Published
+//  Description: Adjusts the start time of the child interval with the
+//               given name, if found.  This may be either a C++
+//               interval added via add_c_interval(), or an external
+//               interval added via add_ext_index(); the name must
+//               match exactly.
+//
+//               If the interval is found, its start time is adjusted,
+//               and all subsequent intervals are adjusting
+//               accordingly, and true is returned.  If a matching
+//               interval is not found, nothing is changed and false
+//               is returned.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 404  4 name 1 344  8 rel_time 1 345  6 rel_to 1 332  
+126 0 0 6 148 345 0 0 451 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_interval_start_time
+//       Access: Published
+//  Description: Returns the actual start time, relative to the
+//               beginning of the interval, of the child interval with
+//               the given name, if found, or -1 if the interval is
+//               not found.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  4 name 1 344  
+127 0 0 6 149 345 0 0 447 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_interval_end_time
+//       Access: Published
+//  Description: Returns the actual end time, relative to the
+//               beginning of the interval, of the child interval with
+//               the given name, if found, or -1 if the interval is
+//               not found.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  4 name 1 344  
+128 0 0 6 151 351 0 0 359 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_num_defs
+//       Access: Published
+//  Description: Returns the number of interval and push/pop
+//               definitions that have been added to the meta
+//               interval.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 405  
+129 0 0 6 152 333 0 0 312 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_def_type
+//       Access: Published
+//  Description: Returns the type of the nth interval definition that
+//               has been added.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  1 n 1 351  
+130 0 0 7 153 346 0 0 409 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_c_interval
+//       Access: Published
+//  Description: Return the CInterval pointer associated with the nth
+//               interval definition.  It is only valid to call this
+//               if get_def_type(n) returns DT_c_interval.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  1 n 1 351  
+131 0 0 6 154 351 0 0 420 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_ext_index
+//       Access: Published
+//  Description: Return the external interval index number associated
+//               with the nth interval definition.  It is only valid
+//               to call this if get_def_type(n) returns DT_ext_index.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  1 n 1 351  
+132 0 0 6 155 321 0 0 544 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::is_event_ready
+//       Access: Published
+//  Description: Returns true if a recent call to priv_initialize(),
+//               priv_step(), or priv_finalize() has left some external
+//               intervals ready to play.  If this returns true, call
+//               get_event_index(), get_event_t(), and pop_event() to
+//               retrieve the relevant information.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 404  
+133 0 0 6 156 351 0 0 444 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_index
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the index number (added via
+//               add_event_index()) of the external interval that needs
+//               to be played.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 405  
+134 0 0 6 157 345 0 0 380 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_t
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the t value that should be fed to
+//               the given interval.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 405  
+135 0 0 6 158 318 0 0 410 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::get_event_type
+//       Access: Published
+//  Description: If a previous call to is_event_ready() returned
+//               true, this returns the type of the event (initialize,
+//               step, finalize, etc.) for the given interval.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 405  
+136 0 0 4 159 347 0 0 591 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::pop_event
+//       Access: Published
+//  Description: Acknowledges that the external interval on the top of
+//               the queue has been extracted, and is about to be
+//               serviced by the scripting language.  This prepares
+//               the interval so the next call to is_event_ready()
+//               will return information about the next external
+//               interval on the queue, if any.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 404  
+137 0 0 4 160 347 0 0 302 ////////////////////////////////////////////////////////////////////
+//     Function: CMetaInterval::timeline
+//       Access: Published
+//  Description: Outputs a list of all events in the order in which
+//               they occur.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 405  3 out 1 349  
+138 0 0 7 161 353 0 0 0 0 
+139 0 0 7 163 407 299 0 225 ////////////////////////////////////////////////////////////////////
+//     Function: HideInterval::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 node 1 357  4 name 1 344  
+140 0 0 7 164 353 0 0 0 0 
+141 0 0 6 167 393 0 0 0 2 4 this 3 408  6 param0 0 393  
+142 0 0 7 168 353 0 0 27 // now for typehandle stuff 0 
+143 0 0 7 170 409 0 0 0 0 
+144 0 0 7 171 353 0 0 27 // now for typehandle stuff 0 
+145 0 0 7 173 410 0 0 0 0 
+146 0 0 7 174 353 0 0 27 // now for typehandle stuff 0 
+147 0 0 7 176 411 0 0 0 0 
+148 0 0 7 177 353 0 0 27 // now for typehandle stuff 0 
+149 0 0 7 179 412 0 0 0 0 
+150 0 0 7 180 353 0 0 27 // now for typehandle stuff 0 
+151 0 0 7 182 413 312 0 225 ////////////////////////////////////////////////////////////////////
+//     Function: ShowInterval::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 2 4 node 1 357  4 name 1 344  
+152 0 0 7 183 353 0 0 0 0 
+153 0 0 7 186 414 315 0 339 ////////////////////////////////////////////////////////////////////
+//     Function: WaitInterval::Constructor
+//       Access: Published
+//  Description: All Wait intervals have the same name.  No one really
+//               cares if their names are unique, after all.
+//////////////////////////////////////////////////////////////////// 1 8 duration 1 345  
+154 0 0 7 187 353 0 0 0 0 
+99
+316 9 CInterval 0 75777 9 CInterval 9 CInterval 0 0 0 0 0 0 43 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 0 0 1 0 317 0 0 0 2 318 319 780
+////////////////////////////////////////////////////////////////////
+//       Class : CInterval
+// Description : The base class for timeline components.  A CInterval
+//               represents a single action, event, or collection of
+//               nested intervals that will be performed at some
+//               specific time or over a period of time.
+//
+//               This is essentially similar to the Python "Interval"
+//               class, but it is implemented in C++ (hence the name).
+//               Intervals that may be implemented in C++ will inherit
+//               from this class; Intervals that must be implemented
+//               in Python will inherit from the similar Python class.
+////////////////////////////////////////////////////////////////////
+
+317 19 TypedReferenceCount 0 2049 19 TypedReferenceCount 19 TypedReferenceCount 0 0 0 0 0 0 0 0 0 0 0 0 710
+////////////////////////////////////////////////////////////////////
+//       Class : TypedReferenceCount
+// Description : A base class for things which need to inherit from
+//               both TypedObject and from ReferenceCount.  It's
+//               convenient to define this intermediate base class
+//               instead of multiply inheriting from the two classes
+//               each time they are needed, so that we can sensibly
+//               pass around pointers to things which are both
+//               TypedObjects and ReferenceCounters.
+//               
+//               See also TypedObject for detailed instructions.
+////////////////////////////////////////////////////////////////////
+
+318 9 EventType 0 794624 20 CInterval::EventType 20 CInterval::EventType 316 0 0 0 0 0 0 0 0 0 8 13 ET_initialize 24 CInterval::ET_initialize 0
+0 10 ET_instant 21 CInterval::ET_instant 0
+1 7 ET_step 18 CInterval::ET_step 0
+2 11 ET_finalize 22 CInterval::ET_finalize 0
+3 21 ET_reverse_initialize 32 CInterval::ET_reverse_initialize 0
+4 18 ET_reverse_instant 29 CInterval::ET_reverse_instant 0
+5 19 ET_reverse_finalize 30 CInterval::ET_reverse_finalize 0
+6 12 ET_interrupt 23 CInterval::ET_interrupt 0
+7 0 0
+
+319 5 State 0 794624 16 CInterval::State 16 CInterval::State 316 0 0 0 0 0 0 0 0 0 4 9 S_initial 20 CInterval::S_initial 0
+0 9 S_started 20 CInterval::S_started 0
+1 8 S_paused 19 CInterval::S_paused 0
+2 7 S_final 18 CInterval::S_final 0
+3 0 0
+
+320 19 CConstraintInterval 0 141313 19 CConstraintInterval 19 CConstraintInterval 0 0 0 0 201 1 415 1 200 0 0 1 0 316 0 0 0 0 300
+////////////////////////////////////////////////////////////////////
+//       Class : CConstraintInterval
+// Description : The base class for a family of intervals that
+//               constrain some property to a value over time.
+////////////////////////////////////////////////////////////////////
+
+321 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
+
+322 21 CConstrainHprInterval 0 141313 21 CConstrainHprInterval 21 CConstrainHprInterval 0 0 0 1 202 206 0 3 203 204 205 0 0 1 0 320 0 0 0 0 311
+////////////////////////////////////////////////////////////////////
+//       Class : CConstrainHprInterval
+// Description : A constraint interval that will constrain the
+//               orientation of one node to the orientation of another.
+////////////////////////////////////////////////////////////////////
+
+323 24 CConstrainPosHprInterval 0 141313 24 CConstrainPosHprInterval 24 CConstrainPosHprInterval 0 0 0 1 207 211 0 3 208 209 210 0 0 1 0 320 0 0 0 0 357
+////////////////////////////////////////////////////////////////////
+//       Class : CConstrainPosHprInterval
+// Description : A constraint interval that will constrain the
+//               position and orientation of one node to the
+//               position and orientation of another.
+////////////////////////////////////////////////////////////////////
+
+324 21 CConstrainPosInterval 0 141313 21 CConstrainPosInterval 21 CConstrainPosInterval 0 0 0 1 212 216 0 3 213 214 215 0 0 1 0 320 0 0 0 0 305
+////////////////////////////////////////////////////////////////////
+//       Class : CConstrainPosInterval
+// Description : A constraint interval that will constrain the
+//               position of one node to the position of another.
+////////////////////////////////////////////////////////////////////
+
+325 27 CConstrainTransformInterval 0 141313 27 CConstrainTransformInterval 27 CConstrainTransformInterval 0 0 0 1 217 221 0 3 218 219 220 0 0 1 0 320 0 0 0 0 313
+////////////////////////////////////////////////////////////////////
+//       Class : CConstrainTransformInterval
+// Description : A constraint interval that will constrain the
+//               transform of one node to the transform of another.
+////////////////////////////////////////////////////////////////////
+
+326 16 CIntervalManager 0 26625 16 CIntervalManager 16 CIntervalManager 0 0 0 1 222 223 0 15 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 0 0 0 0 0 777
+////////////////////////////////////////////////////////////////////
+//       Class : CIntervalManager
+// Description : This object holds a number of currently-playing
+//               intervals and is responsible for advancing them each
+//               frame as needed.
+//
+//               There is normally only one IntervalManager object in
+//               the world, and it is the responsibility of the
+//               scripting language to call step() on this object once
+//               each frame, and to then process the events indicated by
+//               get_next_event().  
+//
+//               It is also possible to create multiple
+//               IntervalManager objects for special needs.
+////////////////////////////////////////////////////////////////////
+
+327 13 CLerpInterval 0 141313 13 CLerpInterval 13 CLerpInterval 0 0 0 0 242 0 3 239 240 241 0 0 1 0 316 0 0 0 1 328 324
+////////////////////////////////////////////////////////////////////
+//       Class : CLerpInterval
+// Description : The base class for a family of intervals that
+//               linearly interpolate one or more numeric values over
+//               time.
+////////////////////////////////////////////////////////////////////
+
+328 9 BlendType 0 794624 24 CLerpInterval::BlendType 24 CLerpInterval::BlendType 327 0 0 0 0 0 0 0 0 0 5 11 BT_no_blend 26 CLerpInterval::BT_no_blend 0
+0 10 BT_ease_in 25 CLerpInterval::BT_ease_in 0
+1 11 BT_ease_out 26 CLerpInterval::BT_ease_out 0
+2 14 BT_ease_in_out 29 CLerpInterval::BT_ease_in_out 0
+3 10 BT_invalid 25 CLerpInterval::BT_invalid 0
+4 0 0
+
+329 23 CLerpAnimEffectInterval 0 141313 23 CLerpAnimEffectInterval 23 CLerpAnimEffectInterval 0 0 0 1 243 246 0 2 244 245 0 0 1 0 327 0 0 0 0 649
+////////////////////////////////////////////////////////////////////
+//       Class : CLerpAnimEffectInterval
+// Description : This interval lerps between different amounts of
+//               control effects for various AnimControls that might
+//               be playing on an actor.  It's used to change the
+//               blending amount between multiple animations.
+//
+//               The idea is to start all the animations playing
+//               first, then use a CLerpAnimEffectInterval to adjust
+//               the degree to which each animation affects the actor.
+////////////////////////////////////////////////////////////////////
+
+330 21 CLerpNodePathInterval 0 141313 21 CLerpNodePathInterval 21 CLerpNodePathInterval 0 0 0 1 247 274 0 26 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 0 0 1 0 327 0 0 0 0 303
+////////////////////////////////////////////////////////////////////
+//       Class : CLerpNodePathInterval
+// Description : An interval that lerps one or more properties (like
+//               pos, hpr, etc.) on a NodePath over time.
+////////////////////////////////////////////////////////////////////
+
+331 13 CMetaInterval 0 75777 13 CMetaInterval 13 CMetaInterval 0 0 0 1 275 0 0 21 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 0 0 1 0 316 0 0 0 2 332 333 369
+////////////////////////////////////////////////////////////////////
+//       Class : CMetaInterval
+// Description : This interval contains a list of nested intervals,
+//               each of which has its own begin and end times.  Some
+//               of them may overlap and some of them may not.
+////////////////////////////////////////////////////////////////////
+
+332 13 RelativeStart 0 794624 28 CMetaInterval::RelativeStart 28 CMetaInterval::RelativeStart 331 0 0 0 0 0 0 0 0 0 3 15 RS_previous_end 30 CMetaInterval::RS_previous_end 0
+0 17 RS_previous_begin 32 CMetaInterval::RS_previous_begin 0
+1 14 RS_level_begin 29 CMetaInterval::RS_level_begin 0
+2 0 0
+
+333 7 DefType 0 794624 22 CMetaInterval::DefType 22 CMetaInterval::DefType 331 0 0 0 0 0 0 0 0 0 4 13 DT_c_interval 28 CMetaInterval::DT_c_interval 0
+0 12 DT_ext_index 27 CMetaInterval::DT_ext_index 0
+1 13 DT_push_level 28 CMetaInterval::DT_push_level 0
+2 12 DT_pop_level 27 CMetaInterval::DT_pop_level 0
+3 0 0
+
+334 12 HideInterval 0 141313 12 HideInterval 12 HideInterval 0 0 0 1 297 299 0 1 298 0 0 1 0 316 0 0 0 0 225
+////////////////////////////////////////////////////////////////////
+//       Class : HideInterval
+// Description : An interval that calls NodePath::hide().
+////////////////////////////////////////////////////////////////////
+
+335 13 LerpBlendType 0 75777 13 LerpBlendType 13 LerpBlendType 0 0 0 0 0 0 2 300 301 0 0 1 0 317 0 0 0 0 0
+
+336 15 EaseInBlendType 0 75777 15 EaseInBlendType 15 EaseInBlendType 0 0 0 1 302 0 0 1 303 0 0 1 0 335 0 0 0 0 0
+
+337 16 EaseOutBlendType 0 75777 16 EaseOutBlendType 16 EaseOutBlendType 0 0 0 1 304 0 0 1 305 0 0 1 0 335 0 0 0 0 0
+
+338 18 EaseInOutBlendType 0 75777 18 EaseInOutBlendType 18 EaseInOutBlendType 0 0 0 1 306 0 0 1 307 0 0 1 0 335 0 0 0 0 0
+
+339 11 NoBlendType 0 75777 11 NoBlendType 11 NoBlendType 0 0 0 1 308 0 0 1 309 0 0 1 0 335 0 0 0 0 0
+
+340 12 ShowInterval 0 141313 12 ShowInterval 12 ShowInterval 0 0 0 1 310 312 0 1 311 0 0 1 0 316 0 0 0 0 225
+////////////////////////////////////////////////////////////////////
+//       Class : ShowInterval
+// Description : An interval that calls NodePath::show().
+////////////////////////////////////////////////////////////////////
+
+341 12 WaitInterval 0 141313 12 WaitInterval 12 WaitInterval 0 0 0 1 313 315 0 1 314 0 0 1 0 316 0 0 0 0 338
+////////////////////////////////////////////////////////////////////
+//       Class : WaitInterval
+// Description : This interval does absolutely nothing, and is mainly
+//               useful for marking time between other intervals
+//               within a sequence.
+////////////////////////////////////////////////////////////////////
+
+342 17 CInterval const * 0 8576 17 CInterval const * 17 CInterval const * 0 0 343 0 0 0 0 0 0 0 0 0 0
+
+343 15 CInterval const 0 8832 15 CInterval const 15 CInterval const 0 0 316 0 0 0 0 0 0 0 0 0 0
+
+344 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
+
+345 6 double 0 8194 6 double 6 double 0 3 0 0 0 0 0 0 0 0 0 0 0
+
+346 11 CInterval * 0 8576 11 CInterval * 11 CInterval * 0 0 316 0 0 0 0 0 0 0 0 0 0
+
+347 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+348 18 CIntervalManager * 0 8576 18 CIntervalManager * 18 CIntervalManager * 0 0 326 0 0 0 0 0 0 0 0 0 0
+
+349 9 ostream * 0 8576 9 ostream * 9 ostream * 0 0 350 0 0 0 0 0 0 0 0 0 0
+
+350 7 ostream 0 2048 7 ostream 7 ostream 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+351 3 int 0 8194 3 int 3 int 0 1 0 0 0 0 0 0 0 0 0 0 0
+
+352 10 TypeHandle 0 2048 10 TypeHandle 10 TypeHandle 0 0 0 0 0 0 0 0 0 0 0 0 1098
+////////////////////////////////////////////////////////////////////
+//       Class : TypeHandle
+// Description : TypeHandle is the identifier used to differentiate
+//               C++ class types.  Any C++ classes that inherit from
+//               some base class, and must be differentiated at run
+//               time, should store a static TypeHandle object that
+//               can be queried through a static member function
+//               named get_class_type().  Most of the time, it is also
+//               desirable to inherit from TypedObject, which provides
+//               some virtual functions to return the TypeHandle for a
+//               particular instance.
+//
+//               At its essence, a TypeHandle is simply a unique
+//               identifier that is assigned by the TypeRegistry.  The
+//               TypeRegistry stores a tree of TypeHandles, so that
+//               ancestry of a particular type may be queried, and the
+//               type name may be retrieved for run-time display.
+////////////////////////////////////////////////////////////////////
+
+353 12 TypeHandle * 0 8576 12 TypeHandle * 12 TypeHandle * 0 0 352 0 0 0 0 0 0 0 0 0 0
+
+354 21 CConstraintInterval * 0 8576 21 CConstraintInterval * 21 CConstraintInterval * 0 0 320 0 0 0 0 0 0 0 0 0 0
+
+355 27 CConstraintInterval const * 0 8576 27 CConstraintInterval const * 27 CConstraintInterval const * 0 0 356 0 0 0 0 0 0 0 0 0 0
+
+356 25 CConstraintInterval const 0 8832 25 CConstraintInterval const 25 CConstraintInterval const 0 0 320 0 0 0 0 0 0 0 0 0 0
+
+357 16 NodePath const * 0 8576 16 NodePath const * 16 NodePath const * 0 0 358 0 0 0 0 0 0 0 0 0 0
+
+358 14 NodePath const 0 8832 14 NodePath const 14 NodePath const 0 0 359 0 0 0 0 0 0 0 0 0 0
+
+359 8 NodePath 0 2048 8 NodePath 8 NodePath 0 0 0 0 0 0 0 2 416 417 0 0 0 0 1139
+////////////////////////////////////////////////////////////////////
+//       Class : NodePath
+// Description : NodePath is the fundamental system for disambiguating
+//               instances, and also provides a higher-level interface
+//               for manipulating the scene graph.
+//
+//               A NodePath is a list of connected nodes from the root
+//               of the graph to any sub-node.  Each NodePath
+//               therefore uniquely describes one instance of a node.
+//
+//               NodePaths themselves are lightweight objects that may
+//               easily be copied and passed by value.  Their data is
+//               stored as a series of NodePathComponents that are
+//               stored on the nodes.  Holding a NodePath will keep a
+//               reference count to all the nodes in the path.
+//               However, if any node in the path is removed or
+//               reparented (perhaps through a different NodePath),
+//               the NodePath will automatically be updated to reflect
+//               the changes.
+////////////////////////////////////////////////////////////////////
+
+360 17 LVecBase3 const * 0 8576 17 LVecBase3 const * 17 LVecBase3 const * 0 0 361 0 0 0 0 0 0 0 0 0 0
+
+361 15 LVecBase3 const 0 8832 15 LVecBase3 const 15 LVecBase3 const 0 0 362 0 0 0 0 0 0 0 0 0 0
+
+362 9 LVecBase3 0 2105344 9 LVecBase3 9 LVecBase3 0 0 363 0 0 0 0 0 0 0 0 0 0
+
+363 10 LVecBase3f 0 2048 10 LVecBase3f 10 LVecBase3f 0 0 0 0 0 0 0 0 0 0 0 0 265
+////////////////////////////////////////////////////////////////////
+//       Class : LVecBase3
+// Description : This is the base class for all three-component
+//               vectors and points.
+////////////////////////////////////////////////////////////////////
+
+364 23 CConstrainHprInterval * 0 8576 23 CConstrainHprInterval * 23 CConstrainHprInterval * 0 0 322 0 0 0 0 0 0 0 0 0 0
+
+365 29 CConstrainHprInterval const * 0 8576 29 CConstrainHprInterval const * 29 CConstrainHprInterval const * 0 0 366 0 0 0 0 0 0 0 0 0 0
+
+366 27 CConstrainHprInterval const 0 8832 27 CConstrainHprInterval const 27 CConstrainHprInterval const 0 0 322 0 0 0 0 0 0 0 0 0 0
+
+367 26 CConstrainPosHprInterval * 0 8576 26 CConstrainPosHprInterval * 26 CConstrainPosHprInterval * 0 0 323 0 0 0 0 0 0 0 0 0 0
+
+368 32 CConstrainPosHprInterval const * 0 8576 32 CConstrainPosHprInterval const * 32 CConstrainPosHprInterval const * 0 0 369 0 0 0 0 0 0 0 0 0 0
+
+369 30 CConstrainPosHprInterval const 0 8832 30 CConstrainPosHprInterval const 30 CConstrainPosHprInterval const 0 0 323 0 0 0 0 0 0 0 0 0 0
+
+370 23 CConstrainPosInterval * 0 8576 23 CConstrainPosInterval * 23 CConstrainPosInterval * 0 0 324 0 0 0 0 0 0 0 0 0 0
+
+371 29 CConstrainPosInterval const * 0 8576 29 CConstrainPosInterval const * 29 CConstrainPosInterval const * 0 0 372 0 0 0 0 0 0 0 0 0 0
+
+372 27 CConstrainPosInterval const 0 8832 27 CConstrainPosInterval const 27 CConstrainPosInterval const 0 0 324 0 0 0 0 0 0 0 0 0 0
+
+373 29 CConstrainTransformInterval * 0 8576 29 CConstrainTransformInterval * 29 CConstrainTransformInterval * 0 0 325 0 0 0 0 0 0 0 0 0 0
+
+374 35 CConstrainTransformInterval const * 0 8576 35 CConstrainTransformInterval const * 35 CConstrainTransformInterval const * 0 0 375 0 0 0 0 0 0 0 0 0 0
+
+375 33 CConstrainTransformInterval const 0 8832 33 CConstrainTransformInterval const 33 CConstrainTransformInterval const 0 0 325 0 0 0 0 0 0 0 0 0 0
+
+376 12 EventQueue * 0 8576 12 EventQueue * 12 EventQueue * 0 0 377 0 0 0 0 0 0 0 0 0 0
+
+377 10 EventQueue 0 2048 10 EventQueue 10 EventQueue 0 0 0 0 0 0 0 0 0 0 0 0 392
+////////////////////////////////////////////////////////////////////
+//       Class : EventQueue
+// Description : A queue of pending events.  As events are thrown,
+//               they are added to this queue; eventually, they will
+//               be extracted out again by an EventHandler and
+//               processed.
+////////////////////////////////////////////////////////////////////
+
+378 24 CIntervalManager const * 0 8576 24 CIntervalManager const * 24 CIntervalManager const * 0 0 379 0 0 0 0 0 0 0 0 0 0
+
+379 22 CIntervalManager const 0 8832 22 CIntervalManager const 22 CIntervalManager const 0 0 326 0 0 0 0 0 0 0 0 0 0
+
+380 21 CLerpInterval const * 0 8576 21 CLerpInterval const * 21 CLerpInterval const * 0 0 381 0 0 0 0 0 0 0 0 0 0
+
+381 19 CLerpInterval const 0 8832 19 CLerpInterval const 19 CLerpInterval const 0 0 327 0 0 0 0 0 0 0 0 0 0
+
+382 25 CLerpAnimEffectInterval * 0 8576 25 CLerpAnimEffectInterval * 25 CLerpAnimEffectInterval * 0 0 329 0 0 0 0 0 0 0 0 0 0
+
+383 13 AnimControl * 0 8576 13 AnimControl * 13 AnimControl * 0 0 384 0 0 0 0 0 0 0 0 0 0
+
+384 11 AnimControl 0 2048 11 AnimControl 11 AnimControl 0 0 0 0 0 0 0 0 0 0 0 0 487
+////////////////////////////////////////////////////////////////////
+//       Class : AnimControl
+// Description : Controls the timing of a character animation.  An
+//               AnimControl object is created for each
+//               character/bundle binding and manages the state of the
+//               animation: whether started, stopped, or looping, and
+//               the current frame number and play rate.
+////////////////////////////////////////////////////////////////////
+
+385 5 float 0 8194 5 float 5 float 0 2 0 0 0 0 0 0 0 0 0 0 0
+
+386 23 CLerpNodePathInterval * 0 8576 23 CLerpNodePathInterval * 23 CLerpNodePathInterval * 0 0 330 0 0 0 0 0 0 0 0 0 0
+
+387 29 CLerpNodePathInterval const * 0 8576 29 CLerpNodePathInterval const * 29 CLerpNodePathInterval const * 0 0 388 0 0 0 0 0 0 0 0 0 0
+
+388 27 CLerpNodePathInterval const 0 8832 27 CLerpNodePathInterval const 27 CLerpNodePathInterval const 0 0 330 0 0 0 0 0 0 0 0 0 0
+
+389 19 LQuaternion const * 0 8576 19 LQuaternion const * 19 LQuaternion const * 0 0 390 0 0 0 0 0 0 0 0 0 0
+
+390 17 LQuaternion const 0 8832 17 LQuaternion const 17 LQuaternion const 0 0 391 0 0 0 0 0 0 0 0 0 0
+
+391 11 LQuaternion 0 2105344 11 LQuaternion 11 LQuaternion 0 0 392 0 0 0 0 0 0 0 0 0 0
+
+392 12 LQuaternionf 0 2048 12 LQuaternionf 12 LQuaternionf 0 0 0 0 0 0 0 0 0 0 0 0 228
+////////////////////////////////////////////////////////////////////
+//       Class : FLOATNAME(LQuaternion)
+// Description : This is the base quaternion class
+////////////////////////////////////////////////////////////////////
+
+393 11 PN_stdfloat 0 2105344 11 PN_stdfloat 11 PN_stdfloat 0 0 385 0 0 0 0 0 0 0 0 0 0
+
+394 17 LVecBase4 const * 0 8576 17 LVecBase4 const * 17 LVecBase4 const * 0 0 395 0 0 0 0 0 0 0 0 0 0
+
+395 15 LVecBase4 const 0 8832 15 LVecBase4 const 15 LVecBase4 const 0 0 396 0 0 0 0 0 0 0 0 0 0
+
+396 9 LVecBase4 0 2105344 9 LVecBase4 9 LVecBase4 0 0 397 0 0 0 0 0 0 0 0 0 0
+
+397 10 LVecBase4f 0 2048 10 LVecBase4f 10 LVecBase4f 0 0 0 0 0 0 0 0 0 0 0 0 265
+////////////////////////////////////////////////////////////////////
+//       Class : LVecBase4
+// Description : This is the base class for all three-component
+//               vectors and points.
+////////////////////////////////////////////////////////////////////
+
+398 14 TextureStage * 0 8576 14 TextureStage * 14 TextureStage * 0 0 399 0 0 0 0 0 0 0 0 0 0
+
+399 12 TextureStage 0 2048 12 TextureStage 12 TextureStage 0 0 0 0 0 0 0 0 0 0 0 0 600
+////////////////////////////////////////////////////////////////////
+//       Class : TextureStage
+// Description : Defines the properties of a named stage of the
+//               multitexture pipeline.  The TextureAttrib will
+//               associated a number of these stages with Texture
+//               objects, and the GSG will render geometry by sorting
+//               all of the currently active TextureStages in order
+//               and then issuing the appropriate rendering calls to
+//               activate them.
+////////////////////////////////////////////////////////////////////
+
+400 17 LVecBase2 const * 0 8576 17 LVecBase2 const * 17 LVecBase2 const * 0 0 401 0 0 0 0 0 0 0 0 0 0
+
+401 15 LVecBase2 const 0 8832 15 LVecBase2 const 15 LVecBase2 const 0 0 402 0 0 0 0 0 0 0 0 0 0
+
+402 9 LVecBase2 0 2105344 9 LVecBase2 9 LVecBase2 0 0 403 0 0 0 0 0 0 0 0 0 0
+
+403 10 LVecBase2f 0 2048 10 LVecBase2f 10 LVecBase2f 0 0 0 0 0 0 0 0 0 0 0 0 263
+////////////////////////////////////////////////////////////////////
+//       Class : LVecBase2
+// Description : This is the base class for all two-component
+//               vectors and points.
+////////////////////////////////////////////////////////////////////
+
+404 15 CMetaInterval * 0 8576 15 CMetaInterval * 15 CMetaInterval * 0 0 331 0 0 0 0 0 0 0 0 0 0
+
+405 21 CMetaInterval const * 0 8576 21 CMetaInterval const * 21 CMetaInterval const * 0 0 406 0 0 0 0 0 0 0 0 0 0
+
+406 19 CMetaInterval const 0 8832 19 CMetaInterval const 19 CMetaInterval const 0 0 331 0 0 0 0 0 0 0 0 0 0
+
+407 14 HideInterval * 0 8576 14 HideInterval * 14 HideInterval * 0 0 334 0 0 0 0 0 0 0 0 0 0
+
+408 15 LerpBlendType * 0 8576 15 LerpBlendType * 15 LerpBlendType * 0 0 335 0 0 0 0 0 0 0 0 0 0
+
+409 17 EaseInBlendType * 0 8576 17 EaseInBlendType * 17 EaseInBlendType * 0 0 336 0 0 0 0 0 0 0 0 0 0
+
+410 18 EaseOutBlendType * 0 8576 18 EaseOutBlendType * 18 EaseOutBlendType * 0 0 337 0 0 0 0 0 0 0 0 0 0
+
+411 20 EaseInOutBlendType * 0 8576 20 EaseInOutBlendType * 20 EaseInOutBlendType * 0 0 338 0 0 0 0 0 0 0 0 0 0
+
+412 13 NoBlendType * 0 8576 13 NoBlendType * 13 NoBlendType * 0 0 339 0 0 0 0 0 0 0 0 0 0
+
+413 14 ShowInterval * 0 8576 14 ShowInterval * 14 ShowInterval * 0 0 340 0 0 0 0 0 0 0 0 0 0
+
+414 14 WaitInterval * 0 8576 14 WaitInterval * 14 WaitInterval * 0 0 341 0 0 0 0 0 0 0 0 0 0
+
+0
+1
+415 14 bogus_variable 0 6 321 198 199 35 CConstraintInterval::bogus_variable 0
+
+2
+416 0 0 254 9 get_nodes 13 get_num_nodes 8 get_node 
+417 0 0 254 13 get_ancestors 13 get_num_nodes 12 get_ancestor 

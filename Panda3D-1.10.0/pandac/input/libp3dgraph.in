@@ -1,0 +1,286 @@
+1436948269
+2 3
+11 libp3dgraph 4 YJkp 12 panda3d.core 
+12
+11 18 DataGraphTraverser 0 4 23 38 DataGraphTraverser::DataGraphTraverser 0 1 1 228
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::Constructor
+//       Access: Public
+//  Description: 
+////////////////////////////////////////////////////////////////////
+88
+DataGraphTraverser::DataGraphTraverser(Thread *current_thread = (get_current_thread()));
+
+12 19 ~DataGraphTraverser 0 4 23 39 DataGraphTraverser::~DataGraphTraverser 0 0 227
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::Destructor
+//       Access: Public
+//  Description: 
+////////////////////////////////////////////////////////////////////
+46
+DataGraphTraverser::~DataGraphTraverser(void);
+
+13 18 get_current_thread 0 4 23 38 DataGraphTraverser::get_current_thread 0 1 2 347
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::get_current_thread
+//       Access: Public
+//  Description: Returns the currently-executing thread object, as
+//               passed to the DataGraphTraverser constructor.
+////////////////////////////////////////////////////////////////////
+66
+inline Thread *DataGraphTraverser::get_current_thread(void) const;
+
+14 8 traverse 0 4 23 28 DataGraphTraverser::traverse 0 1 3 308
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::traverse
+//       Access: Public
+//  Description: Starts the traversal of the data graph at the
+//               indicated root node.
+////////////////////////////////////////////////////////////////////
+51
+void DataGraphTraverser::traverse(PandaNode *node);
+
+15 14 traverse_below 0 4 23 34 DataGraphTraverser::traverse_below 0 1 4 418
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::traverse_below
+//       Access: Public
+//  Description: Continues the traversal to all the children of the
+//               indicated node, passing in the given data, without
+//               actually calling transmit_data() on the given node.
+////////////////////////////////////////////////////////////////////
+89
+void DataGraphTraverser::traverse_below(PandaNode *node, DataNodeTransmit const &output);
+
+16 17 collect_leftovers 0 4 23 37 DataGraphTraverser::collect_leftovers 0 1 5 452
+////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::collect_leftovers
+//       Access: Public
+//  Description: Pick up any nodes that didn't get completely
+//               traversed.  These must be nodes that have multiple
+//               parents, with at least one parent completely outside
+//               of the data graph.
+////////////////////////////////////////////////////////////////////
+49
+void DataGraphTraverser::collect_leftovers(void);
+
+17 8 DataNode 0 4 24 18 DataNode::DataNode 0 1 6 445
+////////////////////////////////////////////////////////////////////
+//     Function: DataNode::Constructor
+//       Access: Public
+//  Description: 
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: DataNode::Copy Constructor
+//       Access: Protected
+//  Description:
+////////////////////////////////////////////////////////////////////
+46
+inline DataNode::DataNode(string const &name);
+
+18 12 write_inputs 0 4 24 22 DataNode::write_inputs 0 1 7 334
+////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_inputs
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               inputs this DataNode might expect to receive.
+////////////////////////////////////////////////////////////////////
+48
+void DataNode::write_inputs(ostream &out) const;
+
+19 13 write_outputs 0 4 24 23 DataNode::write_outputs 0 1 8 327
+////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_outputs
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               outputs this DataNode might generate.
+////////////////////////////////////////////////////////////////////
+49
+void DataNode::write_outputs(ostream &out) const;
+
+20 17 write_connections 0 4 24 27 DataNode::write_connections 0 1 9 381
+////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_connections
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               connections currently showing between this DataNode
+//               and its parent(s).
+////////////////////////////////////////////////////////////////////
+53
+void DataNode::write_connections(ostream &out) const;
+
+21 14 get_class_type 0 4 24 24 DataNode::get_class_type 0 1 10 0
+49
+static TypeHandle DataNode::get_class_type(void);
+
+22 9 ~DataNode 0 4 24 19 DataNode::~DataNode 0 0 0
+26
+DataNode::~DataNode(void);
+
+10
+1 0 0 7 2 28 12 0 228 ////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::Constructor
+//       Access: Public
+//  Description: 
+//////////////////////////////////////////////////////////////////// 1 14 current_thread 1 26  
+2 0 0 7 4 26 0 0 347 ////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::get_current_thread
+//       Access: Public
+//  Description: Returns the currently-executing thread object, as
+//               passed to the DataGraphTraverser constructor.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 29  
+3 0 0 4 5 32 0 0 308 ////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::traverse
+//       Access: Public
+//  Description: Starts the traversal of the data graph at the
+//               indicated root node.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 28  4 node 1 31  
+4 0 0 4 6 32 0 0 418 ////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::traverse_below
+//       Access: Public
+//  Description: Continues the traversal to all the children of the
+//               indicated node, passing in the given data, without
+//               actually calling transmit_data() on the given node.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 28  4 node 1 31  6 output 1 33  
+5 0 0 4 7 32 0 0 452 ////////////////////////////////////////////////////////////////////
+//     Function: DataGraphTraverser::collect_leftovers
+//       Access: Public
+//  Description: Pick up any nodes that didn't get completely
+//               traversed.  These must be nodes that have multiple
+//               parents, with at least one parent completely outside
+//               of the data graph.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 28  
+6 0 0 7 10 37 22 0 218 ////////////////////////////////////////////////////////////////////
+//     Function: DataNode::Constructor
+//       Access: Public
+//  Description: 
+//////////////////////////////////////////////////////////////////// 1 4 name 1 36  
+7 0 0 4 11 32 0 0 334 ////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_inputs
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               inputs this DataNode might expect to receive.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 38  3 out 1 40  
+8 0 0 4 12 32 0 0 327 ////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_outputs
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               outputs this DataNode might generate.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 38  3 out 1 40  
+9 0 0 4 13 32 0 0 381 ////////////////////////////////////////////////////////////////////
+//     Function: DataNode::write_connections
+//       Access: Published
+//  Description: Writes to the indicated ostream a list of all the
+//               connections currently showing between this DataNode
+//               and its parent(s).
+//////////////////////////////////////////////////////////////////// 2 4 this 3 38  3 out 1 40  
+10 0 0 7 14 43 0 0 0 0 
+21
+23 18 DataGraphTraverser 0 26625 18 DataGraphTraverser 18 DataGraphTraverser 0 0 0 1 11 12 0 4 13 14 15 16 0 0 0 0 0 486
+////////////////////////////////////////////////////////////////////
+//       Class : DataGraphTraverser
+// Description : This object supervises the traversal of the data
+//               graph and the moving of data from one DataNode to its
+//               children.  The data graph is used to manage data from
+//               input devices, etc.  See the overview of the data
+//               graph in dataNode.h.
+////////////////////////////////////////////////////////////////////
+
+24 8 DataNode 0 141313 8 DataNode 8 DataNode 0 0 0 1 17 22 0 4 18 19 20 21 0 0 1 0 25 0 0 0 0 695
+////////////////////////////////////////////////////////////////////
+//       Class : DataNode
+// Description : The fundamental type of node for the data graph.  The
+//               DataNode class is itself primarily intended as an
+//               abstract class; it defines no inputs and no outputs.
+//               Most kinds of data nodes will derive from this to
+//               specify the inputs and outputs in the constructor.
+//
+//               DataNode does not attempt to cycle its data with a
+//               PipelineCycler.  The data graph is intended to be
+//               used only within a single thread.
+////////////////////////////////////////////////////////////////////
+
+25 9 PandaNode 0 2049 9 PandaNode 9 PandaNode 0 0 0 0 0 0 0 0 0 0 0 0 374
+////////////////////////////////////////////////////////////////////
+//       Class : PandaNode
+// Description : A basic node of the scene graph or data graph.  This
+//               is the base class of all specialized nodes, and also
+//               serves as a generic node with no special properties.
+////////////////////////////////////////////////////////////////////
+
+26 8 Thread * 0 8576 8 Thread * 8 Thread * 0 0 27 0 0 0 0 0 0 0 0 0 0
+
+27 6 Thread 0 2048 6 Thread 6 Thread 0 0 0 0 0 0 0 0 0 0 0 0 668
+////////////////////////////////////////////////////////////////////
+//       Class : Thread
+// Description : A thread; that is, a lightweight process.  This is an
+//               abstract base class; to use it, you must subclass
+//               from it and redefine thread_main().
+//
+//               The thread itself will keep a reference count on the
+//               Thread object while it is running; when the thread
+//               returns from its root function, the Thread object
+//               will automatically be destructed if no other pointers
+//               are referencing it.
+////////////////////////////////////////////////////////////////////
+
+28 20 DataGraphTraverser * 0 8576 20 DataGraphTraverser * 20 DataGraphTraverser * 0 0 23 0 0 0 0 0 0 0 0 0 0
+
+29 26 DataGraphTraverser const * 0 8576 26 DataGraphTraverser const * 26 DataGraphTraverser const * 0 0 30 0 0 0 0 0 0 0 0 0 0
+
+30 24 DataGraphTraverser const 0 8832 24 DataGraphTraverser const 24 DataGraphTraverser const 0 0 23 0 0 0 0 0 0 0 0 0 0
+
+31 11 PandaNode * 0 8576 11 PandaNode * 11 PandaNode * 0 0 25 0 0 0 0 0 0 0 0 0 0
+
+32 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+33 24 DataNodeTransmit const * 0 8576 24 DataNodeTransmit const * 24 DataNodeTransmit const * 0 0 34 0 0 0 0 0 0 0 0 0 0
+
+34 22 DataNodeTransmit const 0 8832 22 DataNodeTransmit const 22 DataNodeTransmit const 0 0 35 0 0 0 0 0 0 0 0 0 0
+
+35 16 DataNodeTransmit 0 1050624 16 DataNodeTransmit 16 DataNodeTransmit 0 0 0 0 0 0 0 0 0 0 0 0 415
+////////////////////////////////////////////////////////////////////
+//       Class : DataNodeTransmit
+// Description : Encapsulates the data generated from (or sent into)
+//               any particular DataNode.  This is basically just an
+//               array of EventParameters, one for each registered
+//               input or output wire.
+////////////////////////////////////////////////////////////////////
+
+36 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
+
+37 10 DataNode * 0 8576 10 DataNode * 10 DataNode * 0 0 24 0 0 0 0 0 0 0 0 0 0
+
+38 16 DataNode const * 0 8576 16 DataNode const * 16 DataNode const * 0 0 39 0 0 0 0 0 0 0 0 0 0
+
+39 14 DataNode const 0 8832 14 DataNode const 14 DataNode const 0 0 24 0 0 0 0 0 0 0 0 0 0
+
+40 9 ostream * 0 8576 9 ostream * 9 ostream * 0 0 41 0 0 0 0 0 0 0 0 0 0
+
+41 7 ostream 0 2048 7 ostream 7 ostream 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+42 10 TypeHandle 0 2048 10 TypeHandle 10 TypeHandle 0 0 0 0 0 0 0 0 0 0 0 0 1098
+////////////////////////////////////////////////////////////////////
+//       Class : TypeHandle
+// Description : TypeHandle is the identifier used to differentiate
+//               C++ class types.  Any C++ classes that inherit from
+//               some base class, and must be differentiated at run
+//               time, should store a static TypeHandle object that
+//               can be queried through a static member function
+//               named get_class_type().  Most of the time, it is also
+//               desirable to inherit from TypedObject, which provides
+//               some virtual functions to return the TypeHandle for a
+//               particular instance.
+//
+//               At its essence, a TypeHandle is simply a unique
+//               identifier that is assigned by the TypeRegistry.  The
+//               TypeRegistry stores a tree of TypeHandles, so that
+//               ancestry of a particular type may be queried, and the
+//               type name may be retrieved for run-time display.
+////////////////////////////////////////////////////////////////////
+
+43 12 TypeHandle * 0 8576 12 TypeHandle * 12 TypeHandle * 0 0 42 0 0 0 0 0 0 0 0 0 0
+
+0
+0
+0

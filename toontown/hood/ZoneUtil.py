@@ -209,7 +209,6 @@ def overrideOn(branch, exteriorList, interiorList):
 def overrideOff():
     global tutorialDict
     tutorialDict = None
-    return
 
 
 def getWakeInfo(hoodId = None, zoneId = None):

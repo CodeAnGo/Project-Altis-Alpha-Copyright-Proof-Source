@@ -1,0 +1,1720 @@
+1436948427
+2 3
+12 libp3distort 4 2YN4 10 panda3d.fx 
+65
+63 15 CylindricalLens 0 4 128 32 CylindricalLens::CylindricalLens 0 1 1 455
+////////////////////////////////////////////////////////////////////
+//     Function: CylindricalLens::Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: CylindricalLens::Copy Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+46
+inline CylindricalLens::CylindricalLens(void);
+
+64 14 get_class_type 0 4 128 31 CylindricalLens::get_class_type 0 1 2 0
+56
+static TypeHandle CylindricalLens::get_class_type(void);
+
+65 16 ~CylindricalLens 0 4 128 33 CylindricalLens::~CylindricalLens 0 0 0
+40
+CylindricalLens::~CylindricalLens(void);
+
+66 11 FisheyeLens 0 4 130 24 FisheyeLens::FisheyeLens 0 1 3 447
+////////////////////////////////////////////////////////////////////
+//     Function: FisheyeLens::Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: FisheyeLens::Copy Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+38
+inline FisheyeLens::FisheyeLens(void);
+
+67 14 get_class_type 0 4 130 27 FisheyeLens::get_class_type 0 1 4 0
+52
+static TypeHandle FisheyeLens::get_class_type(void);
+
+68 12 ~FisheyeLens 0 4 130 25 FisheyeLens::~FisheyeLens 0 0 0
+32
+FisheyeLens::~FisheyeLens(void);
+
+69 16 ProjectionScreen 0 4 131 34 ProjectionScreen::ProjectionScreen 0 1 5 465
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::Constructor
+//       Access: Published
+//  Description: 
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::Copy Constructor
+//       Access: Protected
+//  Description: 
+////////////////////////////////////////////////////////////////////
+60
+ProjectionScreen::ProjectionScreen(string const &name = "");
+
+70 13 set_projector 0 4 131 31 ProjectionScreen::set_projector 0 1 6 681
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_projector
+//       Access: Published
+//  Description: Specifies the LensNode that is to serve as the
+//               projector for this screen.  The relative position of
+//               the LensNode to the ProjectionScreen, as well as the
+//               properties of the lens associated with the LensNode,
+//               determines the UV's that will be assigned to the
+//               geometry within the ProjectionScreen.
+//
+//               The NodePath must refer to a LensNode (or a Camera).
+////////////////////////////////////////////////////////////////////
+64
+void ProjectionScreen::set_projector(NodePath const &projector);
+
+71 13 get_projector 0 4 131 31 ProjectionScreen::get_projector 0 1 7 392
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_projector
+//       Access: Published
+//  Description: Returns the NodePath to the LensNode that is to serve
+//               as the projector for this screen, or empty if no
+//               projector is associated.
+////////////////////////////////////////////////////////////////////
+67
+inline NodePath const &ProjectionScreen::get_projector(void) const;
+
+72 16 clear_undist_lut 0 4 131 34 ProjectionScreen::clear_undist_lut 0 1 8 320
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::clear_undist_lut
+//       Access: Published
+//  Description: Removes the distortion lookup table from the
+//               projector, if specified.
+////////////////////////////////////////////////////////////////////
+53
+inline void ProjectionScreen::clear_undist_lut(void);
+
+73 14 set_undist_lut 0 4 131 32 ProjectionScreen::set_undist_lut 0 1 9 625
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_undist_lut
+//       Access: Published
+//  Description: Applies a distortion lookup table to the
+//               projector.  This mapping warps the lens effect by
+//               passing each ray through an indirection table: the
+//               point (u,v) in the indicated lookup table stores the
+//               actual (u,v) that the lens produces.
+//
+//               This does not affect the operation of
+//               generate_screen().
+////////////////////////////////////////////////////////////////////
+72
+inline void ProjectionScreen::set_undist_lut(PfmFile const &undist_lut);
+
+74 14 has_undist_lut 0 4 131 32 ProjectionScreen::has_undist_lut 0 1 10 348
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::has_undist_lut
+//       Access: Published
+//  Description: Returns true if a valid distortion lookup table was
+//               provided via set_undist_lut(), false otherwise.
+////////////////////////////////////////////////////////////////////
+57
+inline bool ProjectionScreen::has_undist_lut(void) const;
+
+75 14 get_undist_lut 0 4 131 32 ProjectionScreen::get_undist_lut 0 1 11 323
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_undist_lut
+//       Access: Published
+//  Description: Returns the distortion lookup table provided via
+//               set_undist_lut(), if any.
+////////////////////////////////////////////////////////////////////
+67
+inline PfmFile const &ProjectionScreen::get_undist_lut(void) const;
+
+76 15 generate_screen 0 4 131 33 ProjectionScreen::generate_screen 0 1 12 1745
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::generate_screen
+//       Access: Published
+//  Description: Synthesizes a polygon mesh based on the projection
+//               area of the indicated projector.  This generates and
+//               returns a new GeomNode but does not automatically
+//               parent it to the ProjectionScreen node; see
+//               regenerate_screen().
+//
+//               The specified projector need not be the same as the
+//               projector given to the ProjectionScreen with
+//               set_projector() (although this is often what you
+//               want).
+//
+//               num_x_verts and num_y_verts specify the number of
+//               vertices to make in the grid across the horizontal
+//               and vertical dimension of the projector,
+//               respectively; distance represents the approximate
+//               distance of the screen from the lens center.
+//
+//               The fill_ratio parameter specifies the fraction of
+//               the image to cover.  If it is 1.0, the entire image
+//               is shown full-size; if it is 0.9, 10% of the image
+//               around the edges is not part of the grid (and the
+//               grid is drawn smaller by the same 10%).  This is
+//               intended to work around graphics drivers that tend to
+//               show dark edges or other unsatisfactory artifacts
+//               around the edges of textures: render the texture
+//               larger than necessary by a certain fraction, and make
+//               the screen smaller by the inverse fraction.
+////////////////////////////////////////////////////////////////////
+190
+PointerTo< GeomNode > ProjectionScreen::generate_screen(NodePath const &projector, string const &screen_name, int num_x_verts, int num_y_verts, PN_stdfloat distance, PN_stdfloat fill_ratio);
+
+77 17 regenerate_screen 0 4 131 35 ProjectionScreen::regenerate_screen 0 1 13 391
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::regenerate_screen
+//       Access: Published
+//  Description: Removes all the children from the ProjectionScreen
+//               node, and adds the newly generated child returned by
+//               generate_screen().
+////////////////////////////////////////////////////////////////////
+175
+void ProjectionScreen::regenerate_screen(NodePath const &projector, string const &screen_name, int num_x_verts, int num_y_verts, PN_stdfloat distance, PN_stdfloat fill_ratio);
+
+78 14 make_flat_mesh 0 4 131 32 ProjectionScreen::make_flat_mesh 0 1 14 1049
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::make_flat_mesh
+//       Access: Published
+//  Description: Generates a deep copy of the hierarchy at the
+//               ProjectionScreen node and below, with vertices
+//               flattened into two dimensions as if they were seen by
+//               the indicated camera node.
+//
+//               This is useful for rendering an image as seen through
+//               a non-linear lens.  The resulting mesh will have
+//               vertices in the range [-1, 1] in both x and y, and
+//               may be then rendered with an ordinary orthographic
+//               lens, to generate the effect of seeing the image
+//               through the specified non-linear lens.
+//
+//               The returned node has no parent; it is up to the
+//               caller to parent it somewhere or store it so that it
+//               does not get dereferenced and deleted.
+////////////////////////////////////////////////////////////////////
+105
+PointerTo< PandaNode > ProjectionScreen::make_flat_mesh(NodePath const &this_np, NodePath const &camera);
+
+79 17 set_texcoord_name 0 4 131 35 ProjectionScreen::set_texcoord_name 0 1 15 551
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_texcoord_name
+//       Access: Published
+//  Description: Specifies the name of the texture coordinates that
+//               are generated by this particular ProjectionScreen.
+//               This can be used in the presence of multitexturing to
+//               compute the UV's for just a subset of all of the
+//               active stages of the multitexture pipeline.
+////////////////////////////////////////////////////////////////////
+77
+inline void ProjectionScreen::set_texcoord_name(string const &texcoord_name);
+
+80 17 get_texcoord_name 0 4 131 35 ProjectionScreen::get_texcoord_name 0 1 16 403
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_texcoord_name
+//       Access: Published
+//  Description: Returns the name of the texture coordinates that
+//               will be generated by this particular
+//               ProjectionScreen, as set by set_texcoord_name().
+////////////////////////////////////////////////////////////////////
+62
+inline string ProjectionScreen::get_texcoord_name(void) const;
+
+81 14 set_invert_uvs 0 4 131 32 ProjectionScreen::set_invert_uvs 0 1 17 777
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_invert_uvs
+//       Access: Published
+//  Description: Some OpenGL graphics drivers are known to invert the
+//               framebuffer image when they copy it to texture.
+//               (This is arguably a problem with the OpenGL spec,
+//               which seems to be unclear about the proper ordering
+//               of pixels in this operation.)
+//
+//               In any case, set this true to compensate for this
+//               effect by inverting the UV's of the projection
+//               screen.  The default is taken from the Configrc
+//               variable project-invert-uvs.
+////////////////////////////////////////////////////////////////////
+62
+inline void ProjectionScreen::set_invert_uvs(bool invert_uvs);
+
+82 14 get_invert_uvs 0 4 131 32 ProjectionScreen::get_invert_uvs 0 1 18 387
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_invert_uvs
+//       Access: Published
+//  Description: Returns whether this screen is compensating for a
+//               graphics driver inverting the framebuffer image.  See
+//               set_invert_uvs().
+////////////////////////////////////////////////////////////////////
+57
+inline bool ProjectionScreen::get_invert_uvs(void) const;
+
+83 15 set_texcoord_3d 0 4 131 33 ProjectionScreen::set_texcoord_3d 0 1 19 617
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_texcoord_3d
+//       Access: Published
+//  Description: Set this true to force 3-D texture coordinates to be
+//               created for the geometry.  When this is true and the
+//               geometry has only 2-D texture coordinates, those
+//               texture coordinates are dumped in favor of 3-D
+//               coordinates.  When this is false, whatever texture
+//               coordinates already exist are preserved as-is.
+////////////////////////////////////////////////////////////////////
+64
+inline void ProjectionScreen::set_texcoord_3d(bool texcoord_3d);
+
+84 15 get_texcoord_3d 0 4 131 33 ProjectionScreen::get_texcoord_3d 0 1 20 255
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_texcoord_3d
+//       Access: Published
+//  Description: See set_texcoord_3d().
+////////////////////////////////////////////////////////////////////
+58
+inline bool ProjectionScreen::get_texcoord_3d(void) const;
+
+85 15 set_vignette_on 0 4 131 33 ProjectionScreen::set_vignette_on 0 1 21 811
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_vignette_on
+//       Access: Published
+//  Description: Specifies whether vertex-based vignetting should be
+//               on.  When this is enabled, vertex color will be set
+//               on the screen vertices to color the screen two
+//               distinct colors, usually white and black, for the
+//               parts of the screen in front of and outside the lens'
+//               frustum, respectively.  When this is not enabled, the
+//               screen color will be left alone.
+//
+//               This effect generally looks terrible, but it does
+//               at least make the boundaries of the lens clear.
+////////////////////////////////////////////////////////////////////
+64
+inline void ProjectionScreen::set_vignette_on(bool vignette_on);
+
+86 15 get_vignette_on 0 4 131 33 ProjectionScreen::get_vignette_on 0 1 22 337
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_vignette_on
+//       Access: Published
+//  Description: Returns true if vertex-based vignetting is on, false
+//               otherwise.  See set_vignette_on().
+////////////////////////////////////////////////////////////////////
+58
+inline bool ProjectionScreen::get_vignette_on(void) const;
+
+87 18 set_vignette_color 0 4 131 36 ProjectionScreen::set_vignette_color 0 1 23 528
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_vignette_color
+//       Access: Published
+//  Description: Specifies the color the screen will be painted at the
+//               portions outside of the lens' frustum; i.e. where the
+//               lens can't see it or illuminate it.  This color is
+//               only used if the vignette_on flag is true; see
+//               set_vignette_on().
+////////////////////////////////////////////////////////////////////
+79
+inline void ProjectionScreen::set_vignette_color(LColor const &vignette_color);
+
+88 18 get_vignette_color 0 4 131 36 ProjectionScreen::get_vignette_color 0 1 24 387
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_vignette_color
+//       Access: Published
+//  Description: Returns the color the screen will be painted at the
+//               portions outside of the lens' frustum.  See
+//               set_vignette_color().
+////////////////////////////////////////////////////////////////////
+70
+inline LColor const &ProjectionScreen::get_vignette_color(void) const;
+
+89 15 set_frame_color 0 4 131 33 ProjectionScreen::set_frame_color 0 1 25 525
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_frame_color
+//       Access: Published
+//  Description: Specifies the color the screen will be painted at the
+//               portions outside of the lens' frustum; i.e. where the
+//               lens can't see it or illuminate it.  This color is
+//               only used if the vignette_on flag is true; see
+//               set_vignette_on().
+////////////////////////////////////////////////////////////////////
+73
+inline void ProjectionScreen::set_frame_color(LColor const &frame_color);
+
+90 15 get_frame_color 0 4 131 33 ProjectionScreen::get_frame_color 0 1 26 381
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_frame_color
+//       Access: Published
+//  Description: Returns the color the screen will be painted at the
+//               portions outside of the lens' frustum.  See
+//               set_frame_color().
+////////////////////////////////////////////////////////////////////
+67
+inline LColor const &ProjectionScreen::get_frame_color(void) const;
+
+91 18 set_auto_recompute 0 4 131 36 ProjectionScreen::set_auto_recompute 0 1 27 516
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_auto_recompute
+//       Access: Published
+//  Description: Sets the auto_recompute flag.  When this is true,
+//               the ProjectionScreen will always be recomputed if
+//               necessary before the frame is drawn; when it is
+//               false, an explicit call to recompute_if_stale() may
+//               be required.
+////////////////////////////////////////////////////////////////////
+70
+inline void ProjectionScreen::set_auto_recompute(bool auto_recompute);
+
+92 18 get_auto_recompute 0 4 131 36 ProjectionScreen::get_auto_recompute 0 1 28 519
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_auto_recompute
+//       Access: Published
+//  Description: Returns the auto_recompute flag.  When this is true,
+//               the ProjectionScreen will always be recomputed if
+//               necessary before the frame is drawn; when it is
+//               false, an explicit call to recompute_if_stale() may
+//               be required.
+////////////////////////////////////////////////////////////////////
+61
+inline bool ProjectionScreen::get_auto_recompute(void) const;
+
+93 9 recompute 0 4 131 27 ProjectionScreen::recompute 0 1 29 697
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute
+//       Access: Published
+//  Description: Recomputes all the UV's for geometry below the
+//               ProjectionScreen node, as if the texture were
+//               projected from the associated projector.
+//
+//               This function is normally called automatically
+//               whenever the relevant properties change, so it should
+//               not normally need to be called directly by the user.
+//               However, it does no harm to call this if there is any
+//               doubt.
+////////////////////////////////////////////////////////////////////
+39
+void ProjectionScreen::recompute(void);
+
+94 15 get_last_screen 0 4 131 33 ProjectionScreen::get_last_screen 0 1 30 587
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_last_screen
+//       Access: Published
+//  Description: Returns an UpdateSeq corresponding to the last time a
+//               screen mesh was generated for the ProjectionScreen.
+//               Each time generate_screen() is called, this number is
+//               incremented; this allows other objects (like
+//               NonlinearImager) to know when they need to recompute
+//               themselves.
+////////////////////////////////////////////////////////////////////
+70
+inline UpdateSeq const &ProjectionScreen::get_last_screen(void) const;
+
+95 18 recompute_if_stale 0 4 131 36 ProjectionScreen::recompute_if_stale 0 2 31 32 1012
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute_if_stale
+//       Access: Published
+//  Description: Calls recompute() only if the relative transform
+//               between the ProjectionScreen and the projector has
+//               changed, or if any other relevant property has
+//               changed.  Returns true if recomputed, false
+//               otherwise.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute_if_stale
+//       Access: Published
+//  Description: Calls recompute() only if the relative transform
+//               between the ProjectionScreen and the projector has
+//               changed, or if any other relevant property has
+//               changed.  Returns true if recomputed, false
+//               otherwise.
+////////////////////////////////////////////////////////////////////
+116
+bool ProjectionScreen::recompute_if_stale(void);
+bool ProjectionScreen::recompute_if_stale(NodePath const &this_np);
+
+96 14 get_class_type 0 4 131 32 ProjectionScreen::get_class_type 0 1 33 0
+57
+static TypeHandle ProjectionScreen::get_class_type(void);
+
+97 15 NonlinearImager 0 4 133 32 NonlinearImager::NonlinearImager 0 1 34 227
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::Constructor
+//       Access: Published
+//  Description:
+////////////////////////////////////////////////////////////////////
+39
+NonlinearImager::NonlinearImager(void);
+
+98 16 ~NonlinearImager 0 4 133 33 NonlinearImager::~NonlinearImager 0 0 226
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::Destructor
+//       Access: Published
+//  Description:
+////////////////////////////////////////////////////////////////////
+40
+NonlinearImager::~NonlinearImager(void);
+
+99 10 add_screen 0 4 133 27 NonlinearImager::add_screen 0 2 35 36 1402
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_screen
+//       Access: Published
+//  Description: This version of this method is deprecated and will
+//               soon be removed.  Use the version that takes two
+//               parameters instead.
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_screen
+//       Access: Published
+//  Description: Adds a new ProjectionScreen to the list of screens
+//               that will be processed by the NonlinearImager.  Each
+//               ProjectionScreen represents a view into the world.
+//               It must be based on a linear camera (or whatever kind
+//               of camera is respected by the graphics engine).
+//
+//               Each ProjectionScreen object should already have some
+//               screen geometry created.
+//
+//               As each frame is rendered, an offscreen image will be
+//               rendered from the source camera associated with each
+//               ProjectionScreen, and the resulting image will be
+//               applied to the screen geometry.
+//
+//               The return value is the index number of the new
+//               screen.
+////////////////////////////////////////////////////////////////////
+135
+int NonlinearImager::add_screen(ProjectionScreen *screen);
+int NonlinearImager::add_screen(NodePath const &screen, string const &name);
+
+100 11 find_screen 0 4 133 28 NonlinearImager::find_screen 0 1 37 389
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::find_screen
+//       Access: Published
+//  Description: Returns the index number of the first appearance of
+//               the indicated screen within the imager's list, or -1
+//               if it does not appear.
+////////////////////////////////////////////////////////////////////
+63
+int NonlinearImager::find_screen(NodePath const &screen) const;
+
+101 13 remove_screen 0 4 133 30 NonlinearImager::remove_screen 0 1 38 314
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_screen
+//       Access: Published
+//  Description: Removes the screen with the indicated index number
+//               from the imager.
+////////////////////////////////////////////////////////////////////
+47
+void NonlinearImager::remove_screen(int index);
+
+102 18 remove_all_screens 0 4 133 35 NonlinearImager::remove_all_screens 0 1 39 271
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_all_screens
+//       Access: Published
+//  Description: Removes all screens from the imager.
+////////////////////////////////////////////////////////////////////
+47
+void NonlinearImager::remove_all_screens(void);
+
+103 15 get_num_screens 0 4 133 32 NonlinearImager::get_num_screens 0 1 40 314
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_num_screens
+//       Access: Published
+//  Description: Returns the number of screens that have been added to
+//               the imager.
+////////////////////////////////////////////////////////////////////
+49
+int NonlinearImager::get_num_screens(void) const;
+
+104 10 get_screen 0 4 133 27 NonlinearImager::get_screen 0 1 41 301
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_screen
+//       Access: Published
+//  Description: Returns the nth screen that has been added to the
+//               imager.
+////////////////////////////////////////////////////////////////////
+54
+NodePath NonlinearImager::get_screen(int index) const;
+
+105 10 get_buffer 0 4 133 27 NonlinearImager::get_buffer 0 1 42 451
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_buffer
+//       Access: Published
+//  Description: Returns the offscreen buffer that is automatically
+//               created for the nth projection screen.  This may
+//               return NULL if the screen is inactive or if it has
+//               not been rendered yet.
+////////////////////////////////////////////////////////////////////
+61
+GraphicsOutput *NonlinearImager::get_buffer(int index) const;
+
+106 16 set_texture_size 0 4 133 33 NonlinearImager::set_texture_size 0 1 43 580
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_texture_size
+//       Access: Published
+//  Description: Sets the width and height of the texture used to
+//               render the scene for the indicated screen.  This must
+//               be less than or equal to the window size, and it
+//               should be a power of two.
+//
+//               In general, the larger the texture, the greater the
+//               detail of the rendered scene.
+////////////////////////////////////////////////////////////////////
+73
+void NonlinearImager::set_texture_size(int index, int width, int height);
+
+107 17 set_source_camera 0 4 133 34 NonlinearImager::set_source_camera 0 1 44 511
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_source_camera
+//       Access: Published
+//  Description: Specifies the camera that will be used to render the
+//               image for this particular screen.
+//
+//               The parameter must be a NodePath whose node is a
+//               Camera.  The camera itself indicates the scene that
+//               is to be rendered.
+////////////////////////////////////////////////////////////////////
+82
+void NonlinearImager::set_source_camera(int index, NodePath const &source_camera);
+
+108 17 set_screen_active 0 4 133 34 NonlinearImager::set_screen_active 0 1 45 398
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_screen_active
+//       Access: Published
+//  Description: Sets the active flag on the indicated screen.  If the
+//               active flag is true, the screen will be used;
+//               otherwise, it will not appear.
+////////////////////////////////////////////////////////////////////
+64
+void NonlinearImager::set_screen_active(int index, bool active);
+
+109 17 get_screen_active 0 4 133 34 NonlinearImager::get_screen_active 0 1 46 282
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_screen_active
+//       Access: Published
+//  Description: Returns the active flag on the indicated screen.
+////////////////////////////////////////////////////////////////////
+57
+bool NonlinearImager::get_screen_active(int index) const;
+
+110 10 add_viewer 0 4 133 27 NonlinearImager::add_viewer 0 1 47 995
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_viewer
+//       Access: Published
+//  Description: Adds the indicated DisplayRegion as a viewer into the
+//               NonlinearImager room.  The camera associated with the
+//               DisplayRegion at the time add_viewer() is called is
+//               used as the initial viewer camera; it may have a
+//               nonlinear lens, like a fisheye or cylindrical lens.
+//
+//               This sets up a special scene graph for this
+//               DisplayRegion alone and sets up the DisplayRegion
+//               with a specialty camera.  If future changes to the
+//               camera are desired, you should use the
+//               set_viewer_camera() interface.
+//
+//               All viewers must share the same GraphicsEngine.
+//
+//               The return value is the index of the new viewer.
+////////////////////////////////////////////////////////////////////
+51
+int NonlinearImager::add_viewer(DisplayRegion *dr);
+
+111 11 find_viewer 0 4 133 28 NonlinearImager::find_viewer 0 1 48 371
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::find_viewer
+//       Access: Published
+//  Description: Returns the index number of the indicated
+//               DisplayRegion within the list of viewers, or -1 if it
+//               is not found.
+////////////////////////////////////////////////////////////////////
+58
+int NonlinearImager::find_viewer(DisplayRegion *dr) const;
+
+112 13 remove_viewer 0 4 133 30 NonlinearImager::remove_viewer 0 1 49 314
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_viewer
+//       Access: Published
+//  Description: Removes the viewer with the indicated index number
+//               from the imager.
+////////////////////////////////////////////////////////////////////
+47
+void NonlinearImager::remove_viewer(int index);
+
+113 18 remove_all_viewers 0 4 133 35 NonlinearImager::remove_all_viewers 0 1 50 271
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_all_viewers
+//       Access: Published
+//  Description: Removes all viewers from the imager.
+////////////////////////////////////////////////////////////////////
+47
+void NonlinearImager::remove_all_viewers(void);
+
+114 17 set_viewer_camera 0 4 133 34 NonlinearImager::set_viewer_camera 0 1 51 956
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_viewer_camera
+//       Access: Published
+//  Description: Specifies the LensNode that is to serve as the
+//               viewer for this screen.  The relative position of
+//               the LensNode to the NonlinearImager, as well as the
+//               properties of the lens associated with the LensNode,
+//               determines the UV's that will be assigned to the
+//               geometry within the NonlinearImager.
+//
+//               It is not necessary to call this except to change the
+//               camera after a viewer has been added, since the
+//               default is to use whatever camera is associated with
+//               the DisplayRegion at the time the viewer is added.
+//
+//               The NodePath must refer to a LensNode (or a Camera).
+////////////////////////////////////////////////////////////////////
+82
+void NonlinearImager::set_viewer_camera(int index, NodePath const &viewer_camera);
+
+115 17 get_viewer_camera 0 4 133 34 NonlinearImager::get_viewer_camera 0 1 52 335
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer_camera
+//       Access: Published
+//  Description: Returns the NodePath to the LensNode that is to serve
+//               as nth viewer for this screen.
+////////////////////////////////////////////////////////////////////
+61
+NodePath NonlinearImager::get_viewer_camera(int index) const;
+
+116 16 get_viewer_scene 0 4 133 33 NonlinearImager::get_viewer_scene 0 1 53 794
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer_scene
+//       Access: Published
+//  Description: Returns a pointer to the root node of the internal
+//               scene graph for the nth viewer, which is used to
+//               render all of the screen meshes for this viewer.
+//
+//               This is the scene graph in which the screen meshes
+//               within the dark room have been flattened into the
+//               appropriate transformation according to the viewer's
+//               lens properties (and position relative to the
+//               screens).  It is this scene graph that is finally
+//               rendered to the window.
+////////////////////////////////////////////////////////////////////
+60
+NodePath NonlinearImager::get_viewer_scene(int index) const;
+
+117 15 get_num_viewers 0 4 133 32 NonlinearImager::get_num_viewers 0 1 54 314
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_num_viewers
+//       Access: Published
+//  Description: Returns the number of viewers that have been added to
+//               the imager.
+////////////////////////////////////////////////////////////////////
+49
+int NonlinearImager::get_num_viewers(void) const;
+
+118 10 get_viewer 0 4 133 27 NonlinearImager::get_viewer 0 1 55 317
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer
+//       Access: Published
+//  Description: Returns the nth viewer's DisplayRegion that has been
+//               added to the imager.
+////////////////////////////////////////////////////////////////////
+60
+DisplayRegion *NonlinearImager::get_viewer(int index) const;
+
+119 13 get_dark_room 0 4 133 30 NonlinearImager::get_dark_room 0 1 56 933
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_dark_room
+//       Access: Published
+//  Description: Returns the NodePath to the root of the dark room
+//               scene.  This is the scene in which all of the
+//               ProjectionScreens and the viewer cameras reside.
+//               It's a standalone scene with a few projection screens
+//               arranged artfully around one or more viewers; it's so
+//               named because it's a little virtual theater.
+//
+//               Normally this scene is not rendered directly; it only
+//               exists as an abstract concept, and to define the
+//               relation between the ProjectionScreens and the
+//               viewers.  But it may be rendered to help visualize
+//               the NonlinearImager's behavior.
+////////////////////////////////////////////////////////////////////
+52
+NodePath NonlinearImager::get_dark_room(void) const;
+
+120 19 get_graphics_engine 0 4 133 36 NonlinearImager::get_graphics_engine 0 1 57 348
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_graphics_engine
+//       Access: Published
+//  Description: Returns the GraphicsEngine that all of the viewers
+//               added to the NonlinearImager have in common.
+////////////////////////////////////////////////////////////////////
+65
+GraphicsEngine *NonlinearImager::get_graphics_engine(void) const;
+
+121 9 recompute 0 4 133 26 NonlinearImager::recompute 0 1 58 277
+////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::recompute
+//       Access: Published
+//  Description: Forces a regeneration of all the mesh objects, etc.
+////////////////////////////////////////////////////////////////////
+38
+void NonlinearImager::recompute(void);
+
+122 11 OSphereLens 0 4 134 24 OSphereLens::OSphereLens 0 1 59 447
+////////////////////////////////////////////////////////////////////
+//     Function: OSphereLens::Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: OSphereLens::Copy Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+38
+inline OSphereLens::OSphereLens(void);
+
+123 14 get_class_type 0 4 134 27 OSphereLens::get_class_type 0 1 60 0
+52
+static TypeHandle OSphereLens::get_class_type(void);
+
+124 12 ~OSphereLens 0 4 134 25 OSphereLens::~OSphereLens 0 0 0
+32
+OSphereLens::~OSphereLens(void);
+
+125 11 PSphereLens 0 4 135 24 PSphereLens::PSphereLens 0 1 61 447
+////////////////////////////////////////////////////////////////////
+//     Function: PSphereLens::Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//     Function: PSphereLens::Copy Constructor
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+38
+inline PSphereLens::PSphereLens(void);
+
+126 14 get_class_type 0 4 135 27 PSphereLens::get_class_type 0 1 62 0
+52
+static TypeHandle PSphereLens::get_class_type(void);
+
+127 12 ~PSphereLens 0 4 135 25 PSphereLens::~PSphereLens 0 0 0
+32
+PSphereLens::~PSphereLens(void);
+
+62
+1 0 0 7 3 136 65 0 224 ////////////////////////////////////////////////////////////////////
+//     Function: CylindricalLens::Constructor
+//       Access: Public
+//  Description:
+//////////////////////////////////////////////////////////////////// 0 
+2 0 0 7 4 138 0 0 0 0 
+3 0 0 7 7 139 68 0 220 ////////////////////////////////////////////////////////////////////
+//     Function: FisheyeLens::Constructor
+//       Access: Public
+//  Description:
+//////////////////////////////////////////////////////////////////// 0 
+4 0 0 7 8 138 0 0 0 0 
+5 0 0 7 12 141 0 0 229 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::Constructor
+//       Access: Published
+//  Description: 
+//////////////////////////////////////////////////////////////////// 1 4 name 1 140  
+6 0 0 4 13 145 0 0 681 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_projector
+//       Access: Published
+//  Description: Specifies the LensNode that is to serve as the
+//               projector for this screen.  The relative position of
+//               the LensNode to the ProjectionScreen, as well as the
+//               properties of the lens associated with the LensNode,
+//               determines the UV's that will be assigned to the
+//               geometry within the ProjectionScreen.
+//
+//               The NodePath must refer to a LensNode (or a Camera).
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  9 projector 1 142  
+7 0 0 6 14 142 0 0 392 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_projector
+//       Access: Published
+//  Description: Returns the NodePath to the LensNode that is to serve
+//               as the projector for this screen, or empty if no
+//               projector is associated.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+8 0 0 4 15 145 0 0 320 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::clear_undist_lut
+//       Access: Published
+//  Description: Removes the distortion lookup table from the
+//               projector, if specified.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 141  
+9 0 0 4 16 145 0 0 625 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_undist_lut
+//       Access: Published
+//  Description: Applies a distortion lookup table to the
+//               projector.  This mapping warps the lens effect by
+//               passing each ray through an indirection table: the
+//               point (u,v) in the indicated lookup table stores the
+//               actual (u,v) that the lens produces.
+//
+//               This does not affect the operation of
+//               generate_screen().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  10 undist_lut 1 148  
+10 0 0 6 17 151 0 0 348 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::has_undist_lut
+//       Access: Published
+//  Description: Returns true if a valid distortion lookup table was
+//               provided via set_undist_lut(), false otherwise.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+11 0 0 6 18 148 0 0 323 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_undist_lut
+//       Access: Published
+//  Description: Returns the distortion lookup table provided via
+//               set_undist_lut(), if any.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+12 0 0 7 19 156 0 0 1745 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::generate_screen
+//       Access: Published
+//  Description: Synthesizes a polygon mesh based on the projection
+//               area of the indicated projector.  This generates and
+//               returns a new GeomNode but does not automatically
+//               parent it to the ProjectionScreen node; see
+//               regenerate_screen().
+//
+//               The specified projector need not be the same as the
+//               projector given to the ProjectionScreen with
+//               set_projector() (although this is often what you
+//               want).
+//
+//               num_x_verts and num_y_verts specify the number of
+//               vertices to make in the grid across the horizontal
+//               and vertical dimension of the projector,
+//               respectively; distance represents the approximate
+//               distance of the screen from the lens center.
+//
+//               The fill_ratio parameter specifies the fraction of
+//               the image to cover.  If it is 1.0, the entire image
+//               is shown full-size; if it is 0.9, 10% of the image
+//               around the edges is not part of the grid (and the
+//               grid is drawn smaller by the same 10%).  This is
+//               intended to work around graphics drivers that tend to
+//               show dark edges or other unsatisfactory artifacts
+//               around the edges of textures: render the texture
+//               larger than necessary by a certain fraction, and make
+//               the screen smaller by the inverse fraction.
+//////////////////////////////////////////////////////////////////// 7 4 this 3 141  9 projector 1 142  11 screen_name 1 140  11 num_x_verts 1 153  11 num_y_verts 1 153  8 distance 1 154  10 fill_ratio 1 154  
+13 0 0 4 20 145 0 0 391 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::regenerate_screen
+//       Access: Published
+//  Description: Removes all the children from the ProjectionScreen
+//               node, and adds the newly generated child returned by
+//               generate_screen().
+//////////////////////////////////////////////////////////////////// 7 4 this 3 141  9 projector 1 142  11 screen_name 1 140  11 num_x_verts 1 153  11 num_y_verts 1 153  8 distance 1 154  10 fill_ratio 1 154  
+14 0 0 7 21 157 0 0 1049 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::make_flat_mesh
+//       Access: Published
+//  Description: Generates a deep copy of the hierarchy at the
+//               ProjectionScreen node and below, with vertices
+//               flattened into two dimensions as if they were seen by
+//               the indicated camera node.
+//
+//               This is useful for rendering an image as seen through
+//               a non-linear lens.  The resulting mesh will have
+//               vertices in the range [-1, 1] in both x and y, and
+//               may be then rendered with an ordinary orthographic
+//               lens, to generate the effect of seeing the image
+//               through the specified non-linear lens.
+//
+//               The returned node has no parent; it is up to the
+//               caller to parent it somewhere or store it so that it
+//               does not get dereferenced and deleted.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 141  7 this_np 1 142  6 camera 1 142  
+15 0 0 4 22 145 0 0 551 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_texcoord_name
+//       Access: Published
+//  Description: Specifies the name of the texture coordinates that
+//               are generated by this particular ProjectionScreen.
+//               This can be used in the presence of multitexturing to
+//               compute the UV's for just a subset of all of the
+//               active stages of the multitexture pipeline.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  13 texcoord_name 1 140  
+16 0 0 6 23 140 0 0 403 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_texcoord_name
+//       Access: Published
+//  Description: Returns the name of the texture coordinates that
+//               will be generated by this particular
+//               ProjectionScreen, as set by set_texcoord_name().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+17 0 0 4 24 145 0 0 777 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_invert_uvs
+//       Access: Published
+//  Description: Some OpenGL graphics drivers are known to invert the
+//               framebuffer image when they copy it to texture.
+//               (This is arguably a problem with the OpenGL spec,
+//               which seems to be unclear about the proper ordering
+//               of pixels in this operation.)
+//
+//               In any case, set this true to compensate for this
+//               effect by inverting the UV's of the projection
+//               screen.  The default is taken from the Configrc
+//               variable project-invert-uvs.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  10 invert_uvs 1 151  
+18 0 0 6 25 151 0 0 387 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_invert_uvs
+//       Access: Published
+//  Description: Returns whether this screen is compensating for a
+//               graphics driver inverting the framebuffer image.  See
+//               set_invert_uvs().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+19 0 0 4 26 145 0 0 617 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_texcoord_3d
+//       Access: Published
+//  Description: Set this true to force 3-D texture coordinates to be
+//               created for the geometry.  When this is true and the
+//               geometry has only 2-D texture coordinates, those
+//               texture coordinates are dumped in favor of 3-D
+//               coordinates.  When this is false, whatever texture
+//               coordinates already exist are preserved as-is.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  11 texcoord_3d 1 151  
+20 0 0 6 27 151 0 0 255 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_texcoord_3d
+//       Access: Published
+//  Description: See set_texcoord_3d().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+21 0 0 4 28 145 0 0 811 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_vignette_on
+//       Access: Published
+//  Description: Specifies whether vertex-based vignetting should be
+//               on.  When this is enabled, vertex color will be set
+//               on the screen vertices to color the screen two
+//               distinct colors, usually white and black, for the
+//               parts of the screen in front of and outside the lens'
+//               frustum, respectively.  When this is not enabled, the
+//               screen color will be left alone.
+//
+//               This effect generally looks terrible, but it does
+//               at least make the boundaries of the lens clear.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  11 vignette_on 1 151  
+22 0 0 6 29 151 0 0 337 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_vignette_on
+//       Access: Published
+//  Description: Returns true if vertex-based vignetting is on, false
+//               otherwise.  See set_vignette_on().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+23 0 0 4 30 145 0 0 528 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_vignette_color
+//       Access: Published
+//  Description: Specifies the color the screen will be painted at the
+//               portions outside of the lens' frustum; i.e. where the
+//               lens can't see it or illuminate it.  This color is
+//               only used if the vignette_on flag is true; see
+//               set_vignette_on().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  14 vignette_color 1 158  
+24 0 0 6 31 158 0 0 387 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_vignette_color
+//       Access: Published
+//  Description: Returns the color the screen will be painted at the
+//               portions outside of the lens' frustum.  See
+//               set_vignette_color().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+25 0 0 4 32 145 0 0 525 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_frame_color
+//       Access: Published
+//  Description: Specifies the color the screen will be painted at the
+//               portions outside of the lens' frustum; i.e. where the
+//               lens can't see it or illuminate it.  This color is
+//               only used if the vignette_on flag is true; see
+//               set_vignette_on().
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  11 frame_color 1 158  
+26 0 0 6 33 158 0 0 381 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_frame_color
+//       Access: Published
+//  Description: Returns the color the screen will be painted at the
+//               portions outside of the lens' frustum.  See
+//               set_frame_color().
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+27 0 0 4 34 145 0 0 516 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_auto_recompute
+//       Access: Published
+//  Description: Sets the auto_recompute flag.  When this is true,
+//               the ProjectionScreen will always be recomputed if
+//               necessary before the frame is drawn; when it is
+//               false, an explicit call to recompute_if_stale() may
+//               be required.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  14 auto_recompute 1 151  
+28 0 0 6 35 151 0 0 519 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::set_auto_recompute
+//       Access: Published
+//  Description: Returns the auto_recompute flag.  When this is true,
+//               the ProjectionScreen will always be recomputed if
+//               necessary before the frame is drawn; when it is
+//               false, an explicit call to recompute_if_stale() may
+//               be required.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+29 0 0 4 36 145 0 0 697 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute
+//       Access: Published
+//  Description: Recomputes all the UV's for geometry below the
+//               ProjectionScreen node, as if the texture were
+//               projected from the associated projector.
+//
+//               This function is normally called automatically
+//               whenever the relevant properties change, so it should
+//               not normally need to be called directly by the user.
+//               However, it does no harm to call this if there is any
+//               doubt.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 141  
+30 0 0 6 37 163 0 0 587 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::get_last_screen
+//       Access: Published
+//  Description: Returns an UpdateSeq corresponding to the last time a
+//               screen mesh was generated for the ProjectionScreen.
+//               Each time generate_screen() is called, this number is
+//               incremented; this allows other objects (like
+//               NonlinearImager) to know when they need to recompute
+//               themselves.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 146  
+31 0 0 6 38 151 0 0 505 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute_if_stale
+//       Access: Published
+//  Description: Calls recompute() only if the relative transform
+//               between the ProjectionScreen and the projector has
+//               changed, or if any other relevant property has
+//               changed.  Returns true if recomputed, false
+//               otherwise.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 141  
+32 0 0 6 38 151 0 0 505 ////////////////////////////////////////////////////////////////////
+//     Function: ProjectionScreen::recompute_if_stale
+//       Access: Published
+//  Description: Calls recompute() only if the relative transform
+//               between the ProjectionScreen and the projector has
+//               changed, or if any other relevant property has
+//               changed.  Returns true if recomputed, false
+//               otherwise.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 141  7 this_np 1 142  
+33 0 0 7 39 138 0 0 0 0 
+34 0 0 7 41 166 98 0 227 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::Constructor
+//       Access: Published
+//  Description:
+//////////////////////////////////////////////////////////////////// 0 
+35 0 0 6 43 153 0 0 1020 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_screen
+//       Access: Published
+//  Description: Adds a new ProjectionScreen to the list of screens
+//               that will be processed by the NonlinearImager.  Each
+//               ProjectionScreen represents a view into the world.
+//               It must be based on a linear camera (or whatever kind
+//               of camera is respected by the graphics engine).
+//
+//               Each ProjectionScreen object should already have some
+//               screen geometry created.
+//
+//               As each frame is rendered, an offscreen image will be
+//               rendered from the source camera associated with each
+//               ProjectionScreen, and the resulting image will be
+//               applied to the screen geometry.
+//
+//               The return value is the index number of the new
+//               screen.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 166  6 screen 1 142  4 name 1 140  
+36 0 0 6 43 153 0 0 380 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_screen
+//       Access: Published
+//  Description: This version of this method is deprecated and will
+//               soon be removed.  Use the version that takes two
+//               parameters instead.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 166  6 screen 1 141  
+37 0 0 6 44 153 0 0 389 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::find_screen
+//       Access: Published
+//  Description: Returns the index number of the first appearance of
+//               the indicated screen within the imager's list, or -1
+//               if it does not appear.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  6 screen 1 142  
+38 0 0 4 45 145 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_screen
+//       Access: Published
+//  Description: Removes the screen with the indicated index number
+//               from the imager.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 166  5 index 1 153  
+39 0 0 4 46 145 0 0 271 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_all_screens
+//       Access: Published
+//  Description: Removes all screens from the imager.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 166  
+40 0 0 6 47 153 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_num_screens
+//       Access: Published
+//  Description: Returns the number of screens that have been added to
+//               the imager.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 167  
+41 0 0 7 48 169 0 0 301 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_screen
+//       Access: Published
+//  Description: Returns the nth screen that has been added to the
+//               imager.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+42 0 0 7 49 171 0 0 451 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_buffer
+//       Access: Published
+//  Description: Returns the offscreen buffer that is automatically
+//               created for the nth projection screen.  This may
+//               return NULL if the screen is inactive or if it has
+//               not been rendered yet.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+43 0 0 4 50 145 0 0 580 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_texture_size
+//       Access: Published
+//  Description: Sets the width and height of the texture used to
+//               render the scene for the indicated screen.  This must
+//               be less than or equal to the window size, and it
+//               should be a power of two.
+//
+//               In general, the larger the texture, the greater the
+//               detail of the rendered scene.
+//////////////////////////////////////////////////////////////////// 4 4 this 3 166  5 index 1 153  5 width 1 153  6 height 1 153  
+44 0 0 4 51 145 0 0 511 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_source_camera
+//       Access: Published
+//  Description: Specifies the camera that will be used to render the
+//               image for this particular screen.
+//
+//               The parameter must be a NodePath whose node is a
+//               Camera.  The camera itself indicates the scene that
+//               is to be rendered.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 166  5 index 1 153  13 source_camera 1 142  
+45 0 0 4 52 145 0 0 398 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_screen_active
+//       Access: Published
+//  Description: Sets the active flag on the indicated screen.  If the
+//               active flag is true, the screen will be used;
+//               otherwise, it will not appear.
+//////////////////////////////////////////////////////////////////// 3 4 this 3 166  5 index 1 153  6 active 1 151  
+46 0 0 6 53 151 0 0 282 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_screen_active
+//       Access: Published
+//  Description: Returns the active flag on the indicated screen.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+47 0 0 6 54 153 0 0 995 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::add_viewer
+//       Access: Published
+//  Description: Adds the indicated DisplayRegion as a viewer into the
+//               NonlinearImager room.  The camera associated with the
+//               DisplayRegion at the time add_viewer() is called is
+//               used as the initial viewer camera; it may have a
+//               nonlinear lens, like a fisheye or cylindrical lens.
+//
+//               This sets up a special scene graph for this
+//               DisplayRegion alone and sets up the DisplayRegion
+//               with a specialty camera.  If future changes to the
+//               camera are desired, you should use the
+//               set_viewer_camera() interface.
+//
+//               All viewers must share the same GraphicsEngine.
+//
+//               The return value is the index of the new viewer.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 166  2 dr 1 172  
+48 0 0 6 55 153 0 0 371 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::find_viewer
+//       Access: Published
+//  Description: Returns the index number of the indicated
+//               DisplayRegion within the list of viewers, or -1 if it
+//               is not found.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  2 dr 1 172  
+49 0 0 4 56 145 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_viewer
+//       Access: Published
+//  Description: Removes the viewer with the indicated index number
+//               from the imager.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 166  5 index 1 153  
+50 0 0 4 57 145 0 0 271 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::remove_all_viewers
+//       Access: Published
+//  Description: Removes all viewers from the imager.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 166  
+51 0 0 4 58 145 0 0 956 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::set_viewer_camera
+//       Access: Published
+//  Description: Specifies the LensNode that is to serve as the
+//               viewer for this screen.  The relative position of
+//               the LensNode to the NonlinearImager, as well as the
+//               properties of the lens associated with the LensNode,
+//               determines the UV's that will be assigned to the
+//               geometry within the NonlinearImager.
+//
+//               It is not necessary to call this except to change the
+//               camera after a viewer has been added, since the
+//               default is to use whatever camera is associated with
+//               the DisplayRegion at the time the viewer is added.
+//
+//               The NodePath must refer to a LensNode (or a Camera).
+//////////////////////////////////////////////////////////////////// 3 4 this 3 166  5 index 1 153  13 viewer_camera 1 142  
+52 0 0 7 59 169 0 0 335 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer_camera
+//       Access: Published
+//  Description: Returns the NodePath to the LensNode that is to serve
+//               as nth viewer for this screen.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+53 0 0 7 60 169 0 0 794 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer_scene
+//       Access: Published
+//  Description: Returns a pointer to the root node of the internal
+//               scene graph for the nth viewer, which is used to
+//               render all of the screen meshes for this viewer.
+//
+//               This is the scene graph in which the screen meshes
+//               within the dark room have been flattened into the
+//               appropriate transformation according to the viewer's
+//               lens properties (and position relative to the
+//               screens).  It is this scene graph that is finally
+//               rendered to the window.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+54 0 0 6 61 153 0 0 314 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_num_viewers
+//       Access: Published
+//  Description: Returns the number of viewers that have been added to
+//               the imager.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 167  
+55 0 0 7 62 172 0 0 317 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_viewer
+//       Access: Published
+//  Description: Returns the nth viewer's DisplayRegion that has been
+//               added to the imager.
+//////////////////////////////////////////////////////////////////// 2 4 this 3 167  5 index 1 153  
+56 0 0 7 63 169 0 0 933 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_dark_room
+//       Access: Published
+//  Description: Returns the NodePath to the root of the dark room
+//               scene.  This is the scene in which all of the
+//               ProjectionScreens and the viewer cameras reside.
+//               It's a standalone scene with a few projection screens
+//               arranged artfully around one or more viewers; it's so
+//               named because it's a little virtual theater.
+//
+//               Normally this scene is not rendered directly; it only
+//               exists as an abstract concept, and to define the
+//               relation between the ProjectionScreens and the
+//               viewers.  But it may be rendered to help visualize
+//               the NonlinearImager's behavior.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 167  
+57 0 0 7 64 175 0 0 348 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::get_graphics_engine
+//       Access: Published
+//  Description: Returns the GraphicsEngine that all of the viewers
+//               added to the NonlinearImager have in common.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 167  
+58 0 0 4 65 145 0 0 277 ////////////////////////////////////////////////////////////////////
+//     Function: NonlinearImager::recompute
+//       Access: Published
+//  Description: Forces a regeneration of all the mesh objects, etc.
+//////////////////////////////////////////////////////////////////// 1 4 this 3 166  
+59 0 0 7 67 176 124 0 220 ////////////////////////////////////////////////////////////////////
+//     Function: OSphereLens::Constructor
+//       Access: Public
+//  Description:
+//////////////////////////////////////////////////////////////////// 0 
+60 0 0 7 68 138 0 0 0 0 
+61 0 0 7 71 177 127 0 220 ////////////////////////////////////////////////////////////////////
+//     Function: PSphereLens::Constructor
+//       Access: Public
+//  Description:
+//////////////////////////////////////////////////////////////////// 0 
+62 0 0 7 72 138 0 0 0 0 
+50
+128 15 CylindricalLens 0 141313 15 CylindricalLens 15 CylindricalLens 0 0 0 1 63 65 0 1 64 0 0 1 0 129 0 0 0 0 1051
+////////////////////////////////////////////////////////////////////
+//       Class : CylindricalLens
+// Description : A cylindrical lens.  This is the kind of lens
+//               generally used for extremely wide panoramic shots.
+//               It behaves like a normal perspective lens in the
+//               vertical direction, but it is non-linear in the
+//               horizontal dimension: a point on the film corresponds
+//               to a point in space in linear proportion to its angle
+//               to the camera, not to its straight-line distance from
+//               the center.
+//
+//               This allows up to 360 degree lenses in the horizontal
+//               dimension, with relatively little distortion.  The
+//               distortion is not very apparent between two
+//               relatively nearby points on the film, but it becomes
+//               increasingly evident as you compare points widely
+//               spaced on the film.
+////////////////////////////////////////////////////////////////////
+
+129 4 Lens 0 2049 4 Lens 4 Lens 0 0 0 0 0 0 0 0 0 0 0 0 668
+////////////////////////////////////////////////////////////////////
+//       Class : Lens
+// Description : A base class for any number of different kinds of
+//               lenses, linear and otherwise.  Presently, this
+//               includes perspective and orthographic lenses.
+//
+//               A Lens object is the main part of a Camera node,
+//               which defines the fundamental interface to
+//               point-of-view for rendering.  Lenses are also used in
+//               other contexts, however; for instance, a Spotlight is
+//               also defined using a lens.
+////////////////////////////////////////////////////////////////////
+
+130 11 FisheyeLens 0 141313 11 FisheyeLens 11 FisheyeLens 0 0 0 1 66 68 0 1 67 0 0 1 0 129 0 0 0 0 476
+////////////////////////////////////////////////////////////////////
+//       Class : FisheyeLens
+// Description : A fisheye lens.  This nonlinear lens introduces a
+//               spherical distortion to the image, which is minimal
+//               at small angles from the lens, and increases at
+//               larger angles from the lens.  The field of view may
+//               extend to 360 degrees.
+////////////////////////////////////////////////////////////////////
+
+131 16 ProjectionScreen 0 75777 16 ProjectionScreen 16 ProjectionScreen 0 0 0 1 69 0 0 27 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 0 0 1 0 132 0 0 0 0 1378
+////////////////////////////////////////////////////////////////////
+//       Class : ProjectionScreen
+// Description : A ProjectionScreen implements a simple system for
+//               projective texturing.  The ProjectionScreen node is
+//               the parent of a hierarchy of geometry that is
+//               considered a "screen"; the ProjectionScreen will
+//               automatically recompute all the UV's (for a
+//               particular texture stage) on its subordinate geometry
+//               according to the relative position and lens
+//               parameters of the indicated LensNode.
+//
+//               All this does is recompute UV's; the caller is
+//               responsible for applying the appropriate texture(s)
+//               to the geometry.
+//
+//               This does not take advantage of any hardware-assisted
+//               projective texturing; all of the UV's are computed in
+//               the CPU.  (Use NodePath::project_texture() to enable
+//               hardware-assisted projective texturing.)  However,
+//               the ProjectionScreen interface does support any kind
+//               of lens, linear or nonlinear, that might be defined
+//               using the Lens interface, including fisheye and
+//               cylindrical lenses.
+////////////////////////////////////////////////////////////////////
+
+132 9 PandaNode 0 2049 9 PandaNode 9 PandaNode 0 0 0 0 0 0 0 3 178 179 180 0 0 0 0 374
+////////////////////////////////////////////////////////////////////
+//       Class : PandaNode
+// Description : A basic node of the scene graph or data graph.  This
+//               is the base class of all specialized nodes, and also
+//               serves as a generic node with no special properties.
+////////////////////////////////////////////////////////////////////
+
+133 15 NonlinearImager 0 26625 15 NonlinearImager 15 NonlinearImager 0 0 0 1 97 98 0 23 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 3 181 182 183 0 0 0 0 3171
+////////////////////////////////////////////////////////////////////
+//       Class : NonlinearImager
+// Description : This class object combines the rendered output of a
+//               3-d from one or more linear (e.g. perspective)
+//               cameras, as seen through a single, possibly nonlinear
+//               camera.
+//
+//               This can be used to generate real-time imagery of a
+//               3-d scene using a nonlinear camera, for instance a
+//               fisheye camera, even though the underlying graphics
+//               engine may only support linear cameras.  It can also
+//               pre-distort imagery to compensate for off-axis
+//               projectors, and/or curved screens of any complexity.
+//
+//               
+//               A NonlinearImager may be visualized as a dark room
+//               into which a number of projection screens have been
+//               placed, of arbitrary size and shape and at any
+//               arbitrary position and orientation to each other.
+//               Onto each of these screens is projected the view as
+//               seen by a normal perspective camera that exists in
+//               the world (that is, under render).
+//
+//               There also exist in the room one or more (possibly
+//               nonlinear) cameras, called viewers, that observe
+//               these screens.  The image of the projection screens
+//               seen by each viewer is finally displayed on the
+//               viewer's associated DisplayRegion.  By placing the
+//               viewer(s) appropriately relative to the screens, and
+//               by choosing suitable lens properties for the
+//               viewer(s), you can achieve a wide variety of
+//               distortion effects.
+//
+//
+//               There are several different LensNode (Camera) objects
+//               involved at each stage in the process.  To help keep
+//               them all straight, different words are used to refer
+//               to each different kind of Camera used within this
+//               object.  The camera(s) under render, that capture the
+//               original view of the world to be projected onto the
+//               screens, are called source cameras, and are set per
+//               screen via set_source_camera().  The LensNode that is
+//               associated with each screen to project the image as
+//               seen from the screen's source camera is called a
+//               projector; these are set via the
+//               ProjectionScreen::set_projector() interface.
+//               Finally, the cameras that view the whole
+//               configuration of screens are called viewers; each of
+//               these is associated with a DisplayRegion, and they
+//               are set via set_viewer_camera().
+//
+//               Of all these lenses, only the source cameras must use
+//               linear (that is, perspective or orthographic) lenses.
+//               The projectors and viewers may be any arbitrary lens,
+//               linear or otherwise.
+////////////////////////////////////////////////////////////////////
+
+134 11 OSphereLens 0 141313 11 OSphereLens 11 OSphereLens 0 0 0 1 122 124 0 1 123 0 0 1 0 129 0 0 0 0 651
+////////////////////////////////////////////////////////////////////
+//       Class : OSphereLens
+// Description : A OSphereLens is a special nonlinear lens that
+//               doesn't correspond to any real physical lenses.  It's
+//               primarily useful for generating 360-degree wraparound
+//               images while avoiding the distortion associated with
+//               fisheye images.
+//
+//               A OSphereLens is similar to a Cylindrical lens and
+//               PSphereLens, except that it is orthographic in the
+//               vertical direction.
+////////////////////////////////////////////////////////////////////
+
+135 11 PSphereLens 0 141313 11 PSphereLens 11 PSphereLens 0 0 0 1 125 127 0 1 126 0 0 1 0 129 0 0 0 0 938
+////////////////////////////////////////////////////////////////////
+//       Class : PSphereLens
+// Description : A PSphereLens is a special nonlinear lens that
+//               doesn't correspond to any real physical lenses.  It's
+//               primarily useful for generating 360-degree wraparound
+//               images while avoiding the distortion associated with
+//               fisheye images.
+//
+//               A PSphereLens is similar to a cylindrical lens,
+//               except it is also curved in the vertical direction.
+//               This allows it to extend to both poles in the
+//               vertical direction.  The mapping is similar to what
+//               many modeling packages call a sphere mapping: the x
+//               coordinate is proportional to azimuth, while the y
+//               coordinate is proportional to altitude.
+////////////////////////////////////////////////////////////////////
+
+136 17 CylindricalLens * 0 8576 17 CylindricalLens * 17 CylindricalLens * 0 0 128 0 0 0 0 0 0 0 0 0 0
+
+137 10 TypeHandle 0 2048 10 TypeHandle 10 TypeHandle 0 0 0 0 0 0 0 0 0 0 0 0 1098
+////////////////////////////////////////////////////////////////////
+//       Class : TypeHandle
+// Description : TypeHandle is the identifier used to differentiate
+//               C++ class types.  Any C++ classes that inherit from
+//               some base class, and must be differentiated at run
+//               time, should store a static TypeHandle object that
+//               can be queried through a static member function
+//               named get_class_type().  Most of the time, it is also
+//               desirable to inherit from TypedObject, which provides
+//               some virtual functions to return the TypeHandle for a
+//               particular instance.
+//
+//               At its essence, a TypeHandle is simply a unique
+//               identifier that is assigned by the TypeRegistry.  The
+//               TypeRegistry stores a tree of TypeHandles, so that
+//               ancestry of a particular type may be queried, and the
+//               type name may be retrieved for run-time display.
+////////////////////////////////////////////////////////////////////
+
+138 12 TypeHandle * 0 8576 12 TypeHandle * 12 TypeHandle * 0 0 137 0 0 0 0 0 0 0 0 0 0
+
+139 13 FisheyeLens * 0 8576 13 FisheyeLens * 13 FisheyeLens * 0 0 130 0 0 0 0 0 0 0 0 0 0
+
+140 13 atomic string 0 2 13 atomic string 13 atomic string 0 7 0 0 0 0 0 0 0 0 0 0 0
+
+141 18 ProjectionScreen * 0 8576 18 ProjectionScreen * 18 ProjectionScreen * 0 0 131 0 0 0 0 0 0 0 0 0 0
+
+142 16 NodePath const * 0 8576 16 NodePath const * 16 NodePath const * 0 0 143 0 0 0 0 0 0 0 0 0 0
+
+143 14 NodePath const 0 8832 14 NodePath const 14 NodePath const 0 0 144 0 0 0 0 0 0 0 0 0 0
+
+144 8 NodePath 0 2048 8 NodePath 8 NodePath 0 0 0 0 0 0 0 2 184 185 0 0 0 0 1139
+////////////////////////////////////////////////////////////////////
+//       Class : NodePath
+// Description : NodePath is the fundamental system for disambiguating
+//               instances, and also provides a higher-level interface
+//               for manipulating the scene graph.
+//
+//               A NodePath is a list of connected nodes from the root
+//               of the graph to any sub-node.  Each NodePath
+//               therefore uniquely describes one instance of a node.
+//
+//               NodePaths themselves are lightweight objects that may
+//               easily be copied and passed by value.  Their data is
+//               stored as a series of NodePathComponents that are
+//               stored on the nodes.  Holding a NodePath will keep a
+//               reference count to all the nodes in the path.
+//               However, if any node in the path is removed or
+//               reparented (perhaps through a different NodePath),
+//               the NodePath will automatically be updated to reflect
+//               the changes.
+////////////////////////////////////////////////////////////////////
+
+145 4 void 0 8194 4 void 4 void 0 6 0 0 0 0 0 0 0 0 0 0 0
+
+146 24 ProjectionScreen const * 0 8576 24 ProjectionScreen const * 24 ProjectionScreen const * 0 0 147 0 0 0 0 0 0 0 0 0 0
+
+147 22 ProjectionScreen const 0 8832 22 ProjectionScreen const 22 ProjectionScreen const 0 0 131 0 0 0 0 0 0 0 0 0 0
+
+148 15 PfmFile const * 0 8576 15 PfmFile const * 15 PfmFile const * 0 0 149 0 0 0 0 0 0 0 0 0 0
+
+149 13 PfmFile const 0 8832 13 PfmFile const 13 PfmFile const 0 0 150 0 0 0 0 0 0 0 0 0 0
+
+150 7 PfmFile 0 2048 7 PfmFile 7 PfmFile 0 0 0 0 0 0 0 0 0 0 0 0 355
+////////////////////////////////////////////////////////////////////
+//       Class : PfmFile
+// Description : Defines a pfm file, a 2-d table of floating-point
+//               numbers, either 3-component or 1-component, or with a
+//               special extension, 2- or 4-component.
+////////////////////////////////////////////////////////////////////
+
+151 4 bool 0 8194 4 bool 4 bool 0 4 0 0 0 0 0 0 0 0 0 0 0
+
+152 8 GeomNode 0 2048 8 GeomNode 8 GeomNode 0 0 0 0 0 0 0 3 186 187 188 0 0 0 0 423
+////////////////////////////////////////////////////////////////////
+//       Class : GeomNode
+// Description : A node that holds Geom objects, renderable pieces of
+//               geometry.  This is the primary kind of leaf node in
+//               the scene graph; almost all visible objects will be
+//               contained in a GeomNode somewhere.
+////////////////////////////////////////////////////////////////////
+
+153 3 int 0 8194 3 int 3 int 0 1 0 0 0 0 0 0 0 0 0 0 0
+
+154 11 PN_stdfloat 0 2105344 11 PN_stdfloat 11 PN_stdfloat 0 0 155 0 0 0 0 0 0 0 0 0 0
+
+155 5 float 0 8194 5 float 5 float 0 2 0 0 0 0 0 0 0 0 0 0 0
+
+156 10 GeomNode * 0 8576 10 GeomNode * 10 GeomNode * 0 0 152 0 0 0 0 0 0 0 0 0 0
+
+157 11 PandaNode * 0 8576 11 PandaNode * 11 PandaNode * 0 0 132 0 0 0 0 0 0 0 0 0 0
+
+158 14 LColor const * 0 8576 14 LColor const * 14 LColor const * 0 0 159 0 0 0 0 0 0 0 0 0 0
+
+159 12 LColor const 0 8832 12 LColor const 12 LColor const 0 0 160 0 0 0 0 0 0 0 0 0 0
+
+160 6 LColor 0 2105344 6 LColor 6 LColor 0 0 161 0 0 0 0 0 0 0 0 0 0
+
+161 7 LColorf 0 2105344 7 LColorf 7 LColorf 0 0 162 0 0 0 0 0 0 0 0 0 0
+
+162 10 LVecBase4f 0 2048 10 LVecBase4f 10 LVecBase4f 0 0 0 0 0 0 0 0 0 0 0 0 265
+////////////////////////////////////////////////////////////////////
+//       Class : LVecBase4
+// Description : This is the base class for all three-component
+//               vectors and points.
+////////////////////////////////////////////////////////////////////
+
+163 17 UpdateSeq const * 0 8576 17 UpdateSeq const * 17 UpdateSeq const * 0 0 164 0 0 0 0 0 0 0 0 0 0
+
+164 15 UpdateSeq const 0 8832 15 UpdateSeq const 15 UpdateSeq const 0 0 165 0 0 0 0 0 0 0 0 0 0
+
+165 9 UpdateSeq 0 2048 9 UpdateSeq 9 UpdateSeq 0 0 0 0 0 0 0 0 0 0 0 0 1140
+////////////////////////////////////////////////////////////////////
+//       Class : UpdateSeq
+// Description : This is a sequence number that increments
+//               monotonically.  It can be used to track cache
+//               updates, or serve as a kind of timestamp for any
+//               changing properties.
+//
+//               A special class is used instead of simply an int, so
+//               we can elegantly handle such things as wraparound and
+//               special cases.  There are two special cases.
+//               Firstly, a sequence number is 'initial' when it is
+//               first created.  This sequence is older than any other
+//               sequence number.  Secondly, a sequence number may be
+//               explicitly set to 'old'.  This is older than any
+//               other sequence number except 'initial'.  Finally, we
+//               have the explicit number 'fresh', which is newer
+//               than any other sequence number.  All other sequences
+//               are numeric and are monotonically increasing.
+////////////////////////////////////////////////////////////////////
+
+166 17 NonlinearImager * 0 8576 17 NonlinearImager * 17 NonlinearImager * 0 0 133 0 0 0 0 0 0 0 0 0 0
+
+167 23 NonlinearImager const * 0 8576 23 NonlinearImager const * 23 NonlinearImager const * 0 0 168 0 0 0 0 0 0 0 0 0 0
+
+168 21 NonlinearImager const 0 8832 21 NonlinearImager const 21 NonlinearImager const 0 0 133 0 0 0 0 0 0 0 0 0 0
+
+169 10 NodePath * 0 8576 10 NodePath * 10 NodePath * 0 0 144 0 0 0 0 0 0 0 0 0 0
+
+170 14 GraphicsOutput 0 2048 14 GraphicsOutput 14 GraphicsOutput 0 0 0 0 0 0 0 2 189 190 0 0 0 0 1111
+////////////////////////////////////////////////////////////////////
+//       Class : GraphicsOutput
+// Description : This is a base class for the various different
+//               classes that represent the result of a frame of
+//               rendering.  The most common kind of GraphicsOutput is
+//               a GraphicsWindow, which is a real-time window on the
+//               desktop, but another example is GraphicsBuffer, which
+//               is an offscreen buffer.
+//
+//               The actual rendering, and anything associated with
+//               the graphics context itself, is managed by the
+//               associated GraphicsStateGuardian (which might output
+//               to multiple GraphicsOutput objects).
+//
+//               GraphicsOutputs are not actually writable to bam
+//               files, of course, but they may be passed as event
+//               parameters, so they inherit from
+//               TypedWritableReferenceCount instead of
+//               TypedReferenceCount for that convenience.
+////////////////////////////////////////////////////////////////////
+
+171 16 GraphicsOutput * 0 8576 16 GraphicsOutput * 16 GraphicsOutput * 0 0 170 0 0 0 0 0 0 0 0 0 0
+
+172 15 DisplayRegion * 0 8576 15 DisplayRegion * 15 DisplayRegion * 0 0 173 0 0 0 0 0 0 0 0 0 0
+
+173 13 DisplayRegion 0 2048 13 DisplayRegion 13 DisplayRegion 0 0 0 0 0 0 0 0 0 0 0 0 677
+////////////////////////////////////////////////////////////////////
+//       Class : DisplayRegion
+// Description : A rectangular subregion within a window for rendering
+//               into.  Typically, there is one DisplayRegion that
+//               covers the whole window, but you may also create
+//               smaller DisplayRegions for having different regions
+//               within the window that represent different scenes.
+//               You may also stack up DisplayRegions like panes of
+//               glass, usually for layering 2-d interfaces on top of
+//               a 3-d scene.
+////////////////////////////////////////////////////////////////////
+
+174 14 GraphicsEngine 0 2048 14 GraphicsEngine 14 GraphicsEngine 0 0 0 0 0 0 0 1 191 0 0 0 0 823
+////////////////////////////////////////////////////////////////////
+//       Class : GraphicsEngine
+// Description : This class is the main interface to controlling the
+//               render process.  There is typically only one
+//               GraphicsEngine in an application, and it synchronizes
+//               rendering to all all of the active windows; although
+//               it is possible to have multiple GraphicsEngine
+//               objects if multiple synchronicity groups are
+//               required.
+//
+//               The GraphicsEngine is responsible for managing the
+//               various cull and draw threads.  The application
+//               simply calls engine->render_frame() and considers it
+//               done.
+////////////////////////////////////////////////////////////////////
+
+175 16 GraphicsEngine * 0 8576 16 GraphicsEngine * 16 GraphicsEngine * 0 0 174 0 0 0 0 0 0 0 0 0 0
+
+176 13 OSphereLens * 0 8576 13 OSphereLens * 13 OSphereLens * 0 0 134 0 0 0 0 0 0 0 0 0 0
+
+177 13 PSphereLens * 0 8576 13 PSphereLens * 13 PSphereLens * 0 0 135 0 0 0 0 0 0 0 0 0 0
+
+0
+0
+14
+178 0 0 11 11 get_parents 15 get_num_parents 10 get_parent 
+179 0 0 11 12 get_children 16 get_num_children 9 get_child 
+180 0 0 11 11 get_stashed 15 get_num_stashed 11 get_stashed 
+181 0 0 40 11 get_screens 15 get_num_screens 10 get_screen 
+182 0 0 40 11 get_buffers 15 get_num_screens 10 get_buffer 
+183 0 0 40 11 get_viewers 15 get_num_viewers 10 get_viewer 
+184 0 0 88 9 get_nodes 13 get_num_nodes 8 get_node 
+185 0 0 88 13 get_ancestors 13 get_num_nodes 12 get_ancestor 
+186 0 0 101 9 get_geoms 13 get_num_geoms 8 get_geom 
+187 0 0 101 12 modify_geoms 13 get_num_geoms 11 modify_geom 
+188 0 0 101 15 get_geom_states 13 get_num_geoms 14 get_geom_state 
+189 0 0 152 19 get_display_regions 23 get_num_display_regions 18 get_display_region 
+190 0 0 152 26 get_active_display_regions 30 get_num_active_display_regions 25 get_active_display_region 
+191 0 0 171 11 get_windows 15 get_num_windows 10 get_window 

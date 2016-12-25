@@ -119,7 +119,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.cogSuitMgr = CogSuitManagerAI(self)
         self.suitInvasionManager = SuitInvasionManagerAI(self)
         self.wantCogdominiums = self.config.GetBool('want-cogdominums', False)
-	self.temperatureManager = TemperatureManagerAI(self)
+        self.temperatureManager = TemperatureManagerAI(self)
 
         self.statusSender = ShardStatusSender(self)
 
@@ -200,10 +200,10 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.newsManager = NewsManagerAI(self)
         self.newsManager.generateWithRequired(2)
-		
+        
         self.staffManager = StaffManagerAI(self)
         self.staffManager.generateWithRequired(2)
-		
+        
         self.banManager = BanManagerAI(self)
         self.banManager.generateWithRequired(2)
 
