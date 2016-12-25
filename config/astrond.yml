@@ -1,8 +1,7 @@
 general:
     eventlogger: 127.0.0.1:7197
     dc_files:
-        - otp.dc
-        - toon.dc
+        - ../ProjectAltis.dc
 
 messagedirector:
     bind: 127.0.0.1:7199
@@ -55,6 +54,7 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 127.0.0.1:7198
+      version: "1.1.0"
       client:
        relocate: true
        add_interest: enabled
@@ -63,7 +63,7 @@ roles:
         max: 1009999999
 
     - type: stateserver
-      control: 10000
+      control: 4002
 
     - type: database
       control: 4003
@@ -83,3 +83,4 @@ roles:
     - type: eventlogger
       bind: 127.0.0.1:7197
       output: ../logs/events-%y%m%d_%H%M%S.log
+
