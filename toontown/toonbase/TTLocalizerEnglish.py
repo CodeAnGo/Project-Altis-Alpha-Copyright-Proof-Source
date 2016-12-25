@@ -9295,4 +9295,462 @@ GolfTrophyDescriptions = [str(GolfGlobals.TrophyRequirements[GolfGlobals.Courses
  str(GolfGlobals.TrophyRequirements[GolfGlobals.HoleInOneShots][1]) + ' ' + HoleInOneShots,
  str(GolfGlobals.TrophyRequirements[GolfGlobals.HoleInOneShots][2]) + ' ' + HoleInOneShots,
  str(GolfGlobals.TrophyRequirements[GolfGlobals.EagleOrBetterShots][0]) + ' ' + EagleOrBetterShots,
- str(GolfGlobals.TrophyRequirements[GolfGlobals.EagleOrBetterShots])]
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.EagleOrBetterShots][1]) + ' ' + EagleOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.EagleOrBetterShots][2]) + ' ' + EagleOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.BirdieOrBetterShots][0]) + ' ' + BirdieOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.BirdieOrBetterShots][1]) + ' ' + BirdieOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.BirdieOrBetterShots][2]) + ' ' + BirdieOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.ParOrBetterShots][0]) + ' ' + ParOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.ParOrBetterShots][1]) + ' ' + ParOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.ParOrBetterShots][2]) + ' ' + ParOrBetterShots,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.MultiPlayerCoursesCompleted][0]) + ' ' + MultiPlayerCoursesCompleted,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.MultiPlayerCoursesCompleted][1]) + ' ' + MultiPlayerCoursesCompleted,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.MultiPlayerCoursesCompleted][2]) + ' ' + MultiPlayerCoursesCompleted,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseZeroWins][0]) + ' ' + CourseZeroWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseZeroWins][1]) + ' ' + CourseZeroWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseZeroWins][2]) + ' ' + CourseZeroWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseOneWins][0]) + ' ' + CourseOneWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseOneWins][1]) + ' ' + CourseOneWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseOneWins][2]) + ' ' + CourseOneWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseTwoWins][0]) + ' ' + CourseTwoWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseTwoWins][1]) + ' ' + CourseTwoWins,
+ str(GolfGlobals.TrophyRequirements[GolfGlobals.CourseTwoWins][2]) + ' ' + CourseTwoWins]
+GolfCupDescriptions = [str(GolfGlobals.TrophiesPerCup) + ' Trophies won', str(GolfGlobals.TrophiesPerCup * 2) + ' Trophies won', str(GolfGlobals.TrophiesPerCup * 3) + ' Trophies won']
+GolfAvReceivesHoleBest = '%(name)s scored a new hole best at %(hole)s!'
+GolfAvReceivesCourseBest = '%(name)s scored a new course best at %(course)s!'
+GolfAvReceivesCup = '%(name)s receives the %(cup)s cup!!  Laff point boost!'
+GolfAvReceivesTrophy = '%(name)s receives the %(award)s trophy!!'
+GolfRanking = 'Ranking: \n'
+GolfPowerBarText = '%(power)s%%'
+GolfChooseTeeInstructions = 'Press Left or Right to change tee spot.\nPress Control to select.'
+GolfWarningMustSwing = 'Warning: You must press Control on your next swing.'
+GolfAimInstructions = 'Press Left or Right to aim.\nPress and hold Control to swing.'
+GolferExited = '%s has left the golf course.'
+GolfPowerReminder = 'Hold Down Control Longer to\nHit the Ball Further'
+GolfPar = 'Par'
+GolfHole = 'Hole'
+GolfTotal = 'Total'
+GolfExitCourse = 'Exit Course'
+GolfUnknownPlayer = '???'
+GolfPageTitle = 'Golf'
+GolfPageTitleCustomize = 'Golf Customizer'
+GolfPageTitleRecords = 'Personal Best Records'
+GolfPageTitleTrophy = 'Golfing Trophies'
+GolfPageCustomizeTab = 'Customize'
+GolfPageRecordsTab = 'Records'
+GolfPageTrophyTab = 'Trophy'
+GolfPageTickets = 'Tickets : '
+GolfPageConfirmDelete = 'Delete Accessory?'
+GolfTrophyTextDisplay = 'Trophy %(number)s : %(desc)s'
+GolfCupTextDisplay = 'Cup %(number)s : %(desc)s'
+GolfCurrentHistory = 'Current %(historyDesc)s : %(num)s'
+GolfTieBreakWinner = '%(name)s wins the random tie breaker!'
+GolfSeconds = ' -  %(time).2f seconds'
+GolfTimeTieBreakWinner = '%(name)s wins the total aiming time tie breaker!!!'
+RoamingTrialerWeekendStart = 'Tour Toontown is starting! Free players may now enter any neighborhood!'
+RoamingTrialerWeekendOngoing = 'Welcome to Tour Toontown! Free players may now enter any neighborhood!'
+RoamingTrialerWeekendEnd = "That's all for Tour Toontown."
+MoreXpHolidayStart = 'Good news! Exclusive Test Toon double gag experience time has started.'
+MoreXpHolidayOngoing = 'Welcome! Exclusive Test Toon double gag experience time is currently ongoing.'
+MoreXpHolidayEnd = 'Exclusive Test Toon double gag experience time has ended. Thanks for helping us Test things!'
+JellybeanDayHolidayStart = "It's Jellybean Day! Get Double Jellybean rewards at Parties!"
+JellybeanDayHolidayEnd = "That's all for Jellybean Day. See you next year."
+PartyRewardDoubledJellybean = 'Double Jellybeans!'
+GrandPrixWeekendHolidayStart = "It's Grand Prix Weekend at Goofy Speedway! Free and paid players collect the most points in three consecutive races."
+GrandPrixWeekendHolidayEnd = "That's all for Grand Prix Weekend. See you next year."
+KartRace_DoubleTickets = 'Double Tickets'
+SellbotNerfHolidayStart = 'Operation: Storm Sellbot is happening now! Battle the VP today!'
+SellbotNerfHolidayEnd = 'Operation: Storm Sellbot has ended. Great work, Toons!'
+JellybeanTrolleyHolidayStart = 'Double Bean Days for Trolley Games have begun!'
+JellybeanTrolleyHolidayEnd = 'Double Bean Days for Trolley Games have ended!'
+JellybeanFishingHolidayStart = 'Double Bean Days for Fishing have begun!'
+JellybeanFishingHolidayEnd = 'Double Bean Days for Fishing have ended!'
+JellybeanPartiesHolidayStart = "It's Jellybean Week! Get Double Jellybean rewards!"
+JellybeanPartiesHolidayEnd = "That's all for Jellybean Week. See you next year."
+JellybeanMonthHolidayStart = 'Celebrate Toontown with double beans, Cattlelog items and silly surprises!'
+BankUpgradeHolidayStart = 'Something Toontastic happened to your Jellybean Bank!'
+HalloweenPropsHolidayStart = "It's Halloween in Toontown!"
+HalloweenPropsHolidayEnd = 'Halloween has ended. Boo!'
+SpookyPropsHolidayStart = 'Silly Meter spins Toontown into spooky mode!'
+BlackCatHolidayStart = 'Create a Black Cat - Today only!'
+BlackCatHolidayEnd = 'Black Cat day has ended!'
+SpookyBlackCatHolidayStart = 'Friday 13th means a Black Cat blast!'
+TopToonsMarathonStart = "The Top Toons New Year's Day Marathon has begun!"
+TopToonsMarathonEnd = "The Top Toons New Year's Day Marathon has ended."
+WinterDecorationsStart = "It's Winter Holiday time in Toontown!"
+WinterDecorationsEnd = 'Winter Holiday is over - Happy New Year!'
+WackyWinterDecorationsStart = 'Brrr! Silly Meter goes from silly to chilly!'
+WinterCarolingStart = 'Caroling has come to Toontown. Sing for your Snowman Head - see the Blog for details!'
+ExpandedClosetsStart = 'Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 Jellybeans!'
+KartingTicketsHolidayStart = 'Get double tickets from Practice races at Goofy Speedway today!'
+IdesOfMarchStart = 'Toons go GREEN!'
+LogoutForced = 'You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun.'
+CountryClubToonEnterElevator = '%s \nhas jumped in the golf kart.'
+CountryClubBossConfrontedMsg = '%s is battling the Club President!'
+CountryClubFloorNum2Name = ['First Hole', 'Second Hole', 'Third Hole', 'Fourth Hole', 'Fifth Hole', 'Sixth Hole', 'Seventh Hole', 'Eighth Hole', 'Ninth Hole']
+ElevatorBlockedRoom = 'All challenges must be defeated first.'
+MolesLeft = 'Moles Left: %d'
+MolesInstruction = 'Mole Stomp!\nJump on the red moles!'
+MolesFinished = 'Mole Stomp successful!'
+MolesPityWin = 'Stomp Failed! But the moles left.'
+MolesRestarted = 'Stomp Failed! Restarting...'
+BustACogInstruction = 'Remove the cog ball!'
+BustACogExit = 'Exit for Now'
+BustACogHowto = 'How to Play'
+BustACogFailure = 'Out of Time!'
+BustACogSuccess = 'Success!'
+GolfGreenGameScoreString = 'Puzzles Left: %s'
+GolfGreenGamePlayerScore = 'Solved %s'
+GolfGreenGameBonusGag = 'You won %s!'
+GolfGreenGameGotHelp = '%s solved a Puzzle!'
+GolfGreenGameDirections = 'Shoot balls using the the mouse\n\n\nMatching three of a color causes the balls to fall\n\n\nRemove all Cog balls from the board'
+enterHedgeMaze = 'Race through the Hedge Maze\n for a laff bonus!'
+toonFinishedHedgeMaze = '%s \n  finished in %s place!'
+hedgeMazePlaces = ['first',
+ 'second',
+ 'third',
+ 'Fourth']
+mazeLabel = 'Maze Race!'
+BoardingPartyReadme = 'Boarding Group?'
+BoardingGroupHide = 'Hide'
+BoardingGroupShow = 'Show Boarding Group'
+BoardingPartyInform = 'Create an elevator Boarding Group by clicking on another Toon and Inviting them.\nIn this area Boarding Groups cannot have more than %s Toons.'
+BoardingPartyTitle = 'Boarding Group'
+QuitBoardingPartyLeader = 'Disband'
+QuitBoardingPartyNonLeader = 'Leave'
+QuitBoardingPartyConfirm = 'Are you sure you want to quit this Boarding Group?'
+BoardcodeMissing = 'Something went wrong; try again later.'
+BoardcodeMinLaffLeader = 'Your group cannot board because you have less than %s laff points.'
+BoardcodeMinLaffNonLeaderSingular = 'Your group cannot board because %s has less than %s laff points.'
+BoardcodeMinLaffNonLeaderPlural = 'Your group cannot board because %s have less than %s laff points.'
+BoardcodePromotionLeader = 'Your group cannot board because you do not have enough promotion merits.'
+BoardcodePromotionNonLeaderSingular = 'Your group cannot board because %s does not have enough promotion merits.'
+BoardcodePromotionNonLeaderPlural = 'Your group cannot board because %s do not have enough promotion merits.'
+BoardcodeSpace = 'Your group cannot board because there is not enough space.'
+BoardcodeBattleLeader = 'Your group cannot board because you are in battle.'
+BoardcodeBattleNonLeaderSingular = 'Your group cannot board because %s is in battle.'
+BoardcodeBattleNonLeaderPlural = 'Your group cannot board because %s are in battle.'
+BoardingInviteMinLaffInviter = 'You need %s Laff Points before being a member of this Boarding Group.'
+BoardingInviteMinLaffInvitee = '%s needs %s Laff Points before being a member of this Boarding Group.'
+BoardingInvitePromotionInviter = 'You need to earn a promotion before being a member of this Boarding Group.'
+BoardingInvitePromotionInvitee = '%s needs to earn a promotion before being a member of this Boarding Group.'
+BoardingInviteNotPaidInvitee = '%s needs to be a paid Member to be a part of your Boarding Group.'
+BoardingInviteeInDiffGroup = '%s is already in a different Boarding Group.'
+BoardingInviteeInKickOutList = '%s had been removed by your leader. Only the leader can re-invite removed members.'
+BoardingInviteePendingIvite = '%s has a pending invite; try again later.'
+BoardingInviteeInElevator = '%s is currently busy; try again later.'
+BoardingInviteGroupFull = 'Your Boarding Group is already full.'
+BoardingAlreadyInGroup = 'You cannot accept this invitation because you are part of another Boarding Group.'
+BoardingGroupAlreadyFull = 'You cannot accept this invitation because the group is already full.'
+BoardingKickOutConfirm = 'Are you sure you want to remove %s?'
+BoardingPendingInvite = 'You need to deal with the\n pending invitation first.'
+BoardingCannotLeaveZone = 'You cannot leave this area because you are part of a Boarding Group.'
+BoardingInviteeMessage = '%s would like you to join their Boarding Group.'
+BoardingInvitingMessage = 'Inviting %s to your Boarding Group.'
+BoardingInvitationRejected = '%s has rejected to join your Boarding Group.'
+BoardingMessageKickedOut = 'You have been removed from the Boarding Group.'
+BoardingMessageInvited = '%s has invited %s to the Boarding Group.'
+BoardingMessageLeftGroup = '%s has left the Boarding Group.'
+BoardingMessageGroupDissolved = 'Your Boarding Group was disbanded by the group leader.'
+BoardingMessageGroupDisbandedGeneric = 'Your Boarding Group was disbanded.'
+BoardingMessageInvitationFailed = '%s tried to invite you to their Boarding Group.'
+BoardingMessageGroupFull = '%s tried to accept your invitation but your group was full.'
+BoardingGo = 'GO'
+BoardingCancelGo = 'Click Again to\nCancel Go'
+And = 'and'
+BoardingGoingTo = 'Going To:'
+BoardingTimeWarning = 'Boarding the elevator in '
+BoardingMore = 'more'
+BoardingGoShow = 'Going to\n%s in '
+BoardingGoPreShow = 'Confirming...'
+BossbotBossName = 'C.E.O.'
+BossbotRTWelcome = 'You toons will need different disguises.'
+BossbotRTRemoveSuit = 'First take off your cog suits...'
+BossbotRTFightWaiter = 'and then fight these waiters.'
+BossbotRTWearWaiter = "Good Job! Now put on the waiters' clothes."
+BossbotBossPreTwo1 = "What's taking so long? "
+BossbotBossPreTwo2 = 'Get cracking and serve my banquet!'
+BossbotRTServeFood1 = 'Hehe, serve the food I place on these conveyor belts.'
+BossbotRTServeFood2 = 'If you serve a cog three times in a row it will explode.'
+BossbotResistanceToonName = "Good ol' Gil Giggles"
+BossbotPhase3Speech1 = "What's happening here?!"
+BossbotPhase3Speech2 = 'These waiters are toons!'
+BossbotPhase3Speech3 = 'Get them!!!'
+BossbotPhase4Speech1 = 'Hrrmmpph. When I need a job done right...'
+BossbotPhase4Speech2 = "I'll do it myself."
+BossbotRTPhase4Speech1 = 'Good Job! Now squirt the C.E.O. with the water on the tables...'
+BossbotRTPhase4Speech2 = 'or use golf balls to slow him down.'
+BossbotPitcherLeave = 'Leave Bottle'
+BossbotPitcherLeaving = 'Leaving Bottle'
+BossbotPitcherAdvice = 'Use the left and right keys to rotate.\nHold down Ctrl increase power.\nRelease Ctrl to fire.'
+BossbotGolfSpotLeave = 'Leave Golf Ball'
+BossbotGolfSpotLeaving = 'Leaving Golf Ball'
+BossbotGolfSpotAdvice = 'Use the left and right keys to rotate.\nCtrl to fire.'
+BossbotRewardSpeech1 = "No! The Chairman won't like this."
+BossbotRewardSpeech2 = 'Arrrggghhh!!!!'
+BossbotRTCongratulations = "You did it!  You've demoted the C.E.O.!\x07Here, take these pink slips the C.E.O. left behind.\x07With it you'll be able to fire Cogs in a battle."
+BossbotRTLastPromotion = "\x07Wow, you've reached level %s on your Cog Suit!\x07Cogs don't get promoted higher than that.\x07You can't upgrade your Cog Suit anymore, but you can certainly keep working for the Resistance!"
+BossbotRTHPBoost = "\x07You've done a lot of work for the Resistance.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
+BossbotRTMaxed = '\x07I see that you have a level %s Cog Suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to defend more Toons!'
+GolfAreaAttackTaunt = 'Fore!'
+OvertimeAttackTaunts = ["It's time to reorganize.", "Now let's downsize."]
+ElevatorBossBotBoss = 'C.E.O Battle'
+ElevatorBossBotCourse0 = 'The Front Three'
+ElevatorBossBotCourse1 = 'The Middle Six'
+ElevatorBossBotCourse2 = 'The Back Nine'
+ElevatorCashBotBoss = 'C.F.O Battle'
+ElevatorCashBotMint0 = 'Coin Mint'
+ElevatorCashBotMint1 = 'Dollar Mint'
+ElevatorCashBotMint2 = 'Bullion Mint'
+ElevatorSellBotBoss = 'Senior V.P Battle'
+ElevatorSellBotFactory0 = 'Front Entrance'
+ElevatorSellBotFactory1 = 'Side Entrance'
+ElevatorLawBotBoss = 'Chief Justice Battle'
+ElevatorLawBotCourse0 = 'Office A'
+ElevatorLawBotCourse1 = 'Office B'
+ElevatorLawBotCourse2 = 'Office C'
+ElevatorLawBotCourse3 = 'Office D'
+DaysToGo = 'Wait\n%s Days'
+IceGameTitle = 'Ice Slide'
+IceGameInstructions = 'Get as close to the center by the end of the second round. Use arrow keys to change direction and force. Press Ctrl to launch your toon.  Hit barrels for extra points and avoid the TNT!'
+IceGameInstructionsNoTnt = 'Get as close to the center by the end of the second round. Use arrow keys to change direction and force. Press Ctrl to launch your toon.  Hit barrels for extra points.'
+IceGameWaitingForPlayersToFinishMove = 'Waiting for other players...'
+IceGameWaitingForAISync = 'Waiting for other players...'
+IceGameInfo = 'Match %(curMatch)d/%(numMatch)d, Round %(curRound)d/%(numRound)d'
+IceGameControlKeyWarning = 'Remember to press the Ctrl key!'
+PicnicTableJoinButton = 'Join'
+PicnicTableObserveButton = 'Observe'
+PicnicTableCancelButton = 'Cancel'
+PicnicTableTutorial = 'How To Play'
+PicnicTableMenuTutorial = 'What game do you want to learn?'
+PicnicTableMenuSelect = 'What game do you want to play?'
+ChineseCheckersGetUpButton = 'Get Up'
+ChineseCheckersStartButton = 'Start Game'
+ChineseCheckersQuitButton = 'Quit Game'
+ChineseCheckersIts = "It's "
+ChineseCheckersYourTurn = 'Your Turn'
+ChineseCheckersGreenTurn = "Green's Turn"
+ChineseCheckersYellowTurn = "Yellow's Turn"
+ChineseCheckersPurpleTurn = "Purple's Turn"
+ChineseCheckersBlueTurn = "Blue's Turn"
+ChineseCheckersPinkTurn = "Pink's Turn"
+ChineseCheckersRedTurn = "Red's Turn"
+ChineseCheckersColorG = 'You are Green'
+ChineseCheckersColorY = 'You are Yellow'
+ChineseCheckersColorP = 'You are Purple'
+ChineseCheckersColorB = 'You are Blue'
+ChineseCheckersColorPink = 'You are Pink'
+ChineseCheckersColorR = 'You are Red'
+ChineseCheckersColorO = 'You are Observing'
+ChineseCheckersYouWon = 'You just won a game of Chinese Checkers!'
+ChineseCheckers = 'Chinese Checkers.'
+ChineseCheckersGameOf = ' has just won a game of '
+ChineseTutorialTitle1 = 'Objective'
+ChineseTutorialTitle2 = 'How to Play'
+ChineseTutorialPrev = 'Previous Page'
+ChineseTutorialNext = 'Next Page'
+ChineseTutorialDone = 'Done'
+ChinesePage1 = 'The goal of Chinese Checkers is to be the first  player to move all of your marbles from the bottom triangle across the board and into the triangle at the top. The first player to do so wins!'
+ChinesePage2 = 'Players take turns moving any marble of their own color.  A marble can move into an adjacent hole or it can hop over other marbles. Hops must go over a marble and end in an empty hole. It is possible to chain hops together for longer moves!'
+CheckersPage1 = 'The goal of Checkers is to leave the opponent without any possible moves. To do this you can either capture all of his peices or block them in such that he has no available moves.'
+CheckersPage2 = 'Players take turns moving any peice of their own color. A peice can move one square diagonal and forward. A peice can only move into a square that is not occupied by another peice. Kings follow the same rules but are allowed to move backwards.'
+CheckersPage3 = 'To capture an opponents peice your peice must jump over it diagonally into the vacant square beyond it. If you have any jump moves during a turn, you must do one of them. You can chain jump moves together as long as it is with the same peice.'
+CheckersPage4 = 'A peice becomes a king when it reaches the last row on the board. A peice that has just become a king cannot continue jumping until the next turn. Additionally, kings are allowed to move all directions and are allowed to change directions while jumping.'
+CheckersGetUpButton = 'Get Up'
+CheckersStartButton = 'Start Game'
+CheckersQuitButton = 'Quit Game'
+CheckersIts = "It's "
+CheckersYourTurn = 'Your Turn'
+CheckersWhiteTurn = "White's Turn"
+CheckersBlackTurn = "Black's Turn"
+CheckersColorWhite = 'You are White'
+CheckersColorBlack = 'You are Black'
+CheckersObserver = 'You are Observing'
+RegularCheckers = 'Checkers.'
+RegularCheckersGameOf = ' has just won a game of '
+RegularCheckersYouWon = 'You just won a game of Checkers!'
+MailNotifyNewItems = "You've got mail!"
+MailNewMailButton = 'Mail'
+MailSimpleMail = 'Note'
+MailFromTag = 'Note From: %s'
+AwardNotifyNewItems = 'You have a new award in your mailbox!'
+AwardNotifyOldItems = 'There are still awards waiting in your mailbox for you to pick up!'
+InviteInvitation = 'the invitation'
+InviteAcceptInvalidError = 'The invitation is no longer valid.'
+InviteAcceptPartyInvalid = 'That party has been cancelled.'
+InviteAcceptAllOk = 'The host has been informed of your reply.'
+InviteRejectAllOk = 'The host has been informed that you declined the invitation.'
+Months = {1: 'JANUARY',
+ 2: 'FEBRUARY',
+ 3: 'MARCH',
+ 4: 'APRIL',
+ 5: 'MAY',
+ 6: 'JUNE',
+ 7: 'JULY',
+ 8: 'AUGUST',
+ 9: 'SEPTEMBER',
+ 10: 'OCTOBER',
+ 11: 'NOVEMBER',
+ 12: 'DECEMBER'}
+DayNames = ('Monday',
+ 'Tuesday',
+ 'Wednesday',
+ 'Thursday',
+ 'Friday',
+ 'Saturday',
+ 'Sunday')
+DayNamesAbbrev = ('MON',
+ 'TUE',
+ 'WED',
+ 'THU',
+ 'FRI',
+ 'SAT',
+ 'SUN')
+HolidayNamesInCalendar = {1: ('Summer Fireworks', 'Celebrate Summer with a fireworks show every hour in each playground!'),
+ 2: ('New Year Fireworks', 'Happy New Year! Enjoy a fireworks show every hour in each playground!'),
+ 3: ('Bloodsucker Invasion', 'Help defend Toontown from the Bloodsucker invasion!'),
+ 4: ('Winter Holiday', 'Celebrate the Winter Holiday with Toontastic decorations, party and Cattlelog items, and more!'),
+ 5: ('Skelecog Invasion', 'Stop the Skelecogs from invading Toontown!'),
+ 6: ('Mr. Hollywood Invasion', 'Stop the Mr. Hollywood Cogs from invading Toontown!'),
+ 7: ('Fish Bingo', 'Fish Bingo Wednesday! Everyone at the pond works together to complete the card before time runs out.'),
+ 8: ('Toon Species Election', 'Vote on the new Toon species! Will it be Goat? Will it be Pig?'),
+ 9: ('Black Cat Day', 'Happy Halloween! Create a Toontastic Black Cat Toon - Today Only!'),
+ 13: ('Trick or Treat', 'Happy Halloween! Trick or treat throughout Toontown to get a nifty Halloween pumpkin head reward!'),
+ 14: ('Grand Prix', 'Grand Prix Monday at Goofy Speedway! To win, collect the most points in three consecutive races!'),
+ 16: ('Grand Prix Weekend', 'Free and Paid players compete in circuit races at Goofy Speedway!'),
+ 17: ('Trolley Tracks', 'Trolley Tracks Thursday! Board any Trolley with two or more Toons to play.'),
+ 19: ('Silly Saturdays', 'Saturdays are silly with Fish Bingo and Grand Prix throughout the day!'),
+ 24: ('Ides of March', 'Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!'),
+ 26: ('Halloween Decor', 'Celebrate Halloween as spooky trees and streetlights transform Toontown!'),
+ 28: ('Winter Invasion', 'The sellbots are on the loose spreading their cold sales tactics!'),
+ 29: ("April Toons' Week", "Celebrate April Toons' Week - a holiday built by Toons for Toons!"),
+ 33: ('Sellbot Surprise 1', 'Sellbot Surprise! Stop the Cold Caller Cogs from invading Toontown!'),
+ 34: ('Sellbot Surprise 2', 'Sellbot Surprise! Stop the Name Dropper Cogs from invading Toontown!'),
+ 35: ('Sellbot Surprise 3', 'Sellbot Surprise! Stop the Gladhander Cogs from invading Toontown!'),
+ 36: ('Sellbot Surprise 4', 'Sellbot Surprise! Stop the Mover & Shaker Cogs from invading Toontown!'),
+ 37: ('A Cashbot Conundrum 1', 'A Cashbot Conundrum. Stop the Short Change Cogs from invading Toontown!'),
+ 38: ('A Cashbot Conundrum 2', 'A Cashbot Conundrum. Stop the Penny Pincher Cogs from invading Toontown!'),
+ 39: ('A Cashbot Conundrum 3', 'A Cashbot Conundrum. Stop the Bean Counter Cogs from invading Toontown!'),
+ 40: ('A Cashbot Conundrum 4', 'A Cashbot Conundrum. Stop the Number Cruncher Cogs from invading Toontown!'),
+ 41: ('The Lawbot Gambit 1', 'The Lawbot Gambit. Stop the Bottomfeeder Cogs from invading Toontown!'),
+ 42: ('The Lawbot Gambit 2', 'The Lawbot Gambit. Stop the Double Talker Cogs from invading Toontown!'),
+ 43: ('The Lawbot Gambit 3', 'The Lawbot Gambit. Stop the Ambulance Chaser Cogs from invading Toontown!'),
+ 44: ('The Lawbot Gambit 4', 'The Lawbot Gambit. Stop the Backstabber Cogs from invading Toontown!'),
+ 45: ('The Trouble With Bossbots 1', 'The Trouble with Bossbots. Stop the Flunky Cogs from invading Toontown!'),
+ 46: ('The Trouble With Bossbots 2', 'The Trouble with Bossbots. Stop the Pencil Pusher Cogs from invading Toontown!'),
+ 47: ('The Trouble With Bossbots 3', 'The Trouble with Bossbots. Stop the Micromanager Cogs from invading Toontown!'),
+ 48: ('The Trouble With Bossbots 4', 'The Trouble with Bossbots. Stop the Downsizer Cogs from invading Toontown!'),
+ 49: ('Jellybean Day', 'Celebrate Jellybean Day with double Jellybean rewards at parties!'),
+ 53: ('Cold Caller Invasion', 'Stop the Cold Caller Cogs from invading Toontown!'),
+ 54: ('Bean Counter Invasion', 'Stop the Bean Counter Cogs from invading Toontown!'),
+ 55: ('Double Talker Invasion', 'Stop the Double Talker Cogs from invading Toontown!'),
+ 56: ('Downsizer Invasion', 'Stop the Downsizer Cogs from invading Toontown!'),
+ 57: ('Caroling', 'Sing for your Snowman Head! See the Blog for details!'),
+ 59: ("ValenToon's Day", "Celebrate ValenToon's Day from Feb 09 to Feb 16!"),
+ 72: ('Yes Men Invasion', 'Stop the Yes Men Cogs from invading Toontown!'),
+ 73: ('Tightwad Invasion', 'Stop the Tightwad Cogs from invading Toontown!'),
+ 74: ('Telemarketers Invasion', 'Stop the Telemarketer Cogs from invading Toontown!'),
+ 75: ('Head Hunter Invasion', 'Stop the Head Hunter Cogs from invading Toontown!'),
+ 76: ('Spin Doctor Invasion', 'Stop the Spin Doctor Cogs from invading Toontown!'),
+ 77: ('Moneybags Invasion', 'Stop the Moneybags from invading Toontown!'),
+ 78: ('Two-faces Invasion', 'Stop the Two-faces from invading Toontown!'),
+ 79: ('Mingler Invasion', 'Stop the Mingler Cogs from invading Toontown!'),
+ 80: ('Loan Shark Invasion', 'Stop the Loanshark Cogs from invading Toontown!'),
+ 81: ('Corporate Raider Invasion', 'Stop the Corporate Raider Cogs from invading Toontown!'),
+ 82: ('Robber Baron Invasion', 'Stop the Robber Baron Cogs from invading Toontown!'),
+ 83: ('Legal Eagle Invasion', 'Stop the Legal Eagle Cogs from invading Toontown!'),
+ 84: ('Big Wig Invasion', 'Stop the Big Wig Cogs from invading Toontown!'),
+ 85: ('Big Cheese Invasion', 'Stop the Big Cheese from invading Toontown!'),
+ 86: ('Down Sizer Invasion', 'Stop the Down Sizer Cogs from invading Toontown!'),
+ 87: ('Mover And Shaker Invasion', 'Stop the Mover and Shaker Cogs from invading Toontown!'),
+ 88: ('Double Talker Invasion', 'Stop the Double Talkers Cogs from invading Toontown!'),
+ 89: ('Penny Pincher Invasion', 'Stop the Penny Pinchers Cogs from invading Toontown!'),
+ 90: ('Name Dropper Invasion', 'Stop the Name Dropper Cogs from invading Toontown!'),
+ 91: ('Ambulance Chaser Invasion', 'Stop the Ambulance Chaser Cogs from invading Toontown!'),
+ 92: ('Micro Manager Invasion', 'Stop the Micro Manager Cogs from invading Toontown!'),
+ 93: ('Number Cruncher Invasion', 'Stop the Number Cruncher Cogs from invading Toontown!'),
+ 95: ('Victory Parties', 'Celebrate our historic triumph against the Cogs!'),
+ 96: ('Operation: Storm Sellbot', "Sellbot HQ is open to everyone. Let's go fight the VP!"),
+ 97: ('Double Bean Days - Trolley Games', ''),
+ 98: ('Double Bean Days - Fishing', ''),
+ 99: ('Jellybean Week', 'Celebrate Jellybean Week with double Jellybean rewards!'),
+ 101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
+ 105: ('Toons go GREEN!', 'Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!')}
+UnknownHoliday = 'Unknown Holiday %d'
+HolidayFormat = '%b %d '
+TimeZone = 'US/Pacific'
+HourFormat = '12'
+CogdoMemoGuiTitle = 'Memos:'
+CogdoMemoNames = 'Barrel-Destruction Memos'
+CogdoStomperName = 'Stomp-O-Matic'
+CogdoBarrelRoomTitle = 'Stomper Room'
+CogdoBarrelIntroMovieDialogue = 'Good work! You\'ve halted the %s and are now able to collect some of the stolen Laff Barrels, but make sure to hurry before the Cogs come!' % CogdoStomperName
+BoardroomGameTitle = 'Boardroom Hijinks'
+BoardroomGameInstructions = 'The COGS are having a meeting to decide what to do with stolen gags. Slide on through and grab as many gag-destruction memos as you can!'
+CogdoCraneGameTitle = 'Vend-A-Stomper'
+CogdoCraneGameInstructions = 'The COGS are using a coin-operated machine to destroy Laff Barrels. Use the cranes to pick up and throw money bags, in order to prevent barrel destruction!'
+CogdoMazeGameTitle = 'Mover & Shaker\nField Office'
+CogdoMazeGameInstructions = 'The big Mover & Shaker Cogs have the code to open the door. Defeat them with your water balloons in order to get it!'
+CogdoMazeIntroMovieDialogue = (("This is the Toon Resistance! The Movers & Shakers\nhave our Jokes, and they've locked the exit!",), ('Grab water balloons at coolers, and throw them at Cogs!\nSmall Cogs drop Jokes, BIG COGS open the exit.',), ('The more Jokes you rescue, the bigger your Toon-Up\nat the end. Good luck!',))
+CogdoMazeGameDoorOpens = 'THE EXIT IS OPEN FOR 60 SECONDS!\nGET THERE FAST FOR A BIGGER TOON-UP'
+CogdoMazeGameLocalToonFoundExit = "The exit will open when\nyou've busted all four BIG COGS!"
+CogdoMazeGameWaitingForToons = 'Please wait...'
+CogdoMazeGameTimeOut = 'Oh no, time ran out! You lost your jokes.'
+CogdoMazeGameTimeAlert = 'Hurry up! 60 seconds to go!'
+CogdoMazeGameBossGuiTitle = 'BIG COGS:'
+CogdoMazeFindHint = 'Find a Water Cooler'
+CogdoMazeThrowHint = "Press 'Ctrl' to throw your water balloon"
+CogdoMazeSquashHint = 'Falling objects pop your balloon'
+CogdoMazeBossHint = 'Big Cogs take TWO hits to defeat'
+CogdoMazeMinionHint = 'Smaller Cogs drop jokes'
+CogdoFlyingGameTitle = 'Legal Eagle\nField Office'
+CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for obstacles and Cogs along the way, and don't forget to refuel your helicopter!"
+CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toon! We're destroying barrels of your Laff, and you cannot stop us!", "A Toon! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName, "You can't egg us on, Toon! We're powering our offices with your Laff, and you're powerless to stop us!"), ('This is the Toon Resistance! A little bird told me you can use propellers to fly around, grab Barrel Destruction Memos, and keep Laff from being destroyed! Good luck!', 'Attention! Wing it with a propeller and collect Barrel Destruction Memos to keep our Laff from being stomped! Toon Resistance out!', 'Toon Resistance here! Cause a flap by finding propellers, flying to the Barrel Destruction Memos, and keeping our Laff from being smashed! Have fun!'), ("Squawk! I'm a Silver Sprocket Award winner, I don't need this!", 'Do your best! You will find us to be quite talon-ted!', "We'll teach you to obey the pecking order, Toon!"))
+CogdoFlyingGameWaiting = 'Please wait%s'
+CogdoFlyingGameFuelLabel = 'Fuel'
+CogdoFlyingGameLegalEagleTargeting = 'A Legal Eagle has noticed you!'
+CogdoFlyingGameLegalEagleAttacking = 'Incoming Eagle!'
+CogdoFlyingGameInvasionTargeting = 'A %s has noticed you!'
+CogdoFlyingGameInvasionAttacking = 'Incoming %s!'
+CogdoFlyingGamePickUpAPropeller = 'You need a propeller to fly!'
+CogdoFlyingGamePressCtrlToFly = "Press 'Ctrl' to fly up!"
+CogdoFlyingGameYouAreInvincible = 'Red Tape protects you!'
+CogdoFlyingGameTimeIsRunningOut = 'Time is running out!'
+CogdoFlyingGameMinimapIntro = 'This meter shows your progress!\nX marks the finish line.'
+CogdoFlyingGameMemoIntro = 'Memos prevent Laff Barrels in\nthe Stomper Room from being destroyed!'
+CogdoFlyingGameOutOfTime = 'Oh No! You ran out of time!'
+CogdoFlyingGameYouMadeIt = 'You made it on time!'
+CogdoFlyingGameYouMadeIt = 'Good work, you made it on time!'
+CogdoFlyingGameTakingMemos = 'The Legal Eagles took all your memos!'
+CogdoFlyingGameTakingMemosInvasion = 'The %s took all your memos!'
+CogdoElevatorRewardLaff = 'Great job!\nYou get a Toon-Up from the jokes you saved!'
+CogdoExecutiveSuiteTitle = 'Executive Suite'
+CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
+CogdoExecutiveSuiteToonThankYou = 'Thanks for the rescue!\nIf you need help in a fight, use this SOS card to call my friend %s.'
+CogdoLawbotExecutiveSuiteToonThankYou = "Thanks for the rescue!\nIt seems the Cogs didn't leave behind the key to the Sprocket Award case.\x07Instead, use these summons I found laying around. You can summon Cogs with them!"
+CogdoExecutiveSuiteToonBye = 'Bye!'
+SillySurgeTerms = {1: 'Amusing Ascent!',
+ 2: 'Silly Surge!',
+ 3: 'Ridiculous Rise!',
+ 4: 'Giggle Growth!',
+ 5: 'Funny Fueling!',
+ 6: 'Batty Boost!',
+ 7: 'Crazy Climb!',
+ 8: 'Jolly Jump!',
+ 9: 'Loony Lift!',
+ 10: 'Hilarity Hike!',
+ 11: 'Insanity Increase!',
+ 12: 'Cracked-Uptick!'}
+InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
+ 1: '',
+ 2: '',
+ 3: '',
+ 4: 'Super Throw!',
+ 5: 'Super Squirt!',
+ 6: '',
+ 7: ''}
+PlayingCardUnknown = 'Card Name is unknown'
+RemapPrompt = 'Choose the keys you wish to remap.'
+RemapPopup = 'Press the key you wish to remap this control to.'
+Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
+            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
