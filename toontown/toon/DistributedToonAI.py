@@ -380,7 +380,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
-        return
 
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
         DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
@@ -401,12 +400,24 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     dislId = self.DISLid
                     #simbase.air.banManager.ban(self.doId, dislId, commentStr)'''
 
+        if oldZoneId is not None:
+            # check if the previous zone was an interior zone, if so request time update
+            # from the day time manager to ensure sky state is correct.
+            if ZoneUtil.isInterior(oldZoneId):
+                # get current time from the time of day manager when toon changes zones
+                for hood in self.air.hoods:
+                    if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
+                        continue
+
+                    hood.dayTimeMgr.d_requestUpdate()
+
     def announceZoneChange(self, newZoneId, oldZoneId):
         from toontown.pets import PetObserve
         #self.air.welcomeValleyManager.toonSetZone(self.doId, newZoneId)
         broadcastZones = [oldZoneId, newZoneId]
         if self.isInEstate() or self.wasInEstate():
             broadcastZones = union(broadcastZones, self.estateZones)
+        
         PetObserve.send(broadcastZones, PetObserve.PetActionObserve(PetObserve.Actions.CHANGE_ZONE, self.doId, (oldZoneId, newZoneId)))
 
     def checkAccessorySanity(self, accessoryType, idx, textureIdx, colorIdx):

@@ -49,6 +49,9 @@ class DistributedDayTimeManager(DistributedWeatherMGR):
             22: 'night',
             23: 'night'
         }
+
+    def generate(self):
+        DistributedWeatherMGR.generate(self)
         
     def announceGenerate(self):
         DistributedWeatherMGR.announceGenerate(self)
@@ -69,6 +72,3 @@ class DistributedDayTimeManager(DistributedWeatherMGR):
         self.currSeq.finish()
         DistributedWeatherMGR.delete(self)
         render.setColorScale(Vec4(1, 1, 1, 1))
-
-
-
