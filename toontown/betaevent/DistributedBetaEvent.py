@@ -132,13 +132,13 @@ class DistributedBetaEvent(DistributedEvent):
         pass
     
     def enterCogInvade(self, timestamp):
+        self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
         self.headHoncho1.show()
         self.headHoncho1.beginSupaFlyMove(Vec3(12, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False).start()
         Sequence(
-                    Wait(6),
+                    Wait(8),
                     Func(self.headHoncho1.loop, 'walk'),
                     self.headHoncho1.hprInterval(2, VBase3(90, 0, 0)),
-                    Wait(2),
                     Func(self.headHoncho1.loop, 'neutral'),
                     Wait(1),
                     Func(self.headHoncho1.setChatAbsolute, 'Hello Toon...', CFSpeech|CFTimeout),
