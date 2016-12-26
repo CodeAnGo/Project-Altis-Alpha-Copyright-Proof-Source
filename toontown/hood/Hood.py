@@ -281,9 +281,12 @@ class Hood(StateData.StateData):
             self.startSky()
 
     def end(self):
-        self.sky = self.newSky
-        if self.oldSky:
-            self.oldSky.reparentTo(hidden)
+        if hasattr(self, 'newSky'):
+            if self.newSky:
+                self.sky = self.newSky
+        if hasattr(self, 'oldSky'):
+            if self.oldSky:
+                self.oldSky.reparentTo(hidden)
         self.oldSky = None
         self.newSky = None
 
