@@ -3,7 +3,7 @@ class LoginQueue(object):
     __slots__ = (
         '_csm', '_maxCapacity', '_id', '_queued', '_waiting')
 
-    def __init__(self, csm, maxCapacity=100):
+    def __init__(self, csm, maxCapacity=15):
         self._csm = csm
         self._maxCapacity = maxCapacity
         self._id = 0
