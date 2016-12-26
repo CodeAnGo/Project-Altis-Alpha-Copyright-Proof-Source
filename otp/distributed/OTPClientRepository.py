@@ -467,12 +467,10 @@ class OTPClientRepository(ClientRepositoryBase):
     def enterLoginOff(self):
         self.handler = self.handleMessageType
         self.shardListHandle = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitLoginOff(self):
         self.handler = None
-        return
 
     def getServerVersion(self):
         return self.serverVersion
@@ -567,7 +565,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore(self.loginDoneEvent)
         del self.loginDoneEvent
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterCreateAccount(self, createAccountDoneData = {'back': 'login',
@@ -579,7 +576,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.accept(self.createAccountDoneEvent, self.__handleCreateAccountDone)
         self.createAccountScreen.load()
         self.createAccountScreen.enter()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def __handleCreateAccountDone(self, doneStatus):
@@ -608,7 +604,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore(self.createAccountDoneEvent)
         del self.createAccountDoneEvent
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterFailedToConnect(self, statusCode, statusString):
@@ -644,7 +639,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.handler = None
         self.ignore('failedToConnectAck')
         self.failedToConnectBox.stop()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterFailedToGetServerConstants(self, e):
@@ -688,7 +682,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('failedToGetConstantsAck')
         self.failedToGetConstantsBox.cleanup()
         del self.failedToGetConstantsBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterShutdown(self, errorCode = None):
@@ -703,7 +696,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.garbageWatcher.destroy()
             del self.garbageWatcher
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitForGameList(self):
@@ -1014,7 +1006,6 @@ class OTPClientRepository(ClientRepositoryBase):
     def exitWaitForSetAvatarResponse(self):
         self.cleanupWaitingForDatabase()
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def sendSetAvatarMsg(self, potAv):
@@ -1150,7 +1141,6 @@ class OTPClientRepository(ClientRepositoryBase):
             return len(problems)
         else:
             return 0
-        return
 
     def detectLeakedEvents(self, extraHooks = None):
         allowedHooks = ['destroy-DownloadWatcherBar',
@@ -1263,7 +1253,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.cache.flush()
         self.doDataCache.flush()
         self.handler = self.handleMessageType
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitGameOff(self):
@@ -1293,7 +1282,6 @@ class OTPClientRepository(ClientRepositoryBase):
         base.localAvatar.defaultShard = shardId
         self.waitForDatabaseTimeout(requestName='WaitOnEnterResponses')
         self.handleSetShardComplete()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def handleSetShardComplete(self):
@@ -1327,7 +1315,6 @@ class OTPClientRepository(ClientRepositoryBase):
             else:
                 self.notify.info('No sync from TimeManager.')
                 self.gotTimeSync()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitWaitOnEnterResponses(self):
@@ -1335,7 +1322,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.cleanupWaitingForDatabase()
         self.handler = None
         self.handlerArgs = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterCloseShard(self, loginState = None):
@@ -1344,7 +1330,6 @@ class OTPClientRepository(ClientRepositoryBase):
             loginState = 'waitForAvatarList'
         self._closeShardLoginState = loginState
         base.cr.setNoNewInterests(True)
-        return
 
     def _removeLocalAvFromStateServer(self):
         self.sendSetAvatarIdMsg(0)
@@ -1805,7 +1790,7 @@ class OTPClientRepository(ClientRepositoryBase):
             di2 = DatagramIterator(dg, di.getCurrentIndex())
             doId = di2.getUint32()
             if doId in self.deferredDoIds:
-                if len(deferredDoIds[doId]) == 3:
+                if len(self.deferredDoIds[doId]) == 3:
                     self.deferredDoIds[doId][3].append((CLIENT_OBJECT_LOCATION, (dg, di)))
                 else:
                     # interest id out of range, force handle object location
@@ -1881,7 +1866,6 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.handler(msgType, di)
         self.considerHeartbeat()
-        return
 
     def askAvatarKnown(self, avId):
         return 0
