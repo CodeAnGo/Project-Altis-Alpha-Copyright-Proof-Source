@@ -7,6 +7,7 @@ from toontown.makeatoon.NameGenerator import NameGenerator
 from toontown.toonbase import TTLocalizer
 from otp.distributed import OtpDoGlobals
 from toontown.uberdog.BanManagerUD import BanManagerUD
+from toontown.uberdog.AccountFirewallUD import AccountFirewallUD
 from sys import platform
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui import FeatureComingSoonDialog
@@ -65,8 +66,10 @@ class LocalAccountDB:
         # IF I WANT TO BE BITCHEY, I CAN WRITE A LOOKUP HERE TO MAKE SURE THAT THE PLAYCOOKIE IS ACTUALLY IN OUR ACCOUNTS DB, BUT THAT'S NOT NEEDED FOR ALPHA
 
         # SECONDARILY, HERE'S WHERE WE CAN SPIN OFF TO DUBRARI'S "TOON GUARD" SYSTEM TO ENSURE THAT THE RIGHT IP IS LOGGING INTO THE ACCOUNT, AGAIN, NOT NEEDED FOR ALPHA
-
+        
         # See if the cookie is in the DBM:
+
+
         if cookie in self.dbm:
             # Return it w/ account ID!
             import urllib2
@@ -863,6 +866,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.banManager = BanManagerUD(self.air)
         self.banManager.setup()
 
+        # Setup Account Firewall
+        self.AccountFirewallUD = AccountFirewallUD(self.air)
+        self.AccountFirewallUD.setup()
+
         # Instantiate our account DB interface using config:
         dbtype = config.GetString('accountdb-type', 'local')
         if dbtype == 'local':
@@ -921,9 +928,14 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.loginsEnabled = enable
 
     def login(self, cookie, sessionKey):
-        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
-
         sender = self.air.getMsgSender()
+
+
+        if not (self.AccountFirewallUD.checkPlayerLogin(cookie)):
+            self.killConnection(sender, "Your account has been disallowed login to Project Altis. Please try again later.")
+            return
+
+        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))      
 
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
