@@ -819,7 +819,7 @@ QuestDialogDict = {160: {GREETING: '',
         COMPLETE: 'Thanks for all your help.',
         INCOMPLETE_PROGRESS: 'Are you having trouble finding my fish?  Oscar says they didn\'t swim too far.'},
  1081: {QUEST: 'Banker Bob keeps getting robbed.\x07_where_'},
- 1082: {QUEST: "Pesky, pesky Cashbots!\x07It's always them!\x07I want some revenge!\x07Please defeat 10 Cashbot. It'll make them pay for what they have done.",
+ 1082: {QUEST: "Pesky, pesky Cashbots!\x07It's always them!\x07I want some revenge!\x07Please defeat 10 Cashbots. It'll make them pay for what they have done.",
         LEAVING: '',
         GREETING: '',
         COMPLETE: 'Vengence is sweet!',
@@ -1648,45 +1648,6 @@ AvatarDetailPanelRealLife = 'Offline'
 AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s'
 AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s'
 AvatarDetailPanelOffline = 'District: offline\nLocation: offline'
-
-import time
-
-def getTimeString(timestamp, past = None):
-    if past:
-        seconds = int(time.time()) - int(timestamp)
-    else:
-        seconds = int(timestamp) - int(time.time())
-    if timestamp == 0:
-        return 'Never'
-    else:
-        if seconds < 60:
-            string = 'Less than a minute'
-        elif seconds < 120:
-            string = '1 minute'
-        elif seconds < 3600:
-            string = '%d minutes' % int(seconds / 60)
-        elif seconds < 7200:
-            string = '1 hour'
-        elif seconds < 86400:
-            string = '%d hours' % int(seconds / 3600)
-        elif seconds < 172800:
-            string = '1 day'
-        elif seconds < 2592000:
-            string = '%d days' % int(seconds / 86400)
-        elif seconds < 5184000:
-            string = '1 month'
-        elif seconds < 31536000:
-            string = '%d months' % int(seconds / 2592000)
-        elif seconds < 63072000:
-            string = '1 year'
-        else:
-            if past:
-                return 'A very long time ago... :-('
-            return 'a long time'
-        if past:
-            return string + ' ago'
-        return string
-
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
 PlayerToonName = 'Toon: %(toonname)s'

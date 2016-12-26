@@ -54,7 +54,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.scoreBoard = None
         self.exit = False
         self.drivingToons = []
-        return
 
     def generate(self):
         self.notify.debug('GOLF COURSE: generate, %s' % self.getTitle())
@@ -82,7 +81,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.__delayDelete:
             self.__delayDelete.destroy()
             self.__delayDelete = None
-        return
 
     def delete(self):
         self.ignore('clientCleanup')
@@ -104,8 +102,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             av = base.cr.doId2do.get(avId)
             if av:
                 av.show()
-
-        return
 
     def load(self):
         self.music = base.loadMusic('phase_6/audio/bgm/GZ_PlayGolf.ogg')
@@ -162,8 +158,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         for avId in self.exitedAvIdList:
             if avId not in self.exitedToonsWithPanels:
                 self.exitMessageForToon(avId)
-
-        return
 
     def setPlayHole(self):
         self.notify.debug('GOLF COURSE: received setPlayHole')
@@ -233,8 +227,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 elif not self.avIdList[x] == self.localAvId:
                     y += 1
 
-        return
-
     def enterJoin(self):
         self.sendUpdate('setAvatarJoined', [])
 
@@ -281,7 +273,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.hasLocalToon:
             messenger.send('leavingGolf')
             self._destroyDelayDelete()
-        return
 
     def exitCleanup(self):
         pass
@@ -337,6 +328,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         retval = 0
         if avId in self.scores:
             retval = self.scores[avId][self.curHoleIndex]
+        
         return retval
 
     def isGameDone(self):
@@ -344,6 +336,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.notify.debug('Self state is: %s' % self.state)
         if self.getCurrentOrNextState() == 'WaitReward' or self.getCurrentOrNextState() == 'WaitFinishCourse':
             retval = True
+        
         return retval
 
     def setReward(self, trophiesList, rankingsList, holeBestList, courseBestList, cupList, tieBreakWinner, aim0, aim1, aim2, aim3):

@@ -83,7 +83,6 @@ def hideFriendsListTutorial():
         if not base.cr.isPaid():
             globalFriendsList.secrets['state'] = DGG.NORMAL
         globalFriendsList.exit()
-    return
 
 
 def isFriendsListShown():
@@ -98,7 +97,6 @@ def unloadFriendsList():
         globalFriendsList.unload()
         globalFriendsList = None
     base.showFriendMargins()
-    return
 
 
 class FriendsListPanel(DirectFrame, StateData.StateData):
@@ -188,7 +186,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         del self.right
         del self.friends
         DirectFrame.destroy(self)
-        return None
 
     def makeFriendButton(self, friendTuple, colorChoice = None, bold = 0):
         playerName = None
@@ -219,6 +216,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             if not playerName:
                 return
                 print 'ABORTING!!!'
+            
             friendName = playerName
             rolloverName = toonName
         else:
@@ -235,13 +233,17 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             thing = playerId
         else:
             thing = avId
+        
         fg = ToontownGlobals.ColorNoChat
         if flags & ToontownGlobals.FriendChat:
             fg = ToontownGlobals.ColorAvatar
+        
         if playerId:
             fg = ToontownGlobals.ColorPlayer
+        
         if colorChoice:
             fg = colorChoice
+        
         fontChoice = ToontownGlobals.getToonFont()
         fontScale = 0.04
         bg = None
@@ -252,22 +254,27 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
              colorChoice[1] * colorS,
              colorChoice[2] * colorS,
              colorChoice[3])
+        
         db = DirectButton(relief=None, text=friendName, text_scale=fontScale, text_align=TextNode.ALeft, text_fg=fg, text_shadow=bg, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, text_font=fontChoice, textMayChange=0, command=command, extraArgs=[thing, showType])
         if playerId:
             accountName = DirectLabel(parent=db, pos=Vec3(-0.02, 0, 0), text=rolloverName, text_fg=(0, 0, 0, 1), text_bg=(1, 1, 1, 1), text_pos=(0, 0), text_scale=0.045, text_align=TextNode.ARight)
             accountName.reparentTo(db.stateNodePath[2])
+        
         return db
 
     def enter(self):
         if self.isEntered == 1:
             return None
+        
         self.isEntered = 1
         if self.isLoaded == 0:
             self.load()
+        
         base.localAvatar.obscureFriendsListButton(1)
         if ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel:
             ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel.cleanup()
             ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel = None
+        
         self.__updateScrollList()
         self.__updateTitle()
         self.__updateArrows()
@@ -280,11 +287,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         self.accept('friendsMapComplete', self.__friendsListChanged)
         self.accept(OTPGlobals.PlayerFriendAddEvent, self.__friendsListChanged)
         self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__friendsListChanged)
-        return
 
     def exit(self):
         if self.isEntered == 0:
             return None
+        
         self.isEntered = 0
         self.listScrollIndex[self.panelType] = self.scrollList.index
         self.hide()
@@ -299,7 +306,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         base.localAvatar.obscureFriendsListButton(-1)
         messenger.send(self.doneEvent)
         base.showFriendMargins()
-        return None
 
     def __close(self):
         messenger.send('wakeup')
@@ -330,7 +336,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
     def __newFriend(self):
         messenger.send('wakeup')
         messenger.send('friendAvatar', [None, None, None])
-        return
 
     def __choseFriend(self, friendId, showType = 0):
         messenger.send('wakeup')
@@ -341,7 +346,9 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametag', [handle])
-        return
+
+        # request toon state from the AI
+        base.cr.ttFriendsManager.requestToonState(friendId)
 
     def __chosePlayerFriend(self, friendId, showType = 1):
         messenger.send('wakeup')
@@ -354,7 +361,9 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if playerFriendInfo != None:
             self.notify.info("Clicked on name in player friend's list. Id = %s" % friendId)
             messenger.send('clickedNametagPlayer', [handle, friendId, showType])
-        return
+
+        # request toon state from the AI
+        base.cr.ttFriendsManager.requestToonState(friendId)
 
     def __updateScrollList(self):
         newFriends = []

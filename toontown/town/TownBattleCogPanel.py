@@ -29,6 +29,7 @@ class TownBattleCogPanel(DirectFrame):
             gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         else:
             gui = loader.loadModel('phase_3.5/models/gui/battle_gui_old')
+        
         DirectFrame.__init__(self, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.7, 0.7, 0.7, 0.8))
         self.setScale(0.8)
         self.initialiseoptions(TownBattleCogPanel)
@@ -56,13 +57,13 @@ class TownBattleCogPanel(DirectFrame):
         self.hide()
         healthGui.removeNode()
         gui.removeNode()
-        return
 
     def setCogInformation(self, cog):
         self.cog = cog
         self.updateHealthBar()
         if self.head:
             self.head.removeNode()
+        
         self.head = self.attachNewNode('head')
         for part in cog.headParts:
             copyPart = part.copyTo(self.head)
@@ -90,8 +91,11 @@ class TownBattleCogPanel(DirectFrame):
             taskMgr.add(self.blinkTask, self.uniqueName('blink-task'))
         else:
             taskMgr.remove(self.uniqueName('blink-task'))
-            self.button.setColor(self.healthColors[condition], 1)
-            self.glow.setColor(self.healthGlowColors[condition], 1)
+            if not self.button.isEmpty():
+                self.button.setColor(self.healthColors[condition], 1)
+            
+            if not self.glow.isEmpty():
+                self.glow.setColor(self.healthGlowColors[condition], 1)
 
     def show(self):
         if settings.get('show-cog-levels', True):
@@ -110,25 +114,31 @@ class TownBattleCogPanel(DirectFrame):
                 self.hide()
 
     def __blinkRed(self, task):
-        self.button.setColor(self.healthColors[3], 1)
-        self.glow.setColor(self.healthGlowColors[3], 1)
+        if not self.button.isEmpty():
+            self.button.setColor(self.healthColors[3], 1)
+
+        if not self.glow.isEmpty():
+            self.glow.setColor(self.healthGlowColors[3], 1)
+        
         return Task.done
 
     def hide(self):
         if self.blinkTask:
             taskMgr.remove(self.blinkTask)
             self.blinkTask = None
+        
         self.hidden = True
         DirectFrame.hide(self)
-        return
 
     def cleanup(self):
         self.ignoreAll()
         if self.head:
             self.head.removeNode()
             del self.head
+        
         if self.blinkTask:
             taskMgr.remove(self.blinkTask)
+        
         del self.blinkTask
         self.button.removeNode()
         self.glow.removeNode()

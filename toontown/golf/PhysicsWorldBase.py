@@ -49,6 +49,7 @@ class PhysicsWorldBase:
             self.root = render.attachNewNode('physics root node')
         else:
             self.root = NodePath('physics root node')
+        
         self.placerNode = self.root.attachNewNode('Placer')
         self.subPlacerNode = self.placerNode.attachNewNode('Placer Sub Node')
         self.commonObjectDict = {}
@@ -104,8 +105,10 @@ class PhysicsWorldBase:
         for data in self.meshDataList:
             data.destroy()
 
-        self.floor.destroy()
-        self.floor = None
+        if hasattr(self, 'floor'):
+            self.floor.destroy()
+            self.floor = None
+        
         self.contactgroup.empty()
         self.world.destroy()
         self.space.destroy()
@@ -172,7 +175,6 @@ class PhysicsWorldBase:
             self.notify.debug('SET cycle time %s' % ((globalClock.getRealTime() + self.timingCycleOffset) % self.timingCycleLength))
 
     def getSimCycleTime(self):
-        return
         return self.timingSimTime % self.timingCycleLength
 
     def startSim(self):
@@ -196,8 +198,10 @@ class PhysicsWorldBase:
 
         if self.canRender:
             self.placeBodies()
+        
         if self.frameCounter == 0:
             endTime = globalClock.getRealTime() - startTime
+        
         return task.cont
 
     def __collisionHandler(self, entry):
@@ -266,8 +270,6 @@ class PhysicsWorldBase:
 
                 motor.setParamVel(force)
 
-        return
-
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug('commonObjectForceEvent %s %s %s %s %s' % (key,
          model,
@@ -318,17 +320,21 @@ class PhysicsWorldBase:
         if len(objectStream) <= 1:
             data = (0, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             objectStream.append(data)
+        
         return objectStream
 
     def useCommonObjectData(self, objectData, enable = 1):
         if not objectData:
             return
+        
         if objectData[1][1] == 99:
             return
+        
         time = objectData[0]
         self.setTimeIntoCycle(time[2])
         if time[2] > self.timingCycleLength:
             pass
+        
         for dataIndex in xrange(1, len(objectData)):
             data = objectData[dataIndex]
             commonObject = self.commonObjectDict[data[0]]
@@ -555,6 +561,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
+        
         return (boxNodePathGeom, body)
 
     def createCross(self, world, space, density, lx, ly, lz, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
@@ -600,6 +607,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
+        
         return (boxNodePathGeom, body)
 
     def createCross2(self, world, space, density, lx, ly, lz, latSlide, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
@@ -671,6 +679,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
+        
         return (someNodePathGeom, body)
 
     def createPinWheel(self, world, space, density, lx, ly, lz, numBoxes, disV, disH, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None, offRot = 0):
@@ -720,6 +729,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
+        
         return (someNodePathGeom, body)
 
     def attachMarker(self, body):

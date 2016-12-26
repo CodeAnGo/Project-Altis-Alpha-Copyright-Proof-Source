@@ -26,6 +26,9 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.rainRender = None
         self.rainSound = None
         self.nextWindTime = 0
+
+    def generate(self):
+        DistributedWeatherMGR.generate(self)
         
     def announceGenerate(self):
         DistributedWeatherMGR.announceGenerate(self)

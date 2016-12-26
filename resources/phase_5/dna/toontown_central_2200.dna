@@ -11604,22 +11604,6 @@ group "toontownCentral" [
    texture [ "street_sidewalk_TT_tex" ]
    texture [ "street_curb_TT_tex" ]
   ]
-  landmark_building "tb41:toon_landmark_TT_A2_DNARoot" [
-   code [ "toon_landmark_TT_A2" ]
-   title [ "" ]
-   pos [ -175 75 0 ]
-   nhpr [ -0 0 -0 ]
-   door [
-    code [ "door_double_round_ur" ]
-    color [ 0.88 0.45 0.38 1 ]
-   ]
-   prop "prop_roman_entrance_DNARoot" [
-    code [ "prop_roman_entrance" ]
-    pos [ 10 -9 0 ]
-    nhpr [ -0 0 -0 ]
-    color [ 0.33 0.73 0.43 1 ]
-   ]
-  ]
   flat_building "tb41:20_DNARoot" [
    pos [ -150 75 0 ]
    nhpr [ -0 0 -0 ]
@@ -11887,6 +11871,72 @@ group "toontownCentral" [
    cell_id [ 0 ]
    pos [ -167.763 37.6429 1.52588e-005 ]
    nhpr [ 150 0 0 ]
+  ]
+  landmark_building "tb41:toon_landmark_TT_A2_DNARoot" [
+   code [ "toon_landmark_TT_A2" ]
+   title [ "Loopy's Balls" ]
+   pos [ -175 75 0 ]
+   nhpr [ -0 0 -0 ]
+   door [
+    code [ "door_double_round_ur" ]
+    color [ 0.88 0.45 0.38 1 ]
+   ]
+   prop "prop_roman_entrance_DNARoot" [
+    code [ "prop_roman_entrance" ]
+    pos [ 12 -9 0 ]
+    nhpr [ -0 0 -0 ]
+    color [ 0.33 0.73 0.43 1 ]
+   ]
+   sign [
+    code [ "sign_general1" ]
+    pos [ 0 0 1.32859 ]
+    baseline [
+     code [ "TT_Comedy" ]
+     color [ 0 0 0 1 ]
+     scale [ 1.5 1 1.5 ]
+     width [ 24.0705 ]
+     height [ 24.0705 ]
+     text [
+      letters [ "L" ]
+     ]
+     text [
+      letters [ "o" ]
+     ]
+     text [
+      letters [ "o" ]
+     ]
+     text [
+      letters [ "p" ]
+     ]
+     text [
+      letters [ "y" ]
+     ]
+     text [
+      letters [ "'" ]
+     ]
+     text [
+      letters [ "s" ]
+     ]
+     text [
+      letters [ " " ]
+     ]
+     text [
+      letters [ "B" ]
+     ]
+     text [
+      letters [ "a" ]
+     ]
+     text [
+      letters [ "l" ]
+     ]
+     text [
+      letters [ "l" ]
+     ]
+     text [
+      letters [ "s" ]
+     ]
+    ]
+   ]
   ]
  ]
  visgroup "2236" [

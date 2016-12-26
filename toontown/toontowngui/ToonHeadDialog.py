@@ -28,7 +28,6 @@ class ToonHeadDialog(TTDialog.TTDialog):
         TTDialog.TTDialog.__init__(self, style=self['style'])
         self.initialiseoptions(ToonHeadDialog)
         self.postInitialiseFuncList.append(self.replaceHead)
-        return
 
     def replaceHead(self):
         head = self.stateNodePath[0].find('**/head')

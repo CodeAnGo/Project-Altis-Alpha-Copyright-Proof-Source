@@ -59,6 +59,7 @@ class TTFriendsManagerUD(DistributedObjectGlobalUD):
         def handleFriend(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return
+            
             name = fields['setName'][0]
             dna = fields['setDNAString'][0]
             petId = fields['setPetId'][0]
@@ -67,6 +68,7 @@ class TTFriendsManagerUD(DistributedObjectGlobalUD):
         def handleAv(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return
+            
             friendsList = fields['setFriendsList'][0]
             for id in friendIds:
                 for friend in friendsList:
@@ -93,6 +95,7 @@ class TTFriendsManagerUD(DistributedObjectGlobalUD):
             else:
                 self.friendIndexes[avId] += 1
                 self.air.dbInterface.queryObject(self.air.dbId, self.friendsLists[avId][self.friendIndexes[avId]][0], functools.partial(addFriend, avId=avId, friendId=self.friendsLists[avId][self.friendIndexes[avId]][0]))
+
 
         def handleAv(dclass, fields, avId=0):
             if not avId:
@@ -287,3 +290,7 @@ class TTFriendsManagerUD(DistributedObjectGlobalUD):
 
     def getToonAccId(self, doId):
         return self.toonAccIds.get(doId, 0)
+
+    def requestToonState(self, avId):
+        self.sendUpdate('requestToonStateUDtoAI', [self.air.getAvatarIdFromSender(), 
+            avId])
