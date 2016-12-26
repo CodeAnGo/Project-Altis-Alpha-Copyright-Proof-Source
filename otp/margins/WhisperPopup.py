@@ -14,7 +14,7 @@ class WhisperPopup(MarginPopup, ClickablePopup):
     WORDWRAP = 7.5
     SCALE_2D = 0.25
 
-    def __init__(self, text, font, whisperType, timeout=10.0):
+    def __init__(self, text, font, whisperType, timeout=20.0):
         ClickablePopup.__init__(self)
         MarginPopup.__init__(self)
 

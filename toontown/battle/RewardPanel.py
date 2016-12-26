@@ -26,12 +26,8 @@ class RewardPanel(DirectFrame):
     SkipBattleMovieEvent = 'skip-battle-movie-event'
 
     def __init__(self, name):
-        if config.GetBool('want-skip-button', False):
-            gscale = (TTLocalizer.RPdirectFrame[0], TTLocalizer.RPdirectFrame[1], TTLocalizer.RPdirectFrame[2] * 1.1)
-            gpos = Point3(0, 0, -0.05)
-        else:
-            gscale = TTLocalizer.RPdirectFrame
-            gpos = Point3(0, 0, 0)
+        gscale = (TTLocalizer.RPdirectFrame[0], TTLocalizer.RPdirectFrame[1], TTLocalizer.RPdirectFrame[2] * 1.1)
+        gpos = Point3(0, 0, -0.05)
         DirectFrame.__init__(self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_pos=gpos, geom_scale=gscale, pos=(0, 0, 0.587))
         self.initialiseoptions(RewardPanel)
         self.avNameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.3), text=name, text_scale=0.08)
@@ -97,7 +93,6 @@ class RewardPanel(DirectFrame):
             self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         else:
             self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui_old')
-        if config.GetBool('want-skip-button', 0):
             self.skipButton = DirectButton(parent=self, relief=None, image=(self._battleGui.find('**/tt_t_gui_gen_skipSectionUp'),
              self._battleGui.find('**/tt_t_gui_gen_skipSectionDown'),
              self._battleGui.find('**/tt_t_gui_gen_skipSectionRollOver'),
@@ -201,8 +196,7 @@ class RewardPanel(DirectFrame):
         self.cogPartFrame.hide()
         self.missedItemFrame.hide()
         trackBarOffset = 0
-        if config.GetBool('want-skip-button', 0):
-            self.skipButton['state'] = choice(noSkip, DGG.DISABLED, DGG.NORMAL)
+        self.skipButton['state'] = choice(noSkip, DGG.DISABLED, DGG.NORMAL)
         for i in range(len(SuitDNA.suitDepts)-1):
             meritBar = self.meritBars[i]
             meritLabel = self.meritLabels[i]
