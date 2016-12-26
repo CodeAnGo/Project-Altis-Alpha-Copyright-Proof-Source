@@ -617,6 +617,7 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             message = OTPLocalizer.CRNoConnectTryAgain % (url.getServer(), url.getPort())
             style = OTPDialog.TwoChoice
+        
         dialogClass = OTPGlobals.getGlobalDialogClass()
         self.failedToConnectBox = PopupDialog.PopupDialog()
         self.failedToConnectBox.start(message, yesText = 'Retry', noText = 'Cancel', doneEvent = 'failedToConnectAck', isError = True)
