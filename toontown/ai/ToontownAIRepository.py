@@ -19,6 +19,7 @@ from direct.distributed.PyDatagram import *
 from otp.ai.AIZoneData import *
 from toontown.dna.DNAParser import loadDNAFileAI
 from direct.stdpy.file import open
+from otp.distributed.OtpDoGlobals import *
 import time
 import random
 
@@ -30,7 +31,6 @@ from toontown.estate.EstateManagerAI import EstateManagerAI
 
 # Par-tay!
 if config.GetBool('want-parties', True):
-    from otp.distributed.OtpDoGlobals import *
     from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
 
 # Fireworks!
@@ -71,6 +71,9 @@ import otp.ai.DiagnosticMagicWords
 
 # Code Redemption
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
+
+# Friends manager
+from toontown.friends.TTFriendsManagerAI import TTFriendsManagerAI
 
 class ToontownAIRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId, districtName):
@@ -236,6 +239,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
         self.codeRedemptionManager.generateWithRequired(2)
+
+        self.ttFriendsManager = self.generateGlobalObject(OTP_DO_ID_TT_FRIENDS_MANAGER, 'TTFriendsManager')
 
     def createZones(self):
         """

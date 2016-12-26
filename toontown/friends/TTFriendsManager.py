@@ -1,6 +1,7 @@
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from otp.otpbase import OTPLocalizer, OTPGlobals
 from toontown.hood import ZoneUtil
+from panda3d.core import *
 import time
 
 class TTFriendsManager(DistributedObjectGlobal):
@@ -74,9 +75,11 @@ class TTFriendsManager(DistributedObjectGlobal):
         if not hasattr(base, 'localAvatar'):
             self.sendUpdate('routeTeleportResponse', [ fromId, 0, 0, 0, 0 ])
             return
+        
         if not hasattr(base.localAvatar, 'getTeleportAvailable') or not hasattr(base.localAvatar, 'ghostMode'):
             self.sendUpdate('routeTeleportResponse', [ fromId, 0, 0, 0, 0 ])
             return
+        
         if not base.localAvatar.getTeleportAvailable() or base.localAvatar.ghostMode:
             if hasattr(base.cr.identifyFriend(fromId), 'getName') and self.nextTeleportFail < time.time():
                 self.nextTeleportFail = time.time() + OTPGlobals.TeleportFailCooldown
@@ -114,8 +117,10 @@ class TTFriendsManager(DistributedObjectGlobal):
     def setWhisperSCCustomFrom(self, fromId, msgIndex):
         if not hasattr(base, 'localAvatar'):
             return
+        
         if not hasattr(base.localAvatar, 'setWhisperSCCustomFrom'):
             return
+        
         base.localAvatar.setWhisperSCCustomFrom(fromId, msgIndex)
 
     def d_whisperSCEmoteTo(self, toId, emoteId):
@@ -124,11 +129,27 @@ class TTFriendsManager(DistributedObjectGlobal):
     def setWhisperSCEmoteFrom(self, fromId, emoteId):
         if not hasattr(base, 'localAvatar'):
             return
+        
         if not hasattr(base.localAvatar, 'setWhisperSCEmoteFrom'):
             return
+        
         base.localAvatar.setWhisperSCEmoteFrom(fromId, emoteId)
 
     def receiveTalkWhisper(self, fromId, message):
         toon = base.cr.identifyAvatar(fromId)
         if toon:
             base.localAvatar.setTalkWhisper(fromId, 0, toon.getName(), message, [], 0)
+
+    def requestToonState(self, avId):
+        self.sendUpdate('requestToonState', [avId])
+
+    def recieveToonState(self, state):
+        headModel = base.cr.playGame.place.avatarPanel.headModel
+        
+        if state == 'Sleep':
+            headModel.stopLookAround()
+            headModel.stopBlink()
+            headModel.closeEyes()
+            headModel.lerpLookAt(Point3(0, 1, -4))
+            headModel.loop('neutral')
+            headModel.setPlayRate(1 * 0.4, 'neutral')

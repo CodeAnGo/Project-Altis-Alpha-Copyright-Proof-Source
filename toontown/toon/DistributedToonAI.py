@@ -1346,6 +1346,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.animName = animName
         self.animMultiplier = animMultiplier
 
+    def getAnimState(self):
+        return self.animName
+
     def b_setCogStatus(self, cogStatusList):
         self.setCogStatus(cogStatusList)
         self.d_setCogStatus(cogStatusList)

@@ -1,1 +1,1 @@
-toontown.environment.DistributedDayTimeManagerAI:32, toontown.hood.HoodAI:200, toontown.hood.HoodAI:39, toontown.hood.TTHoodAI:17, AttributeError: class DistributedWeatherMGRAI has no attribute 'start'
+toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, RuntimeError: maximum recursion depth exceeded

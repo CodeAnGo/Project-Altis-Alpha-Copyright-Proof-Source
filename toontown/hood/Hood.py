@@ -38,7 +38,6 @@ class Hood(StateData.StateData):
         self.oldSky = None
         self.newSky = None
         self.halloweenLights = []
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -152,7 +151,6 @@ class Hood(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def loadLoader(self, requestStatus):
         pass

@@ -751,7 +751,7 @@ from toontown.parties import DistributedPartyJukebox40Activity/AI
 from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
 from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 from toontown.friends import TTPlayerFriendsManager/UD
-from toontown.friends import TTFriendsManager/UD
+from toontown.friends import TTFriendsManager/AI/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
@@ -3833,6 +3833,10 @@ dclass TTFriendsManager : DistributedObjectGlobal {
   requestAvatarInfo(uint32[]) clsend;
 
   requestFriendsList() clsend;
+
+  requestToonState(uint32) clsend;
+  requestToonStateUDtoAI(uint32, uint32) airecv;
+  recieveToonState(string);
 
   friendInfo(Friend);
   friendList(Friend []);

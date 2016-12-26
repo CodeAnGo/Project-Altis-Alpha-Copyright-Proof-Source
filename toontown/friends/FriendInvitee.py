@@ -47,7 +47,6 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
         self.accept('cancelFriendInvitation', self.__handleCancelFromAbove)
         self.initialiseoptions(FriendInvitee)
         self.show()
-        return
 
     def cleanup(self):
         ToonHeadDialog.ToonHeadDialog.cleanup(self)
@@ -57,7 +56,6 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
             self.context = None
         if base.friendMode == 1:
             base.cr.friendManager.executeGameSpecificFunction()
-        return
 
     def __handleButton(self, value):
         print 'handleButton'
@@ -71,9 +69,9 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
             base.cr.friendManager.up_inviteeFriendResponse(0, self.context)
         elif base.friendMode == 1:
             base.cr.avatarFriendsManager.sendRequestRemove(self.avId)
+
         self.context = None
         self.cleanup()
-        return
 
     def __handleOhWell(self, value):
         self.cleanup()
@@ -82,4 +80,3 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
         if context == None or context == self.context:
             self.context = None
             self.cleanup()
-        return

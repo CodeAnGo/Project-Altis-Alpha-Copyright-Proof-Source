@@ -184,8 +184,6 @@ class ToonHead(Actor.Actor):
             self.lookAtPositionCallbackArgs = None
             Actor.Actor.delete(self)
 
-        return
-
     def setupHead(self, dna, forGui = 0):
         self.__height = self.generateToonHead(1, dna, ('1000',), forGui)
         self.generateToonColor(dna)
@@ -244,7 +242,6 @@ class ToonHead(Actor.Actor):
         else:
             lookAtPnt = self.__defaultStarePoint
         self.lerpLookAt(lookAtPnt, blink=1)
-        return
 
     def generateToonHead(self, copy, style, lods, forGui = 0):
         global PreloadHeads
@@ -1047,8 +1044,6 @@ class ToonHead(Actor.Actor):
                 otherParts.getPath(partNum).removeNode()
             else:
                 otherParts.getPath(partNum).stash()
-
-        return
 
     def __blinkOpenEyes(self, task):
         if self.eyelids.getCurrentState().getName() == 'closed':
