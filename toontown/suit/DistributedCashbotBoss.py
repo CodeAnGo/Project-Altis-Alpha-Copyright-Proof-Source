@@ -1,6 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from direct.task.TaskManagerGlobal import *
 from direct.directnotify import DirectNotifyGlobal
+from pandac.PandaModules import PhysicsManager, LinearEulerIntegrator, ForceNode
 from toontown.toonbase import TTLocalizer
 import DistributedBossCog
 from direct.task.Task import Task
@@ -43,7 +44,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.bossMaxDamage = ToontownGlobals.CashbotBossMaxDamage
         self.elevatorType = ElevatorConstants.ELEVATOR_CFO
         base.boss = self
-        return
 
     def announceGenerate(self):
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
@@ -79,7 +79,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if OneBossCog != None:
             self.notify.warning('Multiple BossCogs visible.')
         OneBossCog = self
-        return
 
     def disable(self):
         global OneBossCog
@@ -95,7 +94,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         localAvatar.chatMgr.chatInputSpeedChat.removeCFOMenu()
         if OneBossCog == self:
             OneBossCog = None
-        return
 
     def __makeResistanceToon(self):
         if self.resistanceToon:
@@ -136,8 +134,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 self.fakeGoons[i].disable()
                 self.fakeGoons[i].delete()
                 self.fakeGoons[i] = None
-
-        return
 
     def __showResistanceToon(self, withSuit):
         if not self.resistanceToonOnstage:
@@ -373,6 +369,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                                     Func(self.setChatAbsolute, attackToons, CFSpeech),
                                     Wait(2),
                                     Func(self.clearChat))
+       
         return Sequence(Func(base.camera.reparentTo, render), track)
 
     def __makeGoonMovieForBattleThree(self):
@@ -550,6 +547,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             (9.5, Sequence(
                 self.posInterval(0.4, Point3(0, -250, 0)),
                 Func(self.stash))))
+        
         return bossTrack
 
     def grabObject(self, obj):
@@ -573,7 +571,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         obj.showShadows()
         obj.unstashCollisions()
         self.heldObject = None
-        return
 
     def setBossDamage(self, bossDamage):
         if bossDamage > self.bossDamage:

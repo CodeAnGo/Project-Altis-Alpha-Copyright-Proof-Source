@@ -178,8 +178,8 @@ class LoginAccountFSM(OperationFSM):
         accountId = result.get('accountId', 0)
         self.adminAccess = result.get('adminAccess', 0)
 
-
-        print("Account" + str(self.cookie) + "has logged in with access level " + str(self.adminAccess))
+        self.notify.debug('Account %s has logged in with access level %s' % (str(self.cookie), 
+            str(self.adminAccess)))
 
         # Do they have the minimum access needed to play?
         if self.adminAccess < 100:

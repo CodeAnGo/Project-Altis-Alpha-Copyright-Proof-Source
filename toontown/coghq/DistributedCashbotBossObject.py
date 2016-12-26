@@ -7,6 +7,7 @@ from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
 from direct.fsm import FSM
 from direct.task import Task
+from pandac.PandaModules import ActorNode, PhysicsCollisionHandler
 smileyDoId = 1
 
 class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM):
@@ -32,7 +33,6 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         self.touchedBossSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_sandbag.ogg')
         self.touchedBossSoundInterval = SoundInterval(self.touchedBossSfx, duration=0.8)
         self.lerpInterval = None
-        return
 
     def disable(self):
         self.cleanup()
@@ -44,6 +44,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
             return
         else:
             self.cleanedUp = 1
+        
         self.demand('Off')
         self.detachNode()
         self.toMagnetSoundInterval.finish()
@@ -55,7 +56,6 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         del self.hitBossSoundInterval
         del self.touchedBossSoundInterval
         self.boss = None
-        return
 
     def setupPhysics(self, name):
         an = ActorNode('%s-%s' % (name, self.doId))
@@ -152,6 +152,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         if abs(v[0]) < 0.0001 and abs(v[1]) < 0.0001:
             self.d_requestFree()
             self.demand('Free')
+        
         return Task.cont
 
     def prepareGrab(self):
@@ -210,7 +211,6 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         if self.lerpInterval:
             self.lerpInterval.finish()
             self.lerpInterval = None
-        return
 
     def exitOff(self):
         self.reparentTo(render)
@@ -237,6 +237,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
             else:
                 self.crane.dropObject(self)
                 self.prepareRelease()
+       
         self.avId = avId
         self.craneId = craneId
         self.crane = self.cr.doId2do.get(craneId)
@@ -278,6 +279,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
             self.handler.setDynamicFrictionCoef(0)
         else:
             self.startSmooth()
+        
         self.hideShadows()
 
     def exitDropped(self):
@@ -287,6 +289,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
                 self.stopPosHprBroadcast()
         else:
             self.stopSmooth()
+        
         del self.crane
         self.showShadows()
 
@@ -304,8 +307,8 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
                 taskMgr.add(self.__watchDrift, self.watchDriftName)
         else:
             self.startSmooth()
+        
         self.hitFloorSoundInterval.start()
-        return
 
     def exitSlidingFloor(self):
         if self.avId == base.localAvatar.doId:

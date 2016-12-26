@@ -1805,7 +1805,11 @@ class OTPClientRepository(ClientRepositoryBase):
             di2 = DatagramIterator(dg, di.getCurrentIndex())
             doId = di2.getUint32()
             if doId in self.deferredDoIds:
-                self.deferredDoIds[doId][3].append((CLIENT_OBJECT_LOCATION, (dg, di)))
+                if len(deferredDoIds[doId]) == 3:
+                    self.deferredDoIds[doId][3].append((CLIENT_OBJECT_LOCATION, (dg, di)))
+                else:
+                    # interest id out of range, force handle object location
+                    self.handleObjectLocation(di)
             else:
                 self.handleObjectLocation(di)
         else:

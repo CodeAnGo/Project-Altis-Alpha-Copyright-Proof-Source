@@ -30,8 +30,6 @@ class Avatar(Actor, ShadowCaster):
     ManagesNametagAmbientLightChanged = False
 
     def __init__(self, other = None):
-        self._name = ''
-        self.npcType = None
         try:
             self.Avatar_initialized
         except:
@@ -39,6 +37,8 @@ class Avatar(Actor, ShadowCaster):
 
         Actor.__init__(self, None, None, other, flattenable=0, setFinal=0)
         ShadowCaster.__init__(self)
+        self.name = ''
+        self.npcType = None
         self.__font = OTPGlobals.getInterfaceFont()
         self.__speechFont = OTPGlobals.getInterfaceFont()
         self.soundChatBubble = None
@@ -238,6 +238,7 @@ class Avatar(Actor, ShadowCaster):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
+        
         self.name = name
         if hasattr(self, 'nametag'):
             self.setNametagWithTag(name)
