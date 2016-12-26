@@ -1,5 +1,7 @@
 
 class LoginQueue(object):
+    __slots__ = (
+        '_csm', '_maxCapacity', '_id', _queued', '_waiting')
 
     def __init__(self, csm, maxCapacity=100):
         self._csm = csm
@@ -15,7 +17,7 @@ class LoginQueue(object):
         taskMgr.add(self.run, 'run-queue')
 
     def run(self, task):
-        if len(self._queued) == 0:
+        if not len(self._queued):
             return task.cont
 
         # if any requests are pending, add them and handle there request
