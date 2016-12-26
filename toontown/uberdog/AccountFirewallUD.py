@@ -6,6 +6,7 @@ import json
 
 class AccountFirewallUD:
     notify = directNotify.newCategory('AccountFirewall')
+    CONCURRENT_PLAYERS_LIMIT = 500
     CURRENT_PLAYERS_AMOUNT = 0
 
     def __init__(self, air):
