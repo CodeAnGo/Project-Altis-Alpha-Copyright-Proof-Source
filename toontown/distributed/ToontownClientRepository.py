@@ -50,7 +50,6 @@ from toontown.distributed import ToontownDistrictStats
 from toontown.makeatoon import TTPickANamePattern
 from toontown.parties import ToontownTimeManager
 from toontown.toon import Toon, DistributedToon
-from otp.nametag.NametagGroup import NametagGroup
 from toontown.dmenu import DMenuScreen
 from ToontownMsgTypes import *
 import HoodMgr
