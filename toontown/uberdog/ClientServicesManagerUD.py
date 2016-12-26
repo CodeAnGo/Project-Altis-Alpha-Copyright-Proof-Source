@@ -941,8 +941,8 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def performLogin(self, cookie, sessionKey):
         sender = self.air.getMsgSender()
 
-        if not (self.AccountFirewallUD.checkPlayerLogin(cookie)):
-            self.killConnection(sender, "Your account has been disallowed login to Project Altis. Please try again later.")
+        if not self.AccountFirewallUD.checkPlayerLogin(cookie):
+            self.killConnection(sender, 'Your account has been disallowed login to Project Altis. Please try again later.')
             return
 
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))      
