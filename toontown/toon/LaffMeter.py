@@ -1,4 +1,4 @@
-from pandac.PandaModules import Vec4
+from panda3d.core import Vec4
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals
@@ -53,7 +53,7 @@ class LaffMeter(DirectFrame):
             elif hType == 'pig':
                 headModel = gui.find('**/pighead')
             elif hType == 'deer':
-                headModel = gui.find('**/horsehead')
+                headModel = gui.find('**/deerhead')
             else:
                 raise StandardError('unknown toon species: ', hType)
             self.color = self.style.getHeadColor()
