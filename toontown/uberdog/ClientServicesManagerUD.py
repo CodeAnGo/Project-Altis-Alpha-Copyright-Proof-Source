@@ -11,6 +11,7 @@ from toontown.uberdog.AccountFirewallUD import AccountFirewallUD
 from sys import platform
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui import FeatureComingSoonDialog
+from toontown.uberdog.LoginQueue import LoginQueue
 import dumbdbm
 import anydbm
 import time
@@ -848,6 +849,10 @@ class UnloadAvatarFSM(OperationFSM):
 class ClientServicesManagerUD(DistributedObjectGlobalUD):
     notify = directNotify.newCategory('ClientServicesManagerUD')
 
+    def __init__(self, air):
+        DistributedObjectGlobalUD.__init__(self, air)
+        self.queue = LoginQueue(self)
+
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
 
@@ -858,6 +863,9 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.connection2fsm = {}
         self.account2fsm = {}
         self.sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+
+        # start the queue
+        self.queue.start()
 
         # For processing name patterns.
         self.nameGenerator = NameGenerator()
@@ -928,8 +936,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.loginsEnabled = enable
 
     def login(self, cookie, sessionKey):
-        sender = self.air.getMsgSender()
+        self.queue.queueObject(self.queue.getNewId(), (cookie, sessionKey))
 
+    def performLogin(self, cookie, sessionKey):
+        sender = self.air.getMsgSender()
 
         if not (self.AccountFirewallUD.checkPlayerLogin(cookie)):
             self.killConnection(sender, "Your account has been disallowed login to Project Altis. Please try again later.")
