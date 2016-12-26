@@ -5,6 +5,7 @@ from otp.otpbase import OTPLocalizer, OTPGlobals
 from otp.margins.WhisperPopup import *
 from panda3d.core import *
 from panda3d.direct import *
+from uuid import getnode as get_mac
 import json
 import requests
 
@@ -14,10 +15,13 @@ class ClientServicesManager(DistributedObjectGlobal):
     systemMessageSfx = None
     avIdsReportedThisSession = []
     sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+    mac = get_mac()
 
     # --- LOGIN LOGIC ---
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
+
+        print(str(self.mac))
 
         urlResponse = requests.get('http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
             base.launcher.getPassword()))
@@ -31,7 +35,9 @@ class ClientServicesManager(DistributedObjectGlobal):
         # TODO: FIX ME - The JSON data is decoded as unicode so boolean types aren't redefined correctly
         if response['status'] != 'true':
             # couldn't find the details in the database!
-            return
+            print(response["reason"])
+            print(response["additional"])
+            raise SystemExit
         else:
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
