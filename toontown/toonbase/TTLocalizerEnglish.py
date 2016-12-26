@@ -141,7 +141,8 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  13300: ('to the', 'in the', 'Lawbot A Office'),
  13400: ('to the', 'in the', 'Lawbot B Office'),
  13500: ('to the', 'in the', 'Lawbot C Office'),
- 13600: ('to the', 'in the', 'Lawbot D Office')}
+ 13600: ('to the', 'in the', 'Lawbot D Office'),
+ 19000: ('to the', 'in the', 'Looney Labs')}
 DonaldsDock = ('to', 'in', lDonaldsDock)
 ToontownCentral = ('to', 'in', lToontownCentral)
 TheBrrrgh = ('to', 'in', lTheBrrrgh)
@@ -155,6 +156,7 @@ BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
+BoardbotHQ = ('to', 'in', 'Looney Labs')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
