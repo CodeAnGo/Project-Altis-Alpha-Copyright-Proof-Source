@@ -4653,7 +4653,7 @@ FishTrophyNameDict = {0: 'Guppy',
  5: 'Swordfish',
  6: 'Killer Whale',
  7: 'Orca',
- 8: 'Anger Fish',
+ 8: 'Angler Fish',
  9: 'Kraken'}
 GardenPageTitle = 'Gardening'
 GardenPageTitleBasket = 'Flower Basket'
