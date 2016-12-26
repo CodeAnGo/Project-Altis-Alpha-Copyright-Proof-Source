@@ -17,7 +17,7 @@ class LoginQueue(object):
         taskMgr.add(self.run, 'run-queue')
 
     def run(self, task):
-        if not len(self._queued):
+        if not len(self._queued.keys()):
             return task.cont
 
         # if any requests are pending, add them and handle there request
