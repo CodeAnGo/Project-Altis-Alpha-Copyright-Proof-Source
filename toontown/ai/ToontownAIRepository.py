@@ -242,6 +242,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.ttFriendsManager = self.generateGlobalObject(OTP_DO_ID_TT_FRIENDS_MANAGER, 'TTFriendsManager')
 
+        self.csm = self.generateGlobalObject(OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
+
     def createZones(self):
         """
         Spawn safezone objects, streets, doors, NPCs, etc.

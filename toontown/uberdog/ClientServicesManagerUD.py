@@ -1019,4 +1019,28 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         if len(REPORT_REASONS) <= category:
             self.air.writeServerEvent("suspicious", avId=reporterId, issue="Invalid report reason index (%d) sent by avatar." % category)
             return
+        
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
+
+    def requestBanPlayer(self, avId, reason):
+        self.air.dbInterface.queryObject(self.air.dbId, avId, callback=self.__handleLookupPlayer, 
+            avId=avId, reason=reason)
+
+    def __handleLookupPlayer(self, dclass, fields, avId, reason):
+        accountId, = fields['setDISLid']
+
+        # lookup account to get login cookie
+        self.air.dbInterface.queryObject(self.air.dbId, accountId, callback=self.__handleLookupAccount, 
+            accountId=accountId, reason=reason)
+
+    def __handleLookupAccount(self, dclass, fields, accountId, reason):
+        cookie = fields.get('ACCOUNT_ID')
+
+        # check if the player is already banned.
+        if self.banManager.getToonBanned(cookie):
+            return
+
+        self.banManager.banToon(cookie, reason)
+
+        # new, disconnect the toon
+        self.killAccount(accountId, reason)

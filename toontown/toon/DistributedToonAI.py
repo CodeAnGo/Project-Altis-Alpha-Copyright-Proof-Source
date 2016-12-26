@@ -348,15 +348,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.keepAliveTask = None
         return
 
-    def ban(self, comment, time):
-        simbase.air.banManager.ban(self.air.getAccountId(self.doId), comment, time)
-        pass
-        
-        
-    def pban(self, comment):
-        simbase.air.banManager.pban(self.air.getAccountId(self.doId), comment)
-        pass
-
     def disconnect(self):
         self.requestDelete()
 
@@ -4586,6 +4577,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_setLastSeen(self, timestamp):
         self.sendUpdate('setLastSeen', [int(timestamp)])
 
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def ban(reason):
+    if spellbook.getTarget() == spellbook.getInvoker():
+        return "You cannot ban yourself, %s!" % spellbook.getInvoker().getName()
+    
+    simbase.air.csm.requestBanPlayer(spellbook.getTarget().getDoId(),
+        reason)
+
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def cheesyEffect(value, hood=0, expire=0):
     """
@@ -4897,16 +4896,6 @@ def registerToSM():
             return "You are now added to the active System Admin roster."
         else:
             return "You aren't in a staff position!"
-
-@magicWord(category=CATEGORY_MODERATION, types=[int, str, bool, bool], access=400) # Set to 400 for now...
-def ban(timeInMinutes, reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
-    """Ban the player from the game server."""
-    return 'banManager is not currently implemented!' # Disabled until we have a working banManager.
-    if not confirmed:
-        return "Are you sure you want to ban this player? Use '~~ban TIME REASON True' if you are."
-    if not overrideSelfBan and spellbook.getTarget() == spellbook.getInvoker():
-        return "Are you sure you want to ban yourself? Use '~ban TIME REASON True True' if you are."
-    spellbook.getTarget().ban(time, reason)
     
 @magicWord(category=CATEGORY_MODERATION, types = [str, bool, bool])
 def pban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):

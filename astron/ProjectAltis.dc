@@ -700,7 +700,7 @@ from toontown.racing import DistributedLeaderBoard/AI
 from toontown.racing import DistributedGag/AI
 from toontown.racing import DistributedProjectile/AI
 from toontown.racing.DistributedStartingBlock/AI import DistributedViewingBlock/AI
-from toontown.uberdog.ClientServicesManager/UD import ClientServicesManager/UD
+from toontown.uberdog.ClientServicesManager/AI/UD import ClientServicesManager/AI/UD
 from toontown.uberdog.DistributedDeliveryManager/AI/UD import DistributedDeliveryManager/AI/UD
 from toontown.uberdog.DistributedDataStoreManager/AI/UD import DistributedDataStoreManager/AI/UD
 from toontown.suit import DistributedLawbotBoss/AI
@@ -3772,6 +3772,8 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   systemMessage(uint16 code, string params[]);
 
   reportPlayer(uint32 avId, uint8 category) clsend;
+
+  requestBanPlayer(uint32 avId, string reason);
 };
 
 dclass RATManager : DistributedObjectGlobal {
