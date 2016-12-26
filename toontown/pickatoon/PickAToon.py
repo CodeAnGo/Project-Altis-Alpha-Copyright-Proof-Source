@@ -33,6 +33,13 @@ COLORS = (Vec4(0.917, 0.164, 0.164, 1),
  Vec4(0.895, 0.348, 0.602, 1),
  Vec4(0.977, 0.816, 0.133, 1))
  
+BUTTONPOSITIONS = ((-1, 0, 0.5),
+            (-.6, 0, 0.5),
+            (-.2, 0, 0.5),
+            (.2, 0, 0.5),
+            (0.6, 0, 0.5),
+            (1, 0, 0.5))
+ 
 # The main position
 MAIN_POS = (-60, 0, 11)
 MAIN_HPR = (-90, -2, 0)
@@ -63,6 +70,7 @@ class PickAToon:
         #self.optionsMgr = PickAToonOptions.PickAToonOptions()
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
+        self.buttonList = []
         return
 
     def skyTrack(self, task):
@@ -138,38 +146,14 @@ class PickAToon:
             self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
             self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
             self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
-            
-            self.toon1 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [0], image = self.buttonBgs[0])
-            self.toon1.reparentTo(self.patNode2d)
-            self.toon1.setPos(-1, 0, 0.5)
-            self.toon1.setScale(.5)
-            
-            self.toon2 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [1], image = self.buttonBgs[1])
-            self.toon2.reparentTo(self.patNode2d)
-            self.toon2.setPos(-.6, 0, 0.5)
-            self.toon2.setScale(.5)
-            
-            self.toon3 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [2], image = self.buttonBgs[2])
-            self.toon3.reparentTo(self.patNode2d)
-            self.toon3.setPos(-.2, 0, 0.5)
-            self.toon3.setScale(.5)
-            
-            self.toon4 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [3], image = self.buttonBgs[3])
-            self.toon4.reparentTo(self.patNode2d)
-            self.toon4.setPos(.2, 0, 0.5)
-            self.toon4.setScale(.5)
-            
-            self.toon5 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [4], image = self.buttonBgs[4])
-            self.toon5.reparentTo(self.patNode2d)
-            self.toon5.setPos(.6, 0, 0.5)
-            self.toon5.setScale(.5)
-            
-            self.toon6 = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [5], image = self.buttonBgs[5])
-            self.toon6.reparentTo(self.patNode2d)
-            self.toon6.setPos(1, 0, 0.5)
-            self.toon6.setScale(.5)
-            
-            self.setButtonNames()
+            buttonIndex = []
+            for av in self.avatarList:
+                self.setupButtons(av, position=av.position)
+                buttonIndex.append(av.position)
+                
+            for pos in xrange(0, 6):
+                if pos not in buttonIndex:
+                    button = self.setupButtons(position=pos)
             
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui', callback = spawnToonButtons)
 
@@ -255,67 +239,21 @@ class PickAToon:
     def makeToon(self):
         doneStatus = {"mode": "create", "choice": self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
+                
+    def setupButtons(self, av = None, position = 0):
+        button = DirectButton(text = ' ', relief = None, command=self.selectToon, extraArgs = [position], image = self.buttonBgs[position])
+        button.reparentTo(self.patNode2d)
+        button.setPos(BUTTONPOSITIONS[position])
+        button.setScale(.5)
         
-    def setButtonNames(self):
-        for k in self.avatarList:
-            if k.position == 0:
-                av1 = k
-                self.head1 = hidden.attachNewNode('head1')
-                self.head1.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head1.reparentTo(self.toon1)
-                self.headModel1 = ToonHead.ToonHead()
-                self.headModel1.setupHead(ToonDNA.ToonDNA(av1.dna), forGui=1)
-                self.headModel1.reparentTo(self.head1)
-        
-        for k in self.avatarList:
-            if k.position == 1:
-                av2 = k
-                self.head2 = hidden.attachNewNode('head2')
-                self.head2.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head2.reparentTo(self.toon2)
-                self.headModel2 = ToonHead.ToonHead()
-                self.headModel2.setupHead(ToonDNA.ToonDNA(av2.dna), forGui=1)
-                self.headModel2.reparentTo(self.head2)
-        
-        for k in self.avatarList:
-            if k.position == 2:
-                av3 = k
-                self.head3 = hidden.attachNewNode('head3')
-                self.head3.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head3.reparentTo(self.toon3)
-                self.headModel3 = ToonHead.ToonHead()
-                self.headModel3.setupHead(ToonDNA.ToonDNA(av3.dna), forGui=1)
-                self.headModel3.reparentTo(self.head3)
-        
-        for k in self.avatarList:
-            if k.position == 3:
-                av4 = k
-                self.head4 = hidden.attachNewNode('head4')
-                self.head4.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head4.reparentTo(self.toon4)
-                self.headModel4 = ToonHead.ToonHead()
-                self.headModel4.setupHead(ToonDNA.ToonDNA(av4.dna), forGui=1)
-                self.headModel4.reparentTo(self.head4)
-        
-        for k in self.avatarList:
-            if k.position == 4:
-                av5 = k
-                self.head5 = hidden.attachNewNode('head5')
-                self.head5.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head5.reparentTo(self.toon5)
-                self.headModel5 = ToonHead.ToonHead()
-                self.headModel5.setupHead(ToonDNA.ToonDNA(av5.dna), forGui=1)
-                self.headModel5.reparentTo(self.head5)
-        
-        for k in self.avatarList:
-            if k.position == 5:
-                av6 = k
-                self.head6 = hidden.attachNewNode('head6')
-                self.head6.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head6.reparentTo(self.toon6)
-                self.headModel6 = ToonHead.ToonHead()
-                self.headModel6.setupHead(ToonDNA.ToonDNA(av6.dna), forGui=1)
-                self.headModel6.reparentTo(self.head6)
+        if av:
+            head = hidden.attachNewNode('head')
+            head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
+            head.reparentTo(button)
+            headmod = ToonHead.ToonHead()
+            headmod.setupHead(ToonDNA.ToonDNA(av.dna), forGui=1)
+            headmod.reparentTo(head)
+        self.buttonList.append(button)
 
     def unload(self):
         taskMgr.remove("turnHead")
