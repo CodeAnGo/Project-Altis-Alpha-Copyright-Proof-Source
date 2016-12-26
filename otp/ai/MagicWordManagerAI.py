@@ -5,6 +5,7 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 import time
 import datetime
+import os
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
@@ -46,5 +47,9 @@ class MagicWordManagerAI(DistributedObjectAI):
                                   invokerId=invokerId, invokerAccess=invoker.getAdminAccess(),
                                   targetId=targetId, targetAccess=targetAccess,
                                   word=word, response=response[0])
+
+        if not os.path.exists('backups/tools'):
+            os.makedirs('backups/tools')
+        
         with open("backups/tools/magic-words.altis", "a") as text_file:
             text_file.write("%s | %s : %s\n" % (now, invokerId, word))

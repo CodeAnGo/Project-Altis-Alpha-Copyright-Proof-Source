@@ -18,7 +18,6 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.questChoiceGui = None
         self.trackChoiceGui = None
         self.npcType = 'Shopkeeper'
-        return
 
     def delayDelete(self):
         DistributedNPCToonBase.delayDelete(self)
@@ -27,7 +26,6 @@ class DistributedNPCToon(DistributedNPCToonBase):
             self.curQuestMovie = None
             curQuestMovie.timeout(fFinish=1)
             curQuestMovie.cleanup()
-        return
 
     def disable(self):
         self.cleanupMovie()
@@ -47,7 +45,6 @@ class DistributedNPCToon(DistributedNPCToonBase):
         if self.trackChoiceGui:
             self.trackChoiceGui.destroy()
             self.trackChoiceGui = None
-        return
 
     def allowedToTalk(self):
         if base.cr.isPaid():
@@ -224,18 +221,15 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.acceptOnce(self.uniqueName('doneChatPage'), self.finishMovie, extraArgs=[av, isLocalToon])
         self.clearChat()
         self.setPageChat(avId, 0, fullString, 1)
-        return
 
     def sendChooseQuest(self, questId):
         if self.questChoiceGui:
             self.questChoiceGui.destroy()
             self.questChoiceGui = None
         self.sendUpdate('chooseQuest', [questId])
-        return
 
     def sendChooseTrack(self, trackId):
         if self.trackChoiceGui:
             self.trackChoiceGui.destroy()
             self.trackChoiceGui = None
         self.sendUpdate('chooseTrack', [trackId])
-        return
