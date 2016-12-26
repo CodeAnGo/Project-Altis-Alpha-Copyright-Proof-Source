@@ -166,7 +166,7 @@ class DMenuScreen(DirectObject):
 
     def openOptions(self):
         self.optionsMgr.showOptions()
-        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = "< Back", text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, command = self.hideOptions)
+        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = "Back", text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
         self.closeOptionsButton.reparentTo(base.a2dTopLeft)
         self.closeOptionsButton.setPos(0.5, 0, -0.07)
         Parallel(
