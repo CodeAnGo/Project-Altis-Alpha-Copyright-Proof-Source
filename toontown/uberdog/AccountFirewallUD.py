@@ -45,8 +45,8 @@ class AccountFirewallUD:
     def checkPlayerLogin(self, cookie):
         ALLOW_ENTRY = self.checkPlayerLimit()
 
-        if cookie not in self.whitelistCookies:
-            ALLOW_ENTRY = False
+        #if cookie not in self.whitelistCookies:
+        #    ALLOW_ENTRY = False
 
         if ALLOW_ENTRY:
             self.notify.info("Cookie '" + str(cookie) + "' has been allowed entry!")
