@@ -2735,7 +2735,7 @@ def granddad():
     
 @magicWord(category=CATEGORY_MODERATION)
 def loopysballs():
-    spellbook.getInvoker().magicTeleportInitiate(2602, 2602)
+    spellbook.getInvoker().magicTeleportInitiate(2000, 2741)
     
 @magicWord(category=CATEGORY_MODERATION)
 def tutorial():
@@ -2745,3 +2745,10 @@ def tutorial():
 def party():
     spellbook.getInvoker().magicTeleportInitiate(18000, 18000)
     
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def zone(zoneId):
+    """
+    Changes the invoker's zone ID.
+    """
+    base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'You have been moved to zone %d.' % zoneId
