@@ -18,15 +18,15 @@ resistanceDict = {
         'menuName': TTLocalizer.ResistanceToonupMenu,
         'itemText': TTLocalizer.ResistanceToonupItem,
         'chatText': TTLocalizer.ResistanceToonupChat,
-        'values': [20, 40, 60, 80, 100, 120, -1],
-        'items': [0, 1, 2, 3, 4, 5, 6]
+        'values': [20, 40, 60, 80, 100, -1],
+        'items': [0, 1, 2, 3, 4, 5]
     },
     RESISTANCE_MONEY: {
         'menuName': TTLocalizer.ResistanceMoneyMenu,
         'itemText': TTLocalizer.ResistanceMoneyItem,
         'chatText': TTLocalizer.ResistanceMoneyChat,
-        'values': [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
-        'items': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        'values': [2000, 4000, 6000, 8000, 10000],
+        'items': [0, 1, 2, 3, 4]
     },
     RESISTANCE_RESTOCK: {
         'menuName': TTLocalizer.ResistanceRestockMenu,
