@@ -7,7 +7,7 @@ from panda3d.core import *
 from panda3d.direct import *
 from uuid import getnode as get_mac
 import json
-import requests
+import httplib
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
@@ -23,11 +23,12 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         print(str(self.mac))
 
-        urlResponse = requests.get('http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', 'http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
             base.launcher.getPassword()))
 
         try:
-            response = json.loads(urlResponse.text)
+            response = json.loads(httpReq.getresponse().read())
         except:
             self.notify.error('Failed to decode json login API response!')
             return
