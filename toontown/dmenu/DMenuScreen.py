@@ -77,6 +77,9 @@ class DMenuScreen(DirectObject):
             self.phase3Sfx.setLoop(True)
             self.arrowSfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.ogg')
             self.arrowSfx.setLoop(False)
+            self.phase3Sfx.setVolume(0.2)
+            self.arrowSfx.setVolume(0.2)
+            
             self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', constrainedLoop=0, startFrame=236, endFrame=247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', duration=604800, constrainedLoop=1, startFrame=247, endFrame=276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
             self.animSeq.start()
             self.smPhase2 = self.sillyMeter.find('**/stage2')
