@@ -104,6 +104,7 @@ class Hood(StateData.StateData):
         del self.dnaStore
         if hasattr(self, 'sky'):
             if self.sky:
+                self.stopSky()
                 self.sky.removeNode()
                 del self.sky
         if hasattr(self, 'newSky'):
