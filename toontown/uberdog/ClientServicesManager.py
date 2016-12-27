@@ -24,7 +24,7 @@ class ClientServicesManager(DistributedObjectGlobal):
         print(str(self.mac))
 
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', 'http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
+        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
             base.launcher.getPassword()))
 
         try:
