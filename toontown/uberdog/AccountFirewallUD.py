@@ -16,7 +16,7 @@ class AccountFirewallUD:
         self.whitelistCookies = [
             '908b07ebedad40dd32e7828e481a40dd96ec4f8f3859fd80a0573dcb96202572', 
             '9e28c8ce837901ec3548dc667fb0b68c35e4d61904fe73c03eeb4578854b26e5', 
-            'd0715006db74328e9b50a989c77e715dd758b739eb156d3250d0cb1d1cbc8bbd']
+            '17fa43b574fa50a3e8eebfcbf971d08fb1c1cb72b34a15c61abefebd7c54e5ae']
 
     def setup(self):
         pass

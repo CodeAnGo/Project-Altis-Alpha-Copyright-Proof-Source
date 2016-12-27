@@ -20,10 +20,12 @@ class DLHood(ToonHood.ToonHood):
          SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DL.pdna']}
         self.skyFile = 'phase_8/models/props/DL_sky'
         self.titleColor = (1.0, 0.9, 0.5, 1.0)
+        self.sky = None
 
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed('DLHood').addChild(self.fsm)
+        self.startSky()
 
     def unload(self):
         self.parentFSM.getStateNamed('DLHood').removeChild(self.fsm)
@@ -35,6 +37,18 @@ class DLHood(ToonHood.ToonHood):
     def exit(self):
         ToonHood.ToonHood.exit(self)
 
+    def startSky(self):
+        self.sky.reparentTo(camera)
+        self.sky.setZ(0.0)
+        self.sky.setHpr(0.0, 0.0, 0.0)
+        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
+        self.sky.node().setEffect(ce)
+
+    def stopSky(self):
+        taskMgr.remove('skyTrack')
+        if self.sky:
+            self.sky.reparentTo(hidden)
+        
 @magicWord(category=CATEGORY_OVERRIDE)
 def spooky():
     """
