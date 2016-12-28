@@ -515,8 +515,11 @@ class BattleCalculatorAI:
                     if self.__isWet(targetId) == 1:
                         if random.randint(0,99) <= InstaKillChance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
-                            suit.b_setSkeleRevives(0)
-                            attackDamage = suit.getHP()
+                            if suit.getHP() > 500:
+                                attackDamage = suit.getHP()
+                            else:
+                                suit.b_setSkeleRevives(0)
+                                attackDamage = suit.getHP()
                         else:
                             attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
                     else:
