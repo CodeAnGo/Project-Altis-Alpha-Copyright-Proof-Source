@@ -850,20 +850,27 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.popCameraToDest()
 
     def handleCameraFloorInteraction(self):
-        self.putCameraFloorRayOnCamera()
-        self.ccTravFloor.traverse(self.__geom)
-        if self.__onLevelGround:
-            return
+        self.camFloorRayNode.setPos(camera.getPos())
+        self.ccTravFloor.traverse(self._LocalAvatar__geom)
         if self.camFloorCollisionQueue.getNumEntries() == 0:
             return
         self.camFloorCollisionQueue.sortEntries()
         camObstrCollisionEntry = self.camFloorCollisionQueue.getEntry(0)
         camHeightFromFloor = camObstrCollisionEntry.getSurfacePoint(self.ccRayNodePath)[2]
-        self.cameraZOffset = camera.getPos()[2] + camHeightFromFloor
-        if self.cameraZOffset < 0:
-            self.cameraZOffset = 0
-        if self.__floorDetected == 0:
-            self.__floorDetected = 1
+        heightOfFloorUnderCamera = (camera.getPos()[2] - ToontownGlobals.FloorOffset) + camHeightFromFloor
+        camIdealHeightFromFloor = self.getIdealCameraPos()[2]
+        camTargetHeight = heightOfFloorUnderCamera + camIdealHeightFromFloor
+        self.cameraZOffset = camTargetHeight - camIdealHeightFromFloor
+        if self.cameraZOffset < 0.0:
+            self.cameraZOffset = self.cameraZOffset * 0.33
+            if self.cameraZOffset < -(self.getClampedAvatarHeight() * 0.5):
+                if self.cameraZOffset < -self.getClampedAvatarHeight():
+                    self.cameraZOffset = 0.0
+                else:
+                    self.cameraZOffset = -(self.getClampedAvatarHeight() * 0.5)
+        
+        if self._LocalAvatar__floorDetected == 0:
+            self._LocalAvatar__floorDetected = 1
             self.popCameraToDest()
 
     def lerpCameraFov(self, fov, time):
