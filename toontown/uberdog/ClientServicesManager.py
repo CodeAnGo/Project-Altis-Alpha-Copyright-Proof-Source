@@ -14,7 +14,7 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     systemMessageSfx = None
     avIdsReportedThisSession = []
-    sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+    sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
     mac = get_mac()
 
     # --- LOGIN LOGIC ---
@@ -36,9 +36,8 @@ class ClientServicesManager(DistributedObjectGlobal):
         # TODO: FIX ME - The JSON data is decoded as unicode so boolean types aren't redefined correctly
         if response['status'] != 'true':
             # couldn't find the details in the database!
-            print(response["reason"])
-            print(response["additional"])
-            raise SystemExit
+            # don't give hackers any clue to what's happening.
+            return
         else:
             # the request was successful, set the login cookie and login.
             cookie = response['additional']

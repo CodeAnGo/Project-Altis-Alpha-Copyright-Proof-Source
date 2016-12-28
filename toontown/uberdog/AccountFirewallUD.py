@@ -37,10 +37,10 @@ class AccountFirewallUD:
         pass
 
     def checkPlayerLimit(self):
-        if self.CURRENT_PLAYERS_AMOUNT < self.CONCURRENT_PLAYERS_LIMIT:
-            return True
-        elif self.  CURRENT_PLAYERS_AMOUNT >= self.CONCURRENT_PLAYERS_LIMIT:
+        if self.CURRENT_PLAYERS_AMOUNT >= self.CONCURRENT_PLAYERS_LIMIT:
             return False
+
+        return True
     
     def checkPlayerLogin(self, cookie):
         ALLOW_ENTRY = self.checkPlayerLimit()

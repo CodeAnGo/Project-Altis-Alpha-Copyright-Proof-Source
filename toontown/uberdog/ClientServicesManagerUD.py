@@ -863,7 +863,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
-        self.sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+        self.sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
 
         # start the queue
         self.queue.start()
@@ -942,9 +942,9 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def performLogin(self, cookie, sessionKey):
         sender = self.air.getMsgSender()
 
-        if not self.AccountFirewallUD.checkPlayerLogin(cookie):
-            self.killConnection(sender, 'Your account has been disallowed login to Project Altis. Please try again later.')
-            return
+        #if not self.AccountFirewallUD.checkPlayerLogin(cookie):
+        #   self.killConnection(sender, 'Your account has been disallowed login to Project Altis. Please try again later.')
+        #    return
 
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))      
 
