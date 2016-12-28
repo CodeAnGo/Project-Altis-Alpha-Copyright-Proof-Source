@@ -13,6 +13,7 @@ from direct.showbase.EventManagerGlobal import *
 from direct.showbase.JobManagerGlobal import *
 from direct.showbase.MessengerGlobal import *
 from toontown.toonbase.ToonPythonUtil import *
+from toontown.toonbase import ToonPythonUtil
 from direct.task import Task
 from direct.task.TaskManagerGlobal import *
 from otp.otpbase import BackupManager
@@ -60,7 +61,7 @@ class AIBase:
         __builtins__['vfs'] = vfs
         __builtins__['hidden'] = self.hidden
         AIBase.notify.info('__dev__ == %s' % __dev__)
-        recordFunctorCreationStacks()
+        ToonPythonUtil.recordFunctorCreationStacks()
         __builtins__['wantTestObject'] = self.config.GetBool('want-test-object', 0)
         self.wantStats = self.config.GetBool('want-pstats', 0)
         Task.TaskManager.pStatsTasks = self.config.GetBool('pstats-tasks', 0)
