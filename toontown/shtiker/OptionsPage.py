@@ -14,6 +14,7 @@ from toontown.toon import Toon
 from toontown.toontowngui import TTDialog
 from toontown.shtiker import ControlRemapDialog
 from toontown.toontowngui import FeatureComingSoonDialog
+from decimal import Decimal
 
 speedChatStyles = (
     (
@@ -312,11 +313,11 @@ class OptionsTabPage(DirectFrame):
         self.ToonChatSounds_Label.setScale(0.9)
         self.Music_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord),
                                                value=settings['musicVol']*100, pageSize=5, range=(0, 100), command=self.__doMusicLevel,
-                                               thumb_geom=(circleModel.find('**/tt_t_gui_mat_namePanelCircle')), thumb_relief=None, thumb_geom_scale=2)
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.Music_toggleSlider.setScale(0.25)
         self.SoundFX_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight),
                                                value=settings['sfxVol']*100, pageSize=5, range=(0, 100), command=self.__doSfxLevel,
-                                               thumb_geom=(circleModel.find('**/tt_t_gui_mat_namePanelCircle')), thumb_relief=None, thumb_geom_scale=2)
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.SoundFX_toggleSlider.setScale(0.25)
         self.Friends_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 3), command=self.__doToggleAcceptFriends)
         self.Whispers_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 4), command=self.__doToggleAcceptWhispers)
@@ -737,6 +738,15 @@ class SpecialOptionsTabPage(DirectFrame):
                                               text_pos=button_textpos,
                                               pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.1),
                                               command=self.__doToggleNewGui)
+        self.fov_Label = DirectLabel(parent=self, relief=None, text='Field of view', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.2))
+
+        self.fov_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.3),
+                                               value=settings['fieldofview'], pageSize=5, range=(30, 120), command=self.__doFovLevel,
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.fov_toggleSlider.setScale(0.25)
+        self.fov_resetButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Reset FOV', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.4), command=self.__resetFov)
+        self.fovsliderText = OnscreenText("0.0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
         guiButton.removeNode()
         circleModel.removeNode()
 
@@ -745,6 +755,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.settingsChanged = 0
         self.__setWASDButton()
         self.__setNewGuiButton()
+        self.__doFovLevel()
 
     def exit(self):
         self.ignoreAll()
@@ -757,6 +768,12 @@ class SpecialOptionsTabPage(DirectFrame):
         del self.WASD_toggleButton
         self.keymapDialogButton.destroy()
         del self.keymapDialogButton
+        self.fov_toggleSlider.destroy()
+        del self.fov_toggleSlider
+        self.fov_resetButton.destroy()
+        del self.fov_resetButton
+        self.fov_Label.destroy()
+        del self.fov_Label
 
     def __doToggleNewGui(self):
         FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -805,3 +822,16 @@ class SpecialOptionsTabPage(DirectFrame):
     def __openKeyRemapDialog(self):
         if base.wantCustomControls:
             self.controlDialog = ControlRemapDialog.ControlRemap()
+            
+    def __doFovLevel(self):
+        fov = self.fov_toggleSlider['value']
+        settings['fieldofview'] = fov
+        base.camLens.setMinFov(fov/(4./3.))
+        dec = Decimal(fov)
+        self.fovsliderText['text'] = str(round(fov, 1))
+        
+    def __resetFov(self):
+        self.fov_toggleSlider['value'] = 52
+        settings['fieldofview'] = 52
+        base.camLens.setMinFov(52/(4./3.))
+        self.fovsliderText['text'] = str(52)

@@ -46,7 +46,7 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         self.exitErrorCode = 0
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.cam2d.node().setCameraMask(BitMask32.bit(1))
         self.musicManager.setVolume(settings.get("musicVol"))

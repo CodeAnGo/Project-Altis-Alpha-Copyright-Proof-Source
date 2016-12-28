@@ -62,6 +62,8 @@ if 'newGui' not in settings:
     settings['newGui'] = False
 if 'show-disclaimer' not in settings:
     settings['show-disclaimer'] = True
+if 'fieldofview' not in settings:
+    settings['fieldofview'] = 52
 settings['newGui'] = False # Force this to be false
 
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings['res']))

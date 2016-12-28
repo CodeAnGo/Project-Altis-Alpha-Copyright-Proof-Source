@@ -261,7 +261,7 @@ class DistributedPatternGame(DistributedMinigame):
         self.notify.debug('offstage')
         DistributedMinigame.offstage(self)
         self.music.stop()
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        base.camLens.setMinFov(settings['fieldofview']/(4./3.))
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         NametagGlobals.setGlobalNametagScale(1.0)
         self.arrowKeys.destroy()
