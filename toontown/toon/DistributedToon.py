@@ -2184,8 +2184,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             return 0
 
     def setNametagStyle(self, nametagStyle):
-        if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
-            return
         if config.GetBool('want-nametag-avids', 0):
             nametagStyle = 0
         self.nametagStyle = nametagStyle
@@ -2612,13 +2610,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         name = self.name
         self.setDisplayName(name)
         if self._isGM:
-            self.setNametagStyle(5)
             self.setGMIcon(self._gmType)
-            self.gmToonLockStyle = True
         else:
-            self.gmToonLockStyle = False
             self.removeGMIcon()
-            self.setNametagStyle(100)
 
     def setGMIcon(self, gmType = None):
         if hasattr(self, 'gmIcon') and self.gmIcon:

@@ -4779,19 +4779,19 @@ def resistance():
     dna.topTex = 111
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.topTexColor = 26
+    dna.topTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     dna.sleeveTex = 98
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.sleeveTexColor = 26
+    dna.sleeveTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     dna.botTex = 41
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.botTexColor = 26
+    dna.botTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     target = spellbook.getTarget()
@@ -5573,36 +5573,6 @@ def suit(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
     else:
         return 'Invalid command.'
 
-@magicWord(category=CATEGORY_OVERRIDE, types=[str, int, int, int, int, int])
-def suit(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
-    invoker = spellbook.getInvoker()
-    command = command.lower()
-    if command == 'spawn':
-        returnCode = invoker.doSummonSingleCog(int(suitIndex))
-        if returnCode[0] == 'success':
-            return 'Successfully spawned suit with index {0}!'.format(suitIndex)
-        return "Couldn't spawn suit with index {0}.".format(suitIndex)
-    elif command == 'building':
-        returnCode = invoker.doBuildingTakeover(suitIndex)
-        if returnCode[0] == 'success':
-            return 'Successfully spawned building with index {0}!'.format(suitIndex)
-        return "Couldn't spawn building with index {0}.".format(suitIndex)
-    elif command == 'do':
-        returnCode = invoker.doCogdoTakeOver(suitIndex, 1)
-        if returnCode[0] == 'success':
-            return 'Successfully spawned Cogdo with difficulty {0}!'.format(suitIndex)
-        return "Couldn't spawn Cogdo with difficulty {0}.".format(suitIndex)
-    elif command == 'invasion':
-        returnCode = invoker.doCogInvasion(suitIndex, cogType, isSkelecog, isV2)
-        return returnCode
-    elif command == 'invasionend':
-        returnCode = 'Ending Invasion..'
-        simbase.air.suitInvasionManager.cleanupTasks()
-        simbase.air.suitInvasionManager.cleanupInvasion()
-        return returnCode
-    else:
-        return 'Invalid command.'
-
 @magicWord(category=CATEGORY_SYSADMIN, types=[int, str])
 def sos(count, name):
     """
@@ -5674,52 +5644,4 @@ def inventory(a, b=None, c=None):
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
 
-@magicWord(category=CATEGORY_OVERRIDE, types=[str, int, int])
-def inventory(a, b=None, c=None):
-    invoker = spellbook.getInvoker()
-    inventory = invoker.inventory
-    if a == 'reset':
-        maxLevelIndex = b or 5
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: {0}'.format(maxLevelIndex)
-        targetTrack = -1 or c
-        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
-            return 'Invalid target track index: {0}'.format(targetTrack)
-        for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
-            if (targetTrack == -1) or (track == targetTrack):
-                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
-        invoker.b_setInventory(inventory.makeNetString())
-        if targetTrack == -1:
-            return 'Inventory reset.'
-        else:
-            return 'Inventory reset for target track index: {0}'.format(targetTrack)
-    elif a == 'restock':
-        maxLevelIndex = b or 5
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: {0}'.format(maxLevelIndex)
-        targetTrack = -1 or c
-        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
-            return 'Invalid target track index: {0}'.format(targetTrack)
-        if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
-            return "You don't have target track index: {0}".format(targetTrack)
-        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
-        invoker.b_setInventory(inventory.makeNetString())
-        if targetTrack == -1:
-            return 'Inventory restocked.'
-        else:
-            return 'Inventory restocked for target track index: {0}'.format(targetTrack)
-    else:
-        try:
-            targetTrack = int(a)
-        except:
-            return 'Invalid first argument.'
-        if not invoker.hasTrackAccess(targetTrack):
-            return "You don't have target track index: {0}".format(targetTrack)
-        maxLevelIndex = b or 6
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: {0}'.format(maxLevelIndex)
-        for _ in xrange(c):
-            inventory.addItem(targetTrack, maxLevelIndex)
-        invoker.b_setInventory(inventory.makeNetString())
-        return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
 
