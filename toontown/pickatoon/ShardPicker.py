@@ -14,6 +14,7 @@ from toontown.distributed import ToontownDistrictStats
 from toontown.toontowngui import TTDialog
 from otp.ai.MagicWordGlobal import *
 from toontown.shtiker import ShtikerPage
+from direct.interval.IntervalGlobal import *
 POP_COLORS = (Vec4(0.4, 0.4, 1.0, 1.0), Vec4(0.4, 1.0, 0.4, 1.0), Vec4(1.0, 0.4, 0.4, 1.0))
 
 class ShardPicker(ShtikerPage.ShtikerPage):
@@ -37,19 +38,21 @@ class ShardPicker(ShtikerPage.ShtikerPage):
     
     def showPicker(self):
         self.enter()
+        self.posInterval(0.25, Point3(0.3, 0, .9), blendType = 'easeInOut').start()
         
     def hidePicker(self):
-        self.exit()
+        Sequence(
+         self.posInterval(0.25, Point3(0.3, 0, -1), blendType = 'easeInOut'),
+         Func(self.exit)
+                 ).start()
 
     def load(self):
         main_text_scale = 0.06
         title_text_scale = 0.12
-        self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPageTitle, text_scale=title_text_scale, textMayChange=0, pos=(0, 0, 0.6), text_style = 3, text_fg = (1, 1, 1, 1))
         helpText_ycoord = 0.403
-        self.helpText = DirectLabel(parent=self, relief=None, text='', text_scale=main_text_scale, text_wordwrap=12, text_align=TextNode.ALeft, textMayChange=1, pos=(0, 0, helpText_ycoord), text_style = 3, text_fg = (1, 1, 1, 1))
         shardPop_ycoord = helpText_ycoord - 0.523
         totalPop_ycoord = shardPop_ycoord - 0.26
-        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal % 1, text_scale=main_text_scale, text_wordwrap=8, textMayChange=1, text_align=TextNode.ACenter, pos=(0.38, 0, totalPop_ycoord), text_style = 3, text_fg = (1, 1, 1, 1))
+        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal % 1, text_scale=main_text_scale, text_wordwrap=8, textMayChange=1, text_align=TextNode.ACenter, pos=(0.65, 0, totalPop_ycoord), text_style = 3, text_fg = (1, 1, 1, 1))
         self.totalPopulationText.show()
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.listXorigin = -0.02
@@ -61,15 +64,17 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.itemFrameZorigin = 0.365
         self.buttonXstart = self.itemFrameXorigin + 0.293
         self.regenerateScrollList()
-        scrollTitle = DirectFrame(parent=self.scrollList, text=TTLocalizer.ShardPageScrollTitle, text_scale=main_text_scale, text_align=TextNode.ACenter, relief=None, pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.127), text_style = 3, text_fg = (1, 1, 1, 1))
+        self.reparentTo(base.a2dBottomLeft)
+        self.setPos(0.3, 0, -1)
         return
     
     def unload(self):
         self.gui.removeNode()
-        del self.title
         self.scrollList.destroy()
         del self.scrollList
         del self.shardButtons
+        self.totalPopulationText.destroy()
+        del self.totalPopulationText
         taskMgr.remove('ShardPageUpdateTask-doLater')
         ShtikerPage.ShtikerPage.unload(self)
 
@@ -82,7 +87,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
 
             self.scrollList.destroy()
             self.scrollList = None
-        self.scrollList = DirectScrolledList(parent=self, relief=None, pos=(-0.5, 0, 0), incButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
+        self.scrollList = DirectScrolledList(parent=self, relief=None, pos=(0, 0, 0), incButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
          self.gui.find('**/FndsLst_ScrollUp')), incButton_relief=None, incButton_scale=(self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color=Vec4(1, 1, 1, 0.2), decButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
@@ -91,7 +96,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
          self.gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(self.listXorigin,
          self.listXorigin + self.listFrameSizeX,
          self.listZorigin,
-         self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor=(0.85, 0.95, 1, 1), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=15, forceHeight=0.065, items=self.shardButtons)
+         self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor=(0.4, 0.4, 1, 0.5), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=15, forceHeight=0.065, items=self.shardButtons)
         self.scrollList.scrollTo(selectedIndex)
         return
 
@@ -102,12 +107,12 @@ class ShardPicker(ShtikerPage.ShtikerPage):
 
     def makeShardButton(self, shardId, shardName, shardPop, shardHour):
         shardButtonParent = DirectFrame()
-        shardButtonL = DirectButton(parent=shardButtonParent, relief=None, text=shardName, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
+        shardButtonL = DirectButton(parent=shardButtonParent, relief=None, text=shardName, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, text_style=3, command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
         if self.showPop:
             popText = str(shardPop)
             if shardPop == None:
                 popText = ''
-            shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
+            shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), text_style=3, command=self.choseShard, extraArgs=[shardId])
             shardButtonHour = DirectButton(parent=shardButtonParent, relief=None, text="", text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.25, 0, 0), command=self.choseShard, extraArgs=[shardId])
         else:
             model = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
@@ -257,7 +262,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
                 helpText += TTLocalizer.ShardPageHelpWelcomeValley % actualShardName
             else:
                 helpText += TTLocalizer.ShardPageHelpWhere % actualShardName
-        self.helpText['text'] = helpText
         if self.adminForceReload:
             self.adminForceReload = 0
         return

@@ -327,16 +327,8 @@ class PickAToon:
         self.shardPicker.showPicker()
         self.shardsButton["text"] = "Back"
         self.shardsButton["command"] = self.hideShardPicker
-        self.patNode2d.hide()
-        self.patNode.hide()
-        if self.haveToon:
-            self.deleteButton.hide()
 
     def hideShardPicker(self):
         self.shardPicker.hidePicker()
         self.shardsButton["text"] = "Districts"
         self.shardsButton["command"] = self.openShardPicker
-        self.patNode2d.show()
-        self.patNode.show()
-        if self.haveToon:
-            self.deleteButton.show()
