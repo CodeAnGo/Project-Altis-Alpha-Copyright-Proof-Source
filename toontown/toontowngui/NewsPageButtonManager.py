@@ -17,7 +17,6 @@ class NewsPageButtonManager(FSM.FSM):
         self.clearGoingToNewsInfo()
         self.__blinkIval = None
         self.load()
-        return
 
     def load(self):
         btnGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_ign_newsBtnGui')
@@ -51,7 +50,6 @@ class NewsPageButtonManager(FSM.FSM):
         self.__blinkIval.loop()
         self.__blinkIval.pause()
         self.buttonsLoaded = True
-        return
 
     def __showOpenEyes(self):
         self.newIssueButton['image'] = (self.openNewNewsUp, self.openNewNewsHover, self.openNewNewsHover)
@@ -217,7 +215,6 @@ class NewsPageButtonManager(FSM.FSM):
         del self.openOldNewsHover
         del self.closeNewsUp
         del self.closeNewsHover
-        return
 
     def exitOff(self):
         self.notify.warning('Should not get here. NewsPageButtonManager.exitOff')

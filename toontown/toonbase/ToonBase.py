@@ -195,8 +195,8 @@ class ToonBase(OTPBase.OTPBase):
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
         self.lodMaxRange = 750
-        self.lodMinRange = 25
-        self.lodDelayFactor = 0.3
+        self.lodMinRange = 5
+        self.lodDelayFactor = 0.4
         
         # enable this feature, if you have render pipeline installed
         if config.GetBool('want-pipeline-renderer', False):

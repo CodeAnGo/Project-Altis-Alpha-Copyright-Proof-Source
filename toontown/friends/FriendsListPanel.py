@@ -9,6 +9,8 @@ from toontown.friends import ToontownFriendSecret
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
+from toontown.toon import DistributedToon
+FLPLOCAL = 0
 FLPPets = 1
 FLPOnline = 2
 FLPAll = 3
@@ -58,15 +60,11 @@ def showFriendsList():
         globalFriendsList = FriendsListPanel()
     base.hideFriendMargins()
     globalFriendsList.enter()
-    return
-
 
 def hideFriendsList():
     if globalFriendsList != None:
         globalFriendsList.exit()
     base.showFriendMargins()
-    return
-
 
 def showFriendsListTutorial():
     global globalFriendsList
@@ -77,8 +75,6 @@ def showFriendsListTutorial():
         globalFriendsList.secrets['state'] = DGG.DISABLED
     globalFriendsList.closeCommand = globalFriendsList.close['command']
     globalFriendsList.close['command'] = None
-    return
-
 
 def hideFriendsListTutorial():
     if globalFriendsList != None:
@@ -87,7 +83,6 @@ def hideFriendsListTutorial():
         if not base.cr.isPaid():
             globalFriendsList.secrets['state'] = DGG.NORMAL
         globalFriendsList.exit()
-    return
 
 
 def isFriendsListShown():
@@ -102,13 +97,12 @@ def unloadFriendsList():
         globalFriendsList.unload()
         globalFriendsList = None
     base.showFriendMargins()
-    return
 
 
 class FriendsListPanel(DirectFrame, StateData.StateData):
 
     def __init__(self):
-        self.leftmostPanel = FLPPets
+        self.leftmostPanel = FLPLOCAL
         self.rightmostPanel = FLPPlayers
         if base.cr.productName in ['DisneyOnline-UK',
          'DisneyOnline-AP',
@@ -139,11 +133,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         self.textDownColor = Vec4(0.5, 0.9, 1, 1)
         self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
         self.panelType = FLPOnline
-        return
 
     def load(self):
         if self.isLoaded == 1:
             return None
+        
         self.isLoaded = 1
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         auxGui = loader.loadModel('phase_3.5/models/gui/avatar_panel_gui')
@@ -179,7 +173,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
          ''), text_scale=TTLocalizer.FLPsecrets, text_fg=(0, 0, 0, 1), text_bg=(1, 1, 1, 1), text_pos=(-0.04, -0.085), textMayChange=0, command=self.__secrets)
         gui.removeNode()
         auxGui.removeNode()
-        return
 
     def unload(self):
         if self.isLoaded == 0:
@@ -193,7 +186,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         del self.right
         del self.friends
         DirectFrame.destroy(self)
-        return None
 
     def makeFriendButton(self, friendTuple, colorChoice = None, bold = 0):
         playerName = None
@@ -224,6 +216,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             if not playerName:
                 return
                 print 'ABORTING!!!'
+            
             friendName = playerName
             rolloverName = toonName
         else:
@@ -240,13 +233,17 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             thing = playerId
         else:
             thing = avId
+        
         fg = ToontownGlobals.ColorNoChat
         if flags & ToontownGlobals.FriendChat:
             fg = ToontownGlobals.ColorAvatar
+        
         if playerId:
             fg = ToontownGlobals.ColorPlayer
+        
         if colorChoice:
             fg = colorChoice
+        
         fontChoice = ToontownGlobals.getToonFont()
         fontScale = 0.04
         bg = None
@@ -257,22 +254,27 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
              colorChoice[1] * colorS,
              colorChoice[2] * colorS,
              colorChoice[3])
+        
         db = DirectButton(relief=None, text=friendName, text_scale=fontScale, text_align=TextNode.ALeft, text_fg=fg, text_shadow=bg, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, text_font=fontChoice, textMayChange=0, command=command, extraArgs=[thing, showType])
         if playerId:
             accountName = DirectLabel(parent=db, pos=Vec3(-0.02, 0, 0), text=rolloverName, text_fg=(0, 0, 0, 1), text_bg=(1, 1, 1, 1), text_pos=(0, 0), text_scale=0.045, text_align=TextNode.ARight)
             accountName.reparentTo(db.stateNodePath[2])
+        
         return db
 
     def enter(self):
         if self.isEntered == 1:
             return None
+        
         self.isEntered = 1
         if self.isLoaded == 0:
             self.load()
+        
         base.localAvatar.obscureFriendsListButton(1)
         if ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel:
             ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel.cleanup()
             ToonAvatarPanel.ToonAvatarPanel.currentAvatarPanel = None
+        
         self.__updateScrollList()
         self.__updateTitle()
         self.__updateArrows()
@@ -285,11 +287,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         self.accept('friendsMapComplete', self.__friendsListChanged)
         self.accept(OTPGlobals.PlayerFriendAddEvent, self.__friendsListChanged)
         self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__friendsListChanged)
-        return
 
     def exit(self):
         if self.isEntered == 0:
             return None
+        
         self.isEntered = 0
         self.listScrollIndex[self.panelType] = self.scrollList.index
         self.hide()
@@ -304,7 +306,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         base.localAvatar.obscureFriendsListButton(-1)
         messenger.send(self.doneEvent)
         base.showFriendMargins()
-        return None
 
     def __close(self):
         messenger.send('wakeup')
@@ -335,7 +336,6 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
     def __newFriend(self):
         messenger.send('wakeup')
         messenger.send('friendAvatar', [None, None, None])
-        return
 
     def __choseFriend(self, friendId, showType = 0):
         messenger.send('wakeup')
@@ -346,7 +346,9 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametag', [handle])
-        return
+
+        # request toon state from the AI
+        base.cr.ttFriendsManager.requestToonState(friendId)
 
     def __chosePlayerFriend(self, friendId, showType = 1):
         messenger.send('wakeup')
@@ -359,11 +361,14 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if playerFriendInfo != None:
             self.notify.info("Clicked on name in player friend's list. Id = %s" % friendId)
             messenger.send('clickedNametagPlayer', [handle, friendId, showType])
-        return
+
+        # request toon state from the AI
+        base.cr.ttFriendsManager.requestToonState(friendId)
 
     def __updateScrollList(self):
         newFriends = []
         petFriends = []
+        localToons = []
         freeChatOneRef = []
         speedChatOneRef = []
         freeChatDouble = []
@@ -565,8 +570,12 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             for objId, obj in base.cr.doId2do.items():
                 from toontown.pets import DistributedPet
                 if isinstance(obj, DistributedPet.DistributedPet):
-                    friendPair = (objId, 0)
-                    petFriends.append(friendPair)
+                    petFriends.append((objId, 0))
+
+        if self.panelType == FLPLOCAL:
+            for objId, obj in base.cr.doId2do.items():
+                if isinstance(obj, DistributedToon.DistributedToon):
+                    localToons.append((objId, 0))
 
         if self.panelType == FLPEnemies:
             for ignored in base.localAvatar.ignoreList:
@@ -575,6 +584,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if self.panelType == FLPAll or self.panelType == FLPOnline:
             if base.wantPets and base.localAvatar.hasPet():
                 petFriends.insert(0, (base.localAvatar.getPetId(), 0))
+        
         for friendPair in self.friends.keys():
             friendButton = self.friends[friendPair]
             self.scrollList.removeItem(friendButton, refresh=0)
@@ -583,6 +593,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
         newFriends.sort(compareFriends)
         petFriends.sort(compareFriends)
+        localToons.sort(compareFriends)
         freeChatOneRef.sort(compareFriends)
         speedChatOneRef.sort(compareFriends)
         freeChatDouble.sort(compareFriends)
@@ -598,6 +609,13 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         for friendPair in petFriends:
             if not self.friends.has_key(friendPair):
                 friendButton = self.makeFriendButton(friendPair, ToontownGlobals.ColorNoChat, 0)
+                if friendButton:
+                    self.scrollList.addItem(friendButton, refresh=0)
+                    self.friends[friendPair] = friendButton
+
+        for friendPair in localToons:
+            if not self.friends.has_key(friendPair):
+                friendButton = self.makeFriendButton(friendPair)
                 if friendButton:
                     self.scrollList.addItem(friendButton, refresh=0)
                     self.friends[friendPair] = friendButton
@@ -651,8 +669,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             self.title['text'] = TTLocalizer.FriendsListPanelPlayers
         elif self.panelType == FLPOnlinePlayers:
             self.title['text'] = TTLocalizer.FriendsListPanelOnlinePlayers
+        elif self.panelType == FLPLOCAL:
+            self.title['text'] = TTLocalizer.FriendsListLocal
         else:
             self.title['text'] = TTLocalizer.FriendsListPanelIgnoredFriends
+        
         self.title.resetFrameSize()
 
     def __updateArrows(self):

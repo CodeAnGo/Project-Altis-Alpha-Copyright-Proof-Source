@@ -123,7 +123,6 @@ class GolfScoreBoard:
         self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
         self.scoreboard.attachNewNode(self.lines.create())
         self.hide()
-        return
 
     def getScoreLabel(self, avIdorIndex, holeNum):
         index = None
@@ -227,4 +226,3 @@ class GolfScoreBoard:
         self.scoreboard = None
         self.golfCourse = None
         taskMgr.remove('hide score board')
-        return

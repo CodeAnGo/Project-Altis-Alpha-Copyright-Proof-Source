@@ -38,7 +38,6 @@ class Hood(StateData.StateData):
         self.oldSky = None
         self.newSky = None
         self.halloweenLights = []
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -105,6 +104,7 @@ class Hood(StateData.StateData):
         del self.dnaStore
         if hasattr(self, 'sky'):
             if self.sky:
+                self.stopSky()
                 self.sky.removeNode()
                 del self.sky
         if hasattr(self, 'newSky'):
@@ -152,7 +152,6 @@ class Hood(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def loadLoader(self, requestStatus):
         pass
@@ -281,9 +280,12 @@ class Hood(StateData.StateData):
             self.startSky()
 
     def end(self):
-        self.sky = self.newSky
-        if self.oldSky:
-            self.oldSky.reparentTo(hidden)
+        if hasattr(self, 'newSky'):
+            if self.newSky:
+                self.sky = self.newSky
+        if hasattr(self, 'oldSky'):
+            if self.oldSky:
+                self.oldSky.reparentTo(hidden)
         self.oldSky = None
         self.newSky = None
 

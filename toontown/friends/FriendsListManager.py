@@ -28,7 +28,6 @@ class FriendsListManager:
         self._preserveFriendsList = False
         self._entered = False
         self.friendsRequestQueue = []
-        return
 
     def load(self):
         #base.cr.friendManager.setGameSpecificFunction(self.processQueuedRequests)
@@ -42,7 +41,6 @@ class FriendsListManager:
         FriendInviter.unloadFriendInviter()
         ToonAvatarDetailPanel.unloadAvatarDetail()
         ToonTeleportPanel.unloadTeleportPanel()
-        return
 
     def enterFLM(self):
         self.notify.debug('FriendsListManager: enterFLM()')
@@ -91,7 +89,6 @@ class FriendsListManager:
         FriendInviter.hideFriendInviter()
         ToonAvatarDetailPanel.hideAvatarDetail()
         ToonTeleportPanel.hideTeleportPanel()
-        return
 
     def __openFriendsList(self):
         FriendsListPanel.showFriendsList()
@@ -108,6 +105,7 @@ class FriendsListManager:
                         if not self.avatarPanel.isHidden():
                             if self.avatarPanel.getType() == 'toon':
                                 return
+            
             self.avatarPanel = ToonAvatarPanel.ToonAvatarPanel(avatar, playerId)
         else:
             self.avatarPanel = SuitAvatarPanel.SuitAvatarPanel(avatar)
@@ -129,6 +127,7 @@ class FriendsListManager:
                         if not self.avatarPanel.isHidden():
                             if self.avatarPanel.getType() == 'toon':
                                 return
+            
             self.avatarPanel = ToonAvatarPanel.ToonAvatarPanel(avatar, playerId)
 
     def __handleGotoAvatar(self, avId, avName, avDisableName):
@@ -187,4 +186,3 @@ class FriendsListManager:
                 print 'got toon'
                 dna = friendToon.getStyle()
                 FriendNotifier.FriendNotifier(avId, friendToon.getName(), dna, None)
-        return

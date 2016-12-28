@@ -496,10 +496,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 
         if fromAV == 0:
             print("%s: %r" % (self.name, chat))
-            base.chatLog.append("%s: %r" % (self.name, chat))
         else:
             print("%s: %r" % (fromAV.name, chat))
-            base.chatLog.append("%s: %r" % (fromAV.name, chat))
         
         newText, scrubbed = self.scrubTalk(chat, mods)
         self.displayTalk(newText)
@@ -894,7 +892,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def b_setAnimState(self, animName, animMultiplier = 1.0, callback = None, extraArgs = []):
         self.d_setAnimState(animName, animMultiplier, None, extraArgs)
         self.setAnimState(animName, animMultiplier, None, None, callback, extraArgs)
-        return
 
     def d_setAnimState(self, animName, animMultiplier = 1.0, timestamp = None, extraArgs = []):
         timestamp = globalClockDelta.getFrameNetworkTime()
@@ -916,7 +913,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
              callback,
              extraArgs])
         self.cleanupPieInHand()
-        return
 
     def b_setEmoteState(self, animIndex, animMultiplier):
         self.setEmoteState(animIndex, animMultiplier)
@@ -937,7 +933,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         extraArgs = []
         extraArgs.insert(0, animIndex)
         self.doEmote(animIndex, animMultiplier, ts, callback, extraArgs)
-        return
 
     def setCogStatus(self, cogStatusList):
         self.cogs = cogStatusList
@@ -2740,7 +2735,7 @@ def granddad():
     
 @magicWord(category=CATEGORY_MODERATION)
 def loopysballs():
-    spellbook.getInvoker().magicTeleportInitiate(2602, 2602)
+    spellbook.getInvoker().magicTeleportInitiate(2000, 2741)
     
 @magicWord(category=CATEGORY_MODERATION)
 def tutorial():
@@ -2750,3 +2745,10 @@ def tutorial():
 def party():
     spellbook.getInvoker().magicTeleportInitiate(18000, 18000)
     
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def zone(zoneId):
+    """
+    Changes the invoker's zone ID.
+    """
+    base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'You have been moved to zone %d.' % zoneId

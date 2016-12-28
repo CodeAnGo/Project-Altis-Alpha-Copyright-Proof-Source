@@ -749,10 +749,10 @@ NPCToonDict = {
          'ms',
          'm',
          'm',
-         2,
+         57,
          0,
-         2,
-         2,
+         57,
+         57,
          14,
          9,
          10,
@@ -11691,27 +11691,6 @@ NPCToonDict = {
          6),
         'm',
         0,
-        NPC_REGULAR),
-# McQuack, TTR Staff Member
-# This DNA isn't correct right now. Just for the name.
-91915: (-1,
-        lnames[91915],
-        ('fll',
-         'ss',
-         's',
-         's',
-         18,
-         0,
-         18,
-         18,
-         99,
-         27,
-         86,
-         27,
-         39,
-         27),
-        'm',
-        1,
         NPC_REGULAR)}
 try:
     config = simbase.config
@@ -11798,6 +11777,7 @@ def getBuildingTitle(zoneId):
 
 HQnpcFriends = {
  2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxHpLimit, 5),
+ 2128: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  2132: (ToontownBattleGlobals.HEAL_TRACK, 5, 70, 4),
  2121: (ToontownBattleGlobals.HEAL_TRACK, 5, 45, 3),
  2011: (ToontownBattleGlobals.TRAP_TRACK, 4, 180, 5),
@@ -11812,6 +11792,7 @@ HQnpcFriends = {
  1116: (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5),
  2311: (ToontownBattleGlobals.DROP_TRACK, 5, 100, 4),
  4140: (ToontownBattleGlobals.DROP_TRACK, 5, 60, 3),
+ 2128: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  3137: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  4327: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  4230: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),

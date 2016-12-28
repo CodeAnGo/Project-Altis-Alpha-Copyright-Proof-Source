@@ -1,21 +1,28 @@
-# DMENU VERSION 0.6
+# DMENU VERSION 0.7
 
 DMENU_GAME = 'Toontown'
 
 from direct.gui.DirectGui import OnscreenImage, DirectButton
 from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4
-from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpFunctionInterval
+from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpFunctionInterval, ActorInterval
 from direct.showbase.DirectObject import DirectObject
 from toontown.pickatoon import PickAToonOptions, PickAToon
 from DMenuGlobals import *
 from DMenuLocalizer import *
 from DMenuResources import *
+from direct.actor import Actor
+from direct.showbase import Audio3DManager
+import random
 
 if DMENU_GAME == 'Toontown':
 # TT
     from toontown.toontowngui.TTGui import btnDn, btnRlvr, btnUp
     from toontown.toonbase import TTLocalizer
     from toontown.hood import SkyUtil
+    from toontown.toon import Toon, ToonDNA
+    from otp.nametag.NametagConstants import *
+    from otp.nametag.NametagGroup import *
+    from otp.nametag.NametagGlobals import *
 
 # The camera's initial position when first entering main menu
 INIT_POS = (-62, 0, 11)
@@ -39,6 +46,8 @@ class DMenuScreen(DirectObject):
     def __init__(self):
         DirectObject.__init__(self)
         base.cr.DMENU_SCREEN = self
+        self.seq = None
+        self.isSeqPlaying = False # .isPlaying() doesnt want to work
         if DMENU_GAME == 'Toontown':
             base.cr.avChoice = None
         fadeSequence = Sequence(
@@ -47,11 +56,92 @@ class DMenuScreen(DirectObject):
             Func(base.transitions.fadeIn, .5),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if DMENU_GAME == 'Toontown':
-            def spawnBackground(*args):
-                self.background = args[0]
-                self.background.reparentTo(render)
-                self.background.setPosHpr(-50, 0, 8.1, -90, 0, 0)
-            asyncloader.loadModel('phase_3.5/models/modules/gagShop_interior', callback = spawnBackground)
+            self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
+            self.background.reparentTo(render)
+            self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
+            ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
+            ropes.reparentTo(self.background)
+            self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
+             'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
+             'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
+             'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
+             'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
+             'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
+             'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
+            self.sillyMeter.reparentTo(self.background)
+            self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
+            self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
+            self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
+
+            self.phase3Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.ogg')
+            self.phase3Sfx.setLoop(True)
+            self.arrowSfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.ogg')
+            self.arrowSfx.setLoop(False)
+            self.phase3Sfx.setVolume(0.2)
+            self.arrowSfx.setVolume(0.2)
+            
+            self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', constrainedLoop=0, startFrame=236, endFrame=247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', duration=604800, constrainedLoop=1, startFrame=247, endFrame=276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
+            self.animSeq.start()
+            self.smPhase2 = self.sillyMeter.find('**/stage2')
+            self.smPhase2.show()
+            self.sillyMeter.loop('phaseOne', partName='meter')
+            self.sillyMeter.setBlend(frameBlend = True)
+            
+            self.surlee = Toon.Toon()
+            self.surlee.setName('Doctor Surlee')
+            self.surlee.setPickable(0)
+            self.surlee.setPlayerType(CCNonPlayer)
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
+            self.surlee.setDNA(dna)
+            self.surlee.loop('scientistGame')
+            self.surlee.reparentTo(self.background)
+            self.surlee.setPosHpr(13, 24, 0.025, -180, 0, 0)
+            
+            self.dimm = Toon.Toon()
+            self.dimm.setName('Doctor Dimm')
+            self.dimm.setPickable(0)
+            self.dimm.setPlayerType(CCNonPlayer)
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('fll', 'ss', 's', 'm', 15, 0, 15, 15, 99, 27, 86, 27, 39, 27)
+            self.dimm.setDNA(dna)
+            self.dimm.loop('scientistGame')
+            self.dimm.reparentTo(self.background)
+            self.dimm.setPosHpr(16, 24, 0.025, -180, 0, 0)
+            
+            surleeHand = self.surlee.find('**/def_joint_right_hold')
+            clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
+            surleeHandNode = surleeHand.attachNewNode('ClipBoard')
+            clipBoard.instanceTo(surleeHandNode)
+            surleeHandNode.setH(180)
+            surleeHandNode.setScale(render, 1.0)
+            surleeHandNode.setPos(0, 0, 0.1)
+            
+            dimmHand = self.dimm.find('**/def_joint_right_hold')
+            sillyReader = loader.loadModel('phase_4/models/props/tt_m_prp_acs_sillyReader')
+            dimHandNode = dimmHand.attachNewNode('SillyReader')
+            sillyReader.instanceTo(dimHandNode)
+            dimHandNode.setH(180)
+            dimHandNode.setScale(render, 1.0)
+            dimHandNode.setPos(0, 0, 0.1)
+            
+            self.banana = self.background.find('**/gagBanana')
+            
+            self.bananaClicker = CollisionTraverser()
+            #self.bananaClicker.showCollisions(render)
+            self.collHandlerQueue = CollisionHandlerQueue()
+            
+            self.bananaRayNode = CollisionNode('bananaMouseRay')
+            self.bananaRayNP = base.camera.attachNewNode(self.bananaRayNode)
+            self.bananaRayNode.setIntoCollideMask(BitMask32.bit(0))
+            self.bananaRayNode.setFromCollideMask(BitMask32.bit(1))
+            self.banana.setCollideMask(BitMask32.bit(1))
+            self.ray = CollisionRay()
+            self.bananaRayNode.addSolid(self.ray)
+            self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
+            self.accept("mouse1", self.slipAndSlideOnThisBananaPeelHaHaHa)
+           
+            
             for frame in render.findAllMatches('*/doorFrame*'):
                 frame.removeNode()
             self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
@@ -79,6 +169,34 @@ class DMenuScreen(DirectObject):
             self.patAvList = base.cr.PAT_AVLIST
             self.patFSM = base.cr.PAT_LOGINFSM
             self.patDoneEvent = base.cr.PAT_DONEEVENT
+            
+    def slipAndSlideOnThisBananaPeelHaHaHa(self):
+        if base.mouseWatcherNode.hasMouse():
+            mpos = base.mouseWatcherNode.getMouse()
+
+            def setPlayingStatus(status):
+                self.isSeqPlaying = status
+            
+            self.ray.setFromLens(base.camNode, mpos.getX(), mpos.getY())
+            self.bananaClicker.traverse(render)
+
+            if self.collHandlerQueue.getNumEntries() > 0:
+                self.collHandlerQueue.sortEntries()
+                pickedObj = self.collHandlerQueue.getEntry(0).getIntoNodePath()
+                surleeAnim = random.choice(['slip-backward', 'slip-forward'])
+                dimmAnim = random.choice(['slip-backward', 'slip-forward'])
+                if pickedObj == self.banana:
+                    self.seq = Sequence(
+                        Func(setPlayingStatus, True),
+                        Func(self.surlee.play, surleeAnim),
+                        Func(self.dimm.play, dimmAnim),
+                        Wait(3),
+                        Func(self.surlee.loop, 'scientistGame'),
+                        Func(self.dimm.loop, 'scientistGame'),
+                        Func(setPlayingStatus, False)
+                    )
+                    if not self.isSeqPlaying:
+                        self.seq.start()
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -131,13 +249,31 @@ class DMenuScreen(DirectObject):
         if self.QuitButton is not None:
             self.QuitButton.destroy()
             self.QuitButton = None
-
+            
+        if self.phase3Sfx:
+            self.phase3Sfx.stop()
+            del self.phase3Sfx
+            
+        if self.surlee:
+            self.surlee.delete()
+        if self.dimm:
+            self.dimm.delete()
+            
+            
+        del self.bananaRayNode
+        del self.bananaRayNP
+        del self.bananaClicker
+        del self.collHandlerQueue
+        del self.ray
+        
+        self.ignoreAll()
+        
         taskMgr.remove('skyTrack')
         self.sky.reparentTo(hidden)
 
     def openOptions(self):
         self.optionsMgr.showOptions()
-        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = "< Back", text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, command = self.hideOptions)
+        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = "Back", text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
         self.closeOptionsButton.reparentTo(base.a2dTopLeft)
         self.closeOptionsButton.setPos(0.5, 0, -0.07)
         Parallel(

@@ -1,9 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 from panda3d.direct import *
+from panda3d.physics import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
-from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar import ShadowCaster
 from toontown.racing.KartDNA import *
@@ -41,7 +40,6 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
          KartDNA.fwwType: (None, None),
          KartDNA.bwwType: (None, None)}
         self.texCount = 1
-        return
 
     def delete(self):
         self.__stopWheelSpin()
@@ -209,7 +207,6 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                 self.__applyAccessoryColor()
 
         self.updateFields = []
-        return
 
     def updateDNAField(self, field, fieldValue):
         if field == KartDNA.bodyType:
@@ -273,8 +270,6 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
                     accColor = getAccessory(self.kartDNA[KartDNA.accColor])
                 lModel.find('**/vertex').setColorScale(accColor)
                 rModel.find('**/vertex').setColorScale(accColor)
-
-        return
 
     def __applyEngineBlock(self):
         ebType = self.kartDNA[KartDNA.ebType]

@@ -138,6 +138,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.unlimitedGags = 0
         self.numPies = 0
         self.pieType = 0
+        self.uber = 0
         self._isGM = False
         self._gmType = None
         self.hpOwnedByBattle = 0
@@ -347,15 +348,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.keepAliveTask = None
         return
 
-    def ban(self, comment, time):
-        simbase.air.banManager.ban(self.air.getAccountId(self.doId), comment, time)
-        pass
-        
-        
-    def pban(self, comment):
-        simbase.air.banManager.pban(self.air.getAccountId(self.doId), comment)
-        pass
-
     def disconnect(self):
         self.requestDelete()
 
@@ -380,7 +372,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
-        return
 
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
         DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
@@ -401,12 +392,24 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     dislId = self.DISLid
                     #simbase.air.banManager.ban(self.doId, dislId, commentStr)'''
 
+        if oldZoneId is not None:
+            # check if the previous zone was an interior zone, if so request time update
+            # from the day time manager to ensure sky state is correct.
+            if ZoneUtil.isInterior(oldZoneId):
+                # get current time from the time of day manager when toon changes zones
+                for hood in self.air.hoods:
+                    if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
+                        continue
+
+                    hood.dayTimeMgr.d_requestUpdate()
+
     def announceZoneChange(self, newZoneId, oldZoneId):
         from toontown.pets import PetObserve
         #self.air.welcomeValleyManager.toonSetZone(self.doId, newZoneId)
         broadcastZones = [oldZoneId, newZoneId]
         if self.isInEstate() or self.wasInEstate():
             broadcastZones = union(broadcastZones, self.estateZones)
+        
         PetObserve.send(broadcastZones, PetObserve.PetActionObserve(PetObserve.Actions.CHANGE_ZONE, self.doId, (oldZoneId, newZoneId)))
 
     def checkAccessorySanity(self, accessoryType, idx, textureIdx, colorIdx):
@@ -1161,9 +1164,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def b_setMaxHp(self, maxHp):
         if maxHp > ToontownGlobals.MaxHpLimit:
-            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over 137 laff.')
-        maxHp = min(maxHp, ToontownGlobals.MaxHpLimit)
-        DistributedAvatarAI.DistributedAvatarAI.b_setMaxHp(self, maxHp)
+            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over ' + str(ToontownGlobals.MaxHpLimit) + ' laff.')
+        elif maxHp > 15 and self.uber == 1:
+            self.d_setMaxHp(15)
+            self.setMaxHp(15)
+        elif maxHp > 25 and self.uber == 2:
+            self.d_setMaxHp(25)
+            self.setMaxHp(25)
+        elif maxHp > 34 and self.uber == 3:
+            self.d_setMaxHp(34)
+            self.setMaxHp(34) #No need to track these, they are just keeping uber toons in check
+        else:
+            self.d_setMaxHp(maxHp)
+            self.setMaxHp(maxHp)
 
     def correctToonLaff(self):
         # Init our counters to 0.
@@ -1323,6 +1336,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
         self.animName = animName
         self.animMultiplier = animMultiplier
+
+    def getAnimState(self):
+        return self.animName
 
     def b_setCogStatus(self, cogStatusList):
         self.setCogStatus(cogStatusList)
@@ -2578,6 +2594,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getMaxMoney(self):
         return self.maxMoney
+		
+    def b_setUber(self, uber):
+        self.d_setUber(uber)
+        self.setUber(uber)
+
+    def d_setUber(self, uber):
+        self.sendUpdate('setUber', [uber])
+
+    def setUber(self, uber):
+        self.uber = uber
+		
+    def getUber(self):
+        return self.uber
 
     def addMoney(self, deltaMoney):
         money = deltaMoney + self.money
@@ -4548,6 +4577,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_setLastSeen(self, timestamp):
         self.sendUpdate('setLastSeen', [int(timestamp)])
 
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def ban(reason):
+    if spellbook.getTarget() == spellbook.getInvoker():
+        return "You cannot ban yourself, %s!" % spellbook.getInvoker().getName()
+    
+    simbase.air.csm.requestBanPlayer(spellbook.getTarget().getDoId(),
+        reason)
+
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def cheesyEffect(value, hood=0, expire=0):
     """
@@ -4561,7 +4598,7 @@ def cheesyEffect(value, hood=0, expire=0):
         if value not in OTPGlobals.CEName2Id:
             return 'Invalid cheesy effect value: %s' % value
         value = OTPGlobals.CEName2Id[value]
-    elif not 0 <= value <= 78:
+    elif not 0 <= value <= 76:
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
@@ -4859,16 +4896,6 @@ def registerToSM():
             return "You are now added to the active System Admin roster."
         else:
             return "You aren't in a staff position!"
-
-@magicWord(category=CATEGORY_MODERATION, types=[int, str, bool, bool], access=400) # Set to 400 for now...
-def ban(timeInMinutes, reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
-    """Ban the player from the game server."""
-    return 'banManager is not currently implemented!' # Disabled until we have a working banManager.
-    if not confirmed:
-        return "Are you sure you want to ban this player? Use '~~ban TIME REASON True' if you are."
-    if not overrideSelfBan and spellbook.getTarget() == spellbook.getInvoker():
-        return "Are you sure you want to ban yourself? Use '~ban TIME REASON True True' if you are."
-    spellbook.getTarget().ban(time, reason)
     
 @magicWord(category=CATEGORY_MODERATION, types = [str, bool, bool])
 def pban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):

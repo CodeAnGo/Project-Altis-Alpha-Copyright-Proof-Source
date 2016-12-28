@@ -700,7 +700,7 @@ from toontown.racing import DistributedLeaderBoard/AI
 from toontown.racing import DistributedGag/AI
 from toontown.racing import DistributedProjectile/AI
 from toontown.racing.DistributedStartingBlock/AI import DistributedViewingBlock/AI
-from toontown.uberdog.ClientServicesManager/UD import ClientServicesManager/UD
+from toontown.uberdog.ClientServicesManager/AI/UD import ClientServicesManager/AI/UD
 from toontown.uberdog.DistributedDeliveryManager/AI/UD import DistributedDeliveryManager/AI/UD
 from toontown.uberdog.DistributedDataStoreManager/AI/UD import DistributedDataStoreManager/AI/UD
 from toontown.suit import DistributedLawbotBoss/AI
@@ -751,7 +751,7 @@ from toontown.parties import DistributedPartyJukebox40Activity/AI
 from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
 from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 from toontown.friends import TTPlayerFriendsManager/UD
-from toontown.friends import TTFriendsManager/UD
+from toontown.friends import TTFriendsManager/AI/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
@@ -952,6 +952,7 @@ dclass DistributedToon : DistributedPlayer {
   setMoney(int16 money = 0) required broadcast ownrecv db;
   setMaxHp(int16 hitPoints = 15) required broadcast ownrecv db;
   setHp(int16 hp = 15) required broadcast ownrecv db;
+  setUber(int16) required broadcast ownrecv db;
   toonUp(uint16 hpGained) broadcast ownrecv;
   takeDamage(uint16 hpLost) broadcast ownrecv;
   setBattleId(uint32 battleId = 0) required broadcast ram;
@@ -3753,7 +3754,7 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   requestAvatars() clsend;
   setAvatars(PotentialToon avatars[]);
 
-  createAvatar(blob dna, uint8 index) clsend;
+  createAvatar(blob dna, uint8 index, uint8 uber) clsend;
   createAvatarResp(uint32 avId);
 
   setNameTyped(uint32 avId, string name) clsend;
@@ -3771,6 +3772,8 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   systemMessage(uint16 code, string params[]);
 
   reportPlayer(uint32 avId, uint8 category) clsend;
+
+  requestBanPlayer(uint32 avId, string reason);
 };
 
 dclass RATManager : DistributedObjectGlobal {
@@ -3832,6 +3835,10 @@ dclass TTFriendsManager : DistributedObjectGlobal {
   requestAvatarInfo(uint32[]) clsend;
 
   requestFriendsList() clsend;
+
+  requestToonState(uint32) clsend;
+  requestToonStateUDtoAI(uint32, uint32) airecv;
+  recieveToonState(string);
 
   friendInfo(Friend);
   friendList(Friend []);

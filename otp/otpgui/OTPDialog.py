@@ -77,7 +77,6 @@ class OTPDialog(DirectDialog):
         self.initialiseoptions(OTPDialog)
         if buttons != None:
             buttons.removeNode()
-        return
 
 
 class GlobalDialog(OTPDialog):
@@ -104,7 +103,6 @@ class GlobalDialog(OTPDialog):
         self.defineoptions(kw, optiondefs)
         OTPDialog.__init__(self, style=style)
         self.initialiseoptions(GlobalDialog)
-        return
 
     def handleButton(self, value):
         if value == DGG.DIALOG_OK:

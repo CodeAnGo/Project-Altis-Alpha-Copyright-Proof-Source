@@ -300,6 +300,7 @@ SCMenuBattleSound = 'SOUND'
 SCMenuBattleThrow = 'THROW'
 SCMenuBattleSquirt = 'SQUIRT'
 SCMenuBattleDrop = 'DROP'
+SCMenuBattleZap = 'ZAP'
 SCMenuGagShop = 'TROLLEY'
 SCMenuFactory = 'FACTORY'
 SCMenuCogGolf = 'COUNTRY CLUB'
@@ -1200,6 +1201,7 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  1302: 'I think you should choose Drop.',
  1303: 'I think you should choose Trap.',
  1304: 'I think you should choose Lure.',
+ 1305: 'I think you should choose Zap.',
  1400: 'We can do this!',
  1401: 'You did it!',
  1402: 'We did it!',
@@ -1218,6 +1220,7 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  1508: "Let's use throw!",
  1509: "Let's use squirt!",
  1510: "Let's use drop!",
+ 1511: "Let's use zap!",
  1415: 'I need a Toon-Up.',
  1416: 'You should pass.',
  1520: 'Catch!',
@@ -1633,6 +1636,12 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  6063: "You should use Drop on the middle cog.",
  6064: "You should use Drop on the middle-right cog.",
  6065: "You should use Drop on the right cog.",
+ 6066: "You should use Zap next turn.",
+ 6067: "You should use Zap on the left cog.",
+ 6068: "You should use Zap on the middle-left cog.",
+ 6069: "You should use Zap on the middle cog.",
+ 6070: "You should use Zap on the middle-right cog.",
+ 6071: "You should use Zap on the right cog.",
  10000: 'The choice is yours!',
  10001: 'Who are you voting for?',
  10002: "I'm pickin' Chicken!",

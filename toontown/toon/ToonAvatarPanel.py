@@ -378,7 +378,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.avatar.delete()
         base.setCellsAvailable([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
-        return
 
     def __handleGoto(self):
         if base.localAvatar.isTeleportAllowed():
@@ -402,7 +401,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __handleWhisper(self):
         base.localAvatar.chatMgr.whisperTo(self.avName, self.avId, None)
-        return
 
     def __handleSecrets(self):
         base.localAvatar.chatMgr.noWhisper()
@@ -426,7 +424,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 self.laffMeter.stop()
                 self.laffMeter.destroy()
                 self.laffMeter = None
-        return
 
     def __handleGenerateAvatar(self, avatar):
         newAvatar = base.cr.doId2do.get(self.avatar.doId)
@@ -441,7 +438,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.__updateHp(avatar.hp, avatar.maxHp)
         self.laffMeter.show()
         self.healthText.show()
-        return
 
     def __makeLaffMeter(self, avatar):
         self.laffMeter = LaffMeter.LaffMeter(avatar.style, avatar.hp, avatar.maxHp)
@@ -453,7 +449,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         if self.laffMeter != None and hp != None and maxHp != None:
             self.laffMeter.adjustFace(hp, maxHp)
             self.healthText['text'] = '%d / %d' % (hp, maxHp)
-        return
 
     def __handleClose(self):
         self.cleanup()
@@ -463,7 +458,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.FriendsListPanel.showFriendsList()
         else:
             base.showFriendMargins()
-        return
 
     def getAvId(self):
         if hasattr(self, 'avatar'):
@@ -505,8 +499,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             if self.groupButton:
                 self.groupButton['state'] = DGG.DISABLED
             localAvatar.boardingParty.requestKick(self.avId)
+        
         localAvatar.enableAvatarControls()
-        return
 
     def __checkGroupStatus(self):
         self.groupFrame.hide()
@@ -533,7 +527,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                     if config.GetBool('want-boarding-groups', 1):
                         base.setCellsAvailable([base.rightCells[0]], 0)
                         self.groupFrame.show()
-        return
 
     def handleReadInfo(self, task = None):
         self.boardingInfoButton['state'] = DGG.DISABLED
@@ -547,7 +540,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.boardingInfoText.destroy()
             del self.boardingInfoText
         self.boardingInfoText = None
-        return
 
     def __makePetGui(self, avatar):
         petGui = loader.loadModel('phase_3.5/models/gui/PetControlPannel')
@@ -560,7 +552,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.petButton['state'] = DGG.DISABLED
             self.petButton.hide()
         petGui.removeNode()
-        return
 
     def __makeBoardingGui(self):
         self.confirmKickOutDialog = None
@@ -588,4 +579,3 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         groupInviteGui.removeNode()
         groupAvatarBgGui.removeNode()
         helpGui.removeNode()
-        return

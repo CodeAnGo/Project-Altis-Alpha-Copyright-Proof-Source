@@ -5,6 +5,9 @@ from otp.otpbase import OTPLocalizer, OTPGlobals
 from otp.margins.WhisperPopup import *
 from panda3d.core import *
 from panda3d.direct import *
+from uuid import getnode as get_mac
+import json
+import httplib
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
@@ -12,14 +15,34 @@ class ClientServicesManager(DistributedObjectGlobal):
     systemMessageSfx = None
     avIdsReportedThisSession = []
     sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+    mac = get_mac()
 
     # --- LOGIN LOGIC ---
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
 
-        cookie = self.cr.playToken or 'dev'
+        print(str(self.mac))
 
-        self.notify.debug('Sending login cookie: ' + cookie)
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
+            base.launcher.getPassword()))
+
+        try:
+            response = json.loads(httpReq.getresponse().read())
+        except:
+            self.notify.error('Failed to decode json login API response!')
+            return
+
+        # TODO: FIX ME - The JSON data is decoded as unicode so boolean types aren't redefined correctly
+        if response['status'] != 'true':
+            # couldn't find the details in the database!
+            print(response["reason"])
+            print(response["additional"])
+            raise SystemExit
+        else:
+            # the request was successful, set the login cookie and login.
+            cookie = response['additional']
+
         self.sendUpdate('login', [cookie, self.sessionKey])
 
     def acceptLogin(self):
@@ -48,8 +71,8 @@ class ClientServicesManager(DistributedObjectGlobal):
         self.cr.handleAvatarsList(avList)
 
     # --- AVATAR CREATION/DELETION ---
-    def sendCreateAvatar(self, avDNA, _, index):
-        self.sendUpdate('createAvatar', [avDNA.makeNetString(), index])
+    def sendCreateAvatar(self, avDNA, _, index, uber):
+        self.sendUpdate('createAvatar', [avDNA.makeNetString(), index, uber])
 
     def createAvatarResp(self, avId):
         messenger.send('nameShopCreateAvatarDone', [avId])

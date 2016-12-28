@@ -73,7 +73,6 @@ class TeaserPanel(DirectObject):
         self.showPage(pageName)
         self.ignore('exitingStoppedState')
         self.accept('exitingStoppedState', self.cleanup)
-        return
 
     def __handleDone(self, choice = 0):
         self.cleanup()
@@ -97,7 +96,6 @@ class TeaserPanel(DirectObject):
             self.leaveDialog.show()
         else:
             self.notify.error('You should not have a TeaserPanel without a PlayToken')
-        return
 
     def destroy(self):
         self.cleanup()
@@ -114,7 +112,6 @@ class TeaserPanel(DirectObject):
             self.leaveDialog.destroy()
             self.leaveDialog = None
         self.ignoreAll()
-        return
 
     def unload(self):
         if hasattr(self, 'browser'):
@@ -172,7 +169,6 @@ class FeatureBrowser(DirectScrolledList):
         self.incButton.hide()
         self.decButton.hide()
         self.initialiseoptions(FeatureBrowser)
-        return
 
     def destroy(self):
         DirectScrolledList.destroy(self)
@@ -207,4 +203,3 @@ class FeatureBrowser(DirectScrolledList):
             self.addItem(panel)
 
         guiModel.removeNode()
-        return

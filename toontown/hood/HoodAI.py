@@ -14,7 +14,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.environment import DistributedDayTimeManagerAI
 from toontown.environment import DistributedRainManagerAI
 
-
 class HoodAI:
     notify = directNotify.newCategory('HoodAI')
     notify.setInfo(True)
@@ -23,15 +22,10 @@ class HoodAI:
         self.air = air
         self.zoneId = zoneId
         self.canonicalHoodId = canonicalHoodId
-
         self.fishingPonds = []
         self.partyGates = []
         self.treasurePlanner = None
         self.buildingManagers = []
-		
-        # If it is a time where we want snow
-        self.wantSnow = True
-
         self.suitPlanners = []
 
         for zoneId in self.getZoneTable():
@@ -175,6 +169,7 @@ class HoodAI:
         self.treasurePlanner = SZTreasurePlannerAI(
             self.canonicalHoodId, treasureType, healAmount, spawnPoints,
             spawnRate, maxTreasures)
+        
         self.treasurePlanner.start()
 
     def createBuildingManagers(self):
@@ -183,6 +178,7 @@ class HoodAI:
             zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
             buildingManager = DistributedBuildingMgrAI.DistributedBuildingMgrAI(
                 self.air, zoneId, dnaStore, self.air.trophyMgr)
+            
             self.buildingManagers.append(buildingManager)
             self.air.buildingManagers[zoneId] = buildingManager
 
@@ -190,6 +186,7 @@ class HoodAI:
         for zoneId in self.getZoneTable():
             if zoneId == self.zoneId:
                 continue
+            
             zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
             suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, zoneId)
             suitPlanner.generateWithRequired(zoneId)
@@ -200,18 +197,13 @@ class HoodAI:
 			
     def createTime(self):
         for zoneId in self.getZoneTable():
-            if self.zoneId != 9000:
+            if zoneId not in [9000, 9100, 9200]:
                 self.dayTimeMgr = DistributedDayTimeManagerAI.DistributedDayTimeManagerAI(self.air)
-                self.dayTimeMgr.generateWithRequired(zoneId)  
-                self.dayTimeMgr.start()
+                self.dayTimeMgr.generateWithRequired(zoneId)
                 self.notify.info('Day Time Manager turned on for zone ' + str(zoneId))
             
     def createRain(self):
         for zoneId in self.getZoneTable():
             self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air)
             self.rainMgr.generateWithRequired(zoneId)
-            if self.wantSnow:
-                self.rainMgr.start(True)
-            else:
-                self.rainMgr.start()
             self.notify.info('Rain Manager turned on for zone ' + str(zoneId))

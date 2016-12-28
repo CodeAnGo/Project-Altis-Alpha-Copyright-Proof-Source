@@ -459,6 +459,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             messenger.send(pad.func, list((gotData, pad.avatar) + pad.args))
         else:
             apply(pad.func, (gotData, pad.avatar) + pad.args)
+        
         pad.delayDelete.destroy()
 
     def enterPlayingGame(self, *args, **kArgs):
@@ -476,6 +477,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if self.objectManager != None:
             self.objectManager.destroy()
             self.objectManager = None
+        
         ToontownFriendSecret.unloadFriendSecret()
         FriendsListPanel.unloadFriendsList()
         messenger.send('cancelFriendInvitation')
@@ -494,6 +496,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             NametagGlobals.setToon(base.cam)
             del base.localAvatar
             del __builtins__['localAvatar']
+        
         base.localAvatarStyle = None
         base.localAvatarName = None
         loader.abortBulkLoad()
@@ -803,6 +806,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             print str(self.friendsMap.has_key(base.localAvatar.getPetId()))
             if self.friendsMap.has_key(base.localAvatar.getPetId()) == None:
                 return 0
+        
         return 1
 
     def removeFriend(self, avatarId):
@@ -877,6 +881,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
             self.addPetToFriendsMap(handleAddedPet)
             return
+        
         self.friendsMapPending = 0
         messenger.send('friendsMapComplete')
 
@@ -887,12 +892,14 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             name = toon[1]
             if name == '':
                 abort = 1
+            
             dnaString = toon[2]
             if dnaString == '':
                 abort = 1
             else:
                 dna = ToonDNA.ToonDNA()
                 dna.makeFromNetString(dnaString)
+            
             petId = toon[3]
             if not abort:
                 handle = FriendHandle.FriendHandle(doId, name, dna, petId)

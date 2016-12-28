@@ -28,14 +28,15 @@ class DistributedDayTimeManagerAI(DistributedWeatherMGRAI):
         # send update to start initial hour
         self.d_update(self.currentHour)
 
-    def start(self):
-        DistributedWeatherMGRAI.start(self)
-
         # set AI's initial time, then allow update to change this...
         self.air.setHour(self.currentHour)
 
         # start the ticking process
         taskMgr.doMethodLater(self.interval, self.update, 'time-update')
+
+    def d_requestUpdate(self):
+        self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'update', [
+            self.currentHour])
 
     def update(self, task):
         if self.currentHour >= 23:

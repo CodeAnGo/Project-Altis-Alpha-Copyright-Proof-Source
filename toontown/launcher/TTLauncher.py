@@ -49,6 +49,12 @@ class TTLauncher(LauncherBase):
     def getPlayToken(self):
         return self.getValue('TT_PLAYCOOKIE')
 
+    def getUsername(self):
+        return self.getValue('TT_USERNAME')
+
+    def getPassword(self):
+        return self.getValue('TT_PASSWORD')
+
     def getGameServer(self):
         return self.getValue('TT_GAMESERVER')
 

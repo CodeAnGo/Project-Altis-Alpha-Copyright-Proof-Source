@@ -36,7 +36,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         self.__showBlocker()
         self.accept('phaseComplete-4', self.__shrinkLoadingBar)
         self.accept('launcherPercentPhaseComplete', self.__update)
-        return
 
     def destroy(self):
         taskMgr.remove('changeLoadingTextTask')
@@ -55,7 +54,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         self.bar.destroy()
         self.bar = None
         TTDialog.TTDialog.destroy(self)
-        return
 
     def __hideBlocker(self):
         self.hide()
@@ -96,7 +94,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         self.loadingTextList = TTLocalizer.BlockerLoadingTexts
         self.__changeLoadingText()
         taskMgr.doMethodLater(self.loadingTextChangeTimer, self.__changeLoadingTextTask, 'changeLoadingTextTask')
-        return
 
     def __changeLoadingText(self):
 
@@ -128,7 +125,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         self.toonTipText = DirectLabel(parent=self, relief=None, guiId='BlockerToonTip', pos=(0, 0, -0.4688), text='', text_fg=(1, 1, 1, 1), text_scale=0.05, textMayChange=1, text_align=TextNode.ACenter, text_wordwrap=32, sortOrder=50)
         self.__changeToonTip()
         taskMgr.doMethodLater(self.toonTipChangeTimer, self.__changeToonTipTask, 'changeToonTipTask')
-        return
 
     def __changeToonTip(self):
 
@@ -181,7 +177,6 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
         if self.hideBlockerIval:
             self.hideBlockerIval.finish()
             self.hideBlockerIval = None
-        return
 
     def __update(self, phase, percent, reqByteRate, actualByteRate):
         if self.__isValidDownloadBar():
