@@ -3,7 +3,7 @@ from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObjectAI
 from direct.task import Task
-PianoSpeeds = [2, 4, 6, 8, 10, 12, 15, 20, 25, 30, 40]
+PianoSpeeds = [2, 4, 6, 8, 10, 12, 15, 20]
 PianoMaxSpeed = PianoSpeeds[-1]
 PianoSlowDownFactor = 0.7
 PianoSlowDownInterval = 6.0
