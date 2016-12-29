@@ -16,3 +16,4 @@ backups/
 .pydevproject
 sign/texture.jpg
 *.altis
+astron/devmongo/

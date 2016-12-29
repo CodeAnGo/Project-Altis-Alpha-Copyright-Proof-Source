@@ -72,7 +72,7 @@ roles:
         max: 399999999
       backend:
         type: mongodb
-        server: mongodb://127.0.0.1:57023/test
+        server: mongodb://127.0.0.1/test
 
     - type: dbss
       database: 4003
