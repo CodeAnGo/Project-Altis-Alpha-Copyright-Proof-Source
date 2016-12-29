@@ -18,6 +18,7 @@ import time
 import hmac
 import hashlib
 import json
+import threading
 
 def judgeName(name):
     FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -870,8 +871,8 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         except:
             self.sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
 
-        # start the queue
-        self.queue.start()
+        # start the queue on a seperate thread
+        threading.Thread(target=self.queue.start).start()
 
         # For processing name patterns.
         self.nameGenerator = NameGenerator()
@@ -942,16 +943,13 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.loginsEnabled = enable
 
     def login(self, cookie, sessionKey):
-        self.queue.queueObject(self.queue.getNewId(), (cookie, sessionKey))
-
-    def performLogin(self, cookie, sessionKey):
         sender = self.air.getMsgSender()
 
         #if not self.AccountFirewallUD.checkPlayerLogin(cookie):
         #   self.killConnection(sender, 'Your account has been disallowed login to Project Altis. Please try again later.')
         #    return
 
-        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))      
+        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
