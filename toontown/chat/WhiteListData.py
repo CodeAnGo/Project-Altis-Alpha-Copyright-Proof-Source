@@ -24530,6 +24530,7 @@ WHITELIST = [
     'oddly',
     'odds',
     'of',
+    'ofc',
     'off',
     'off-the-chain',
     'off-the-hook',
