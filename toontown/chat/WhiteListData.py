@@ -9,6 +9,7 @@ WHITELIST = [
     '#blamejosh',
     '#blameowen',
     '#blameskipps',
+    '#blametubby',
     '$',
     '$1',
     '$10',
