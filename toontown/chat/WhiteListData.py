@@ -7,6 +7,7 @@ WHITELIST = [
     '#blamedrew',
     '#blamedubito',
     '#blamejosh',
+    '#blameowen',
     '#blameskipps',
     '$',
     '$1',
