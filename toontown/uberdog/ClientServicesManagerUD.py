@@ -865,7 +865,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
-        self.sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
+        try:
+            self.sessionKey = open('supersecretkey.xd').read()
+        except:
+            self.sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
 
         # start the queue
         self.queue.start()

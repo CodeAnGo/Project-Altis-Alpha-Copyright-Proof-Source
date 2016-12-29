@@ -14,7 +14,10 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     systemMessageSfx = None
     avIdsReportedThisSession = []
-    sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
+    try:
+        sessionKey = open('supersecretkey.xd').read()
+    except:
+        sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
     mac = get_mac()
 
     # --- LOGIN LOGIC ---
