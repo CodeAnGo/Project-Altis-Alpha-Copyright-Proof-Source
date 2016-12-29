@@ -1,9 +1,5 @@
-print("IF IT GETS HERE THEN GG TOONTOWN START 1")
-
 from panda3d.core import *
-print("Imported Panda Core")
 from panda3d.direct import *
-print("Imported Panda Direct")
 from toontown.toonbase import ToonPythonUtil
 import __builtin__
 import os
@@ -78,7 +74,7 @@ loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfx
 loadPrcFileData('Settings: newGui', 'newGui %s' % settings['newGui'])
 loadPrcFileData('Settings: show-disclaimer', 'show-disclaimer %s' % settings['show-disclaimer'])
 loadPrcFileData('', 'load-display pandagl')
-print("IF IT GETS HERE THEN GG TOONTOWN START 2")
+
 class game:
     name = 'toontown'
     process = 'client'
@@ -96,7 +92,7 @@ except:
     from toontown.launcher.TTLauncher import TTLauncher
     launcher = TTLauncher()
     __builtin__.launcher = launcher
-print("IF IT GETS HERE THEN GG TOONTOWN START 3")
+
 pollingDelay = 0.5
 
 print('Starting the game...')
@@ -111,7 +107,7 @@ import ToontownGlobals
 
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 PGUIGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
-print("IF IT GETS HERE THEN GG TOONTOWN START 4")
+
 import ToonBase
 ToonBase.ToonBase()
 from panda3d.core import *
