@@ -1,6 +1,7 @@
 import os
 os.chdir('../../')
 
+from toontown.chat import WhiteListData
 
 
 def acceptWord():
@@ -29,7 +30,8 @@ def acceptWord():
 def saveChanges():
     print 'Saving the whitelist...'
 
-    with open('resources/phase_4/etc/twhitelist.dat', 'w') as f:
+    with open('toontown/chat/WhiteListData.py', 'w') as f:
+        f.write('WHITELIST = [\n')
 
         wordslist.sort()
         addedWords = []
@@ -38,14 +40,18 @@ def saveChanges():
             if word in addedWords:
                 continue
             addedWords.append(word)
-            f.write('%s\n' % word)
+
+            if "'" in word:
+                f.write('    "%s",\n' % word)
+            else:
+                f.write("    '%s',\n" % word)
 
         f.write(']')
 
     print 'Saved'
 
 
-wordslist = open('resources/phase_4/etc/twhitelist.dat', 'r').read().splitlines()
+wordslist = WhiteListData.WHITELIST
 
 print 'To add a word, type the word.'
 print 'To remove a word, type "r <word>".'
