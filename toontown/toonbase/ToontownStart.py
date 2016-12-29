@@ -1,8 +1,10 @@
 print("IF IT GETS HERE THEN GG TOONTOWN START 1")
 
 from panda3d.core import *
+print("Imported Panda Core")
 from panda3d.direct import *
-from toontown.distributed import PythonUtil
+print("Imported Panda Direct")
+from toontown.toonbase import ToonPythonUtil
 import __builtin__
 import os
 
