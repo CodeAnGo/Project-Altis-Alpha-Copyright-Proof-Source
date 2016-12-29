@@ -1031,7 +1031,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             avId=avId, reason=reason)
 
     def __handleLookupPlayer(self, dclass, fields, avId, reason):
-        accountId = fields.get('setDISLid')
+        accountId, = fields.get('setDISLid')
 
         # lookup account to get login cookie
         self.air.dbInterface.queryObject(self.air.dbId, accountId, callback=self.__handleLookupAccount, 
