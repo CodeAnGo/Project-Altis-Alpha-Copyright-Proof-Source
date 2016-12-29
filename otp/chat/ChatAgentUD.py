@@ -70,7 +70,3 @@ class ChatAgentUD(DistributedObjectGlobalUD):
                                               self.air.ourChannel,
                                               [0, 0, '', cleanMessage, modifications, 0])
         self.air.send(dg)
-        connection = httplib.HTTPConnection("www.toontown.com")#change to correct website later on 
-        connection.request("GET", "/api/csmud/chat.php?"+"avId=" + str(sender) + "&message=" + str(message))
-        response = connection.getresponse()
-        connection.close()
