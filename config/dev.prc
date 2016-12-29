@@ -7,7 +7,7 @@ want-pipeline-renderer false
 
 # Client settings
 window-title Project Altis
-server-version TPPA-Alpha-1.1.1
+server-version TTPA-Alpha-1.1.1
 build-version dev
 sync-video #f
 want-dev #f
