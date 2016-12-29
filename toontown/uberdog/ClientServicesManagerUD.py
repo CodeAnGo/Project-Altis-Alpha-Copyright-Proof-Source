@@ -227,7 +227,9 @@ class LoginAccountFSM(OperationFSM):
 
     def __handleCreate(self, accountId):
         if self.state != 'CreateAccount':
+            print self.state
             self.notify.warning('Received create account response outside of CreateAccount state.')
+
             return
 
         if not accountId:
