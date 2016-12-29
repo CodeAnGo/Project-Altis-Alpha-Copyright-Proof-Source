@@ -94,7 +94,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.partyManager = None
         self.inGameNewsMgr = None
         self.whitelistMgr = None
-        self.defaultShard = 0
+        self.defaultShard = None
 
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
