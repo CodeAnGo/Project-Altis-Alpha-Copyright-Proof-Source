@@ -50,6 +50,10 @@ class ToonBase(OTPBase.OTPBase):
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.cam2d.node().setCameraMask(BitMask32.bit(1))
         self.musicManager.setVolume(settings.get("musicVol"))
+        
+        for sfm in self.sfxManagerList:
+            sfm.setVolume(settings.get("sfxVol"))
+        self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
