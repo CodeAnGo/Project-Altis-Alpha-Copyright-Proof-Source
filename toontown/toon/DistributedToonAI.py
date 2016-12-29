@@ -4810,19 +4810,19 @@ def resistance():
     dna.topTex = 111
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.topTexColor = 26
+    dna.topTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     dna.sleeveTex = 98
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.sleeveTexColor = 26
+    dna.sleeveTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     dna.botTex = 41
     invoker.b_setDNAString(dna.makeNetString())
 
-    dna.botTexColor = 26
+    dna.botTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
 
     target = spellbook.getTarget()
