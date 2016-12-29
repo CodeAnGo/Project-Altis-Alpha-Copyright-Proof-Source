@@ -2056,7 +2056,9 @@ allColorsList = [VBase4(1.0, 1.0, 1.0, 1.0),
  VBase4(0.2196, 0.5568, 0.5568, 1.0),
  VBase4(0.7764, 0.4431, 0.4431, 1.0),
  VBase4(0.8901, 0.8117, 0.3411, 1.0),
- VBase4(0.4117, 0.4117, 0.4117, 1.0)]
+ VBase4(0.4117, 0.4117, 0.4117, 1.0),
+ VBase4(1.0, 0.8431, 0.0, 1.0),
+ VBase4(0.9333, 0.7882, 0.0, 1.0)]
 defaultColorList = [0,
  1,
  2,
@@ -2119,9 +2121,11 @@ defaultColorList = [0,
  59,
  60,
  61,
- 62]
+ 62,
+ 63,
+ 64]
 allColorsListApproximations = map(lambda x: VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)), allColorsList)
-allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultColorList + [26] + [62])))
+allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultColorList + [26] + [64])))
 HatModels = [None,
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_baseball',
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_safari',
