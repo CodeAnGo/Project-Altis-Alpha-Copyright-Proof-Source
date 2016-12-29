@@ -780,14 +780,13 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.__cameraHasBeenMoved = 0
         self.__lastPosWrtRender = camera.getPos(render)
         self.__lastHprWrtRender = camera.getHpr(render)
+        self.handleCameraFloorInteraction()
         self.__idealCameraObstructed = 0
         if not self.__disableSmartCam:
             self.ccTrav.traverse(self.__geom)
             if self.camCollisionQueue.getNumEntries() > 0:
                 self.camCollisionQueue.sortEntries()
                 self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
-            if not self.__onLevelGround:
-                self.handleCameraFloorInteraction()
         if not self.__idealCameraObstructed:
             self.nudgeCamera()
         if not self.__disableSmartCam:
