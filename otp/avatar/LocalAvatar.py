@@ -452,7 +452,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if not self.isPageUp:
             self.isPageDown = 0
             self.isPageUp = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
@@ -464,14 +463,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if not self.isPageDown:
             self.isPageUp = 0
             self.isPageDown = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
 
     def clearPageUpDown(self):
         if self.isPageDown or self.isPageUp:
-            self.lerpCameraFov(self.fov, 0.6)
             self.isPageDown = 0
             self.isPageUp = 0
             self.setCameraPositionByIndex(self.cameraIndex)
