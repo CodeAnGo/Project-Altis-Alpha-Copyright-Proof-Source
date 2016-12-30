@@ -4607,22 +4607,27 @@ def cheesyEffect(value, hood=0, expire=0):
     return 'Set %s\'s cheesy effect to: %d' % (target.getName(), value)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
-def Hp(hpVal):
+def hp(hpVal):
     """Set target's current laff"""
     if not -1 <= hpVal <= 137:
         return 'Laff must be between -1 and 137!'
     spellbook.getTarget().b_setHp(hpVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
-def MaxHp(hpVal):
+def maxHp(hpVal):
     """Set target's laff"""
     if not 15 <= hpVal <= 137:
         return 'Laff must be between 15 and 137!'
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
+	
+@magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
+def setUber(uber):
+    """Set target's uber status"""
+    spellbook.getTarget().b_setUber(uber)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int, int])
-def TrackAccess(toonup, trap, lure, sound, throw, squirt, drop, zap):
+def trackAccess(toonup, trap, lure, sound, throw, squirt, zap, drop):
     """Set target's gag track access."""
     spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, zap, drop])
 
@@ -4712,7 +4717,7 @@ def setFishingRod(rodVal):
     return 'Rod changed to ' + str(rodVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
-def MaxFishTank(tankVal):
+def maxFishTank(tankVal):
     """Set target's max fish tank value."""
     if not 20 <= tankVal <= 99:
         return 'Max fish tank value must be between 20 and 99'
@@ -4731,7 +4736,7 @@ def name(nameStr=''):
 
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int])
-def Hat(hatId, hatTex=0):
+def hat(hatId, hatTex=0):
     """Set hat of target toon."""
     if not 0 <= hatId <= 56:
         return 'Invalid hat specified.'
@@ -4740,7 +4745,7 @@ def Hat(hatId, hatTex=0):
     spellbook.getTarget().b_setHat(hatId, hatTex, 0)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int])
-def Glasses(glassesId, glassesTex=0):
+def glasses(glassesId, glassesTex=0):
     """Set glasses of target toon."""
     if not 0 <= glassesId <= 21:
         return 'Invalid glasses specified.'
@@ -4749,7 +4754,7 @@ def Glasses(glassesId, glassesTex=0):
     spellbook.getTarget().b_setGlasses(glassesId, glassesTex, 0)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int])
-def Backpack(bpId, bpTex=0):
+def backpack(bpId, bpTex=0):
     """Set backpack of target toon."""
     if not 0 <= bpId <= 24:
         return 'Invalid backpack specified.'
@@ -4758,7 +4763,7 @@ def Backpack(bpId, bpTex=0):
     spellbook.getTarget().b_setBackpack(bpId, bpTex, 0)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int])
-def Shoes(shoesId, shoesTex=0):
+def shoes(shoesId, shoesTex=0):
     """Set shoes of target toon."""
     if not 0 <= shoesId <= 3:
         return 'Invalid shoe type specified.'
@@ -4896,6 +4901,24 @@ def registerToSM():
             return "You are now added to the active System Admin roster."
         else:
             return "You aren't in a staff position!"
+			
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def msgMods(message):
+    """Sends a message to all registered mods."""
+    for toon in simbase.air.staffManager.getOnlineMods():
+        toon.setMessage(message)
+		
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def msgAdmins(message):
+    """Sends a message to all registered admins."""
+    for toon in simbase.air.staffManager.getOnlineAdmin():
+        toon.setMessage(message)
+		
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def msgStaff(message):
+    """Sends a message to all registered staff."""
+    for toon in simbase.air.staffManager.getActiveStaff():
+        toon.setMessage(message)
     
 @magicWord(category=CATEGORY_MODERATION, types = [str, bool, bool])
 def pban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
@@ -5012,7 +5035,7 @@ def GM(gmId):
     return 'You have set %s to GM type %s' % (spellbook.getTarget().getName(), gmId)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
-def Tickets(tixVal):
+def tickets(tixVal):
     """Set the target's racing ticket's value."""
     if not 0 <= tixVal <= 99999:
         return 'Ticket value out of range (0-99999)'
@@ -5020,7 +5043,7 @@ def Tickets(tixVal):
     return "%s's tickets were set to %s." % (spellbook.getTarget().getName(), tixVal)
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
-def CogIndex(indexVal):
+def cogIndex(indexVal):
     """Transform into a cog/suit."""
     if not -1 <= indexVal <= 4:
         return 'CogIndex value %s is invalid.' % str(indexVal)
@@ -5177,7 +5200,7 @@ def dna(part, value):
     return "Completed DNA change successfully."
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
-def TrophyScore(value):
+def trophyScore(value):
     """Set the trophy score of target"""
     if value < 0:
         return "Cannot have a trophy score below 0."
