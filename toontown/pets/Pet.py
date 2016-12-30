@@ -279,16 +279,23 @@ class Pet(Avatar.Avatar):
         return color
 
     def generateMoods(self):
+        nodePath = NodePath(self.nametag.getNameIcon())
+
+        if not nodePath:
+            return
+
         moodIcons = loader.loadModel('phase_4/models/char/petEmotes')
-        self.moodIcons = self.attachNewNode('moodIcons')
-        self.moodIcons.setScale(2.0)
+        self.moodIcons = nodePath.attachNewNode('moodIcons')
+        self.moodIcons.setScale(6.0)
         self.moodIcons.setZ(3.65)
         moods = moodIcons.findAllMatches('**/+GeomNode')
-        for moodNum in range(0, moods.getNumPaths()):
+        for moodNum in xrange(0, moods.getNumPaths()):
             mood = moods.getPath(moodNum)
             mood.reparentTo(self.moodIcons)
             mood.setBillboardPointEye()
             mood.hide()
+
+        moodIcons.removeNode()
 
     def clearMood(self):
         if self.moodModel:
