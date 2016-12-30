@@ -43,11 +43,6 @@ class DistributedBetaEvent(DistributedEvent):
         self.surlee.head = self.surlee.find('**/__Actor_head')
         self.surlee.initializeBodyCollisions('toon')
         
-        self.gate = loader.loadModel('phase_14/models/looneylabs/tunnel_gate')
-        self.gate.reparentTo(render)
-        self.gate.setPos(3, -21, -68)
-        self.gateLeft = self.gate.find('**/L_gate')
-        
         self.headHoncho1 = DistributedSuitBase.DistributedSuitBase(self.cr)
         headHoncho1suitDNA = SuitDNA.SuitDNA()
         headHoncho1suitDNA.newSuit('hho')
@@ -100,8 +95,6 @@ class DistributedBetaEvent(DistributedEvent):
         # Load the toon lab if its not already loaded incase a new player enters
         if not self.toonLabs:
             self.loadToonLab()
-            
-        self.gateLeft.hprInterval(1, VBase3(0, 0, 0)).start()
         
         Sequence(
                     Func(self.surlee.setChatAbsolute, 'Greetings Toons of the world!', CFSpeech|CFTimeout),
@@ -112,7 +105,6 @@ class DistributedBetaEvent(DistributedEvent):
                     Wait(4),
                     Func(self.surlee.setChatAbsolute, 'Looney Labs!', CFSpeech|CFTimeout),
                     Wait(2),
-                    self.gateLeft.hprInterval(1, VBase3(90, 0, 0))
                  ).start()
         
     def exitAnnouncement(self):
