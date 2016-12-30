@@ -476,6 +476,8 @@ def __doTesla(zap, delay, fShowStun):
     battle = zap['battle']
     suitPos = suit.getPos(battle)
     origHpr = toon.getHpr(battle)
+    endPos = toon.getPos(battle)
+    endPos.setY(endPos.getY() + 3)
     hitSuit = hp > 0
     scale = sprayScales[level]
     tButton = 0.0
@@ -495,11 +497,10 @@ def __doTesla(zap, delay, fShowStun):
     button2 = MovieUtil.copyProp(button)
     buttons = [button, button2]
     hands = toon.getLeftHands()
-    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, endPos), ActorInterval(toon, 'pushbutton'), Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
     tracks.append(toonTrack)
     coil = globalPropPool.getProp('tesla')
-    coilPos = Point3(toon.getX(battle), 2, 0)
-    coilHpr = Point3(0, 0, 0)
+    coil.setPos(endPos)
     propTrack = Sequence()
     propTrack.append(Func(coil.show))
     propTrack.append(Func(coil.setScale, Point3(0.1, 0.1, 0.1)))

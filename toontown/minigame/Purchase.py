@@ -607,7 +607,7 @@ class Purchase(PurchaseBase):
         self.title.reparentTo(self.frame)
         self.convertingVotesToBeansLabel.hide()
         self.rewardDoubledJellybeanLabel.hide()
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        base.camLens.setMinFov(settings['fieldofview']/(4./3.))
         NametagGlobals.setOnscreenChatForced(0)
 
     def _handleClientCleanup(self):

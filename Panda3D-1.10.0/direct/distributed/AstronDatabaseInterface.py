@@ -74,7 +74,7 @@ class AstronDatabaseInterface:
 
         del self._callbacks[ctx]
 
-    def queryObject(self, databaseId, doId, callback, dclass=None, fieldNames=()):
+    def queryObject(self, databaseId, doId, callback, dclass=None, fieldNames=(), **kw):
         """
         Query object `doId` out of the database.
 
@@ -85,7 +85,7 @@ class AstronDatabaseInterface:
 
         # Save the callback:
         ctx = self.air.getContext()
-        self._callbacks[ctx] = callback
+        self._callbacks[ctx] = (callback, kw)
         self._dclasses[ctx] = dclass
 
         # Generate and send the datagram:
@@ -129,7 +129,8 @@ class AstronDatabaseInterface:
         try:
             if not success:
                 if self._callbacks[ctx]:
-                    self._callbacks[ctx](None, None)
+                    (callback, kw) = self._callbacks[ctx]; callback(None, None, **kw)
+                
                 return
 
             if msgType == DBSERVER_OBJECT_GET_ALL_RESP:
@@ -146,6 +147,7 @@ class AstronDatabaseInterface:
                 fieldCount = 1
             else:
                 fieldCount = di.getUint16()
+            
             unpacker = DCPacker()
             unpacker.setUnpackData(di.getRemainingBytes())
             fields = {}
@@ -162,7 +164,7 @@ class AstronDatabaseInterface:
                 unpacker.endUnpack()
 
             if self._callbacks[ctx]:
-                self._callbacks[ctx](dclass, fields)
+                (callback, kw) = self._callbacks[ctx]; callback(dclass, fields, **kw)
 
         finally:
             del self._callbacks[ctx]

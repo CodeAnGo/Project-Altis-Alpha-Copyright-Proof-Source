@@ -1,1 +1,1 @@
-toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, toontown.friends.TTFriendsManagerAI:8, RuntimeError: maximum recursion depth exceeded
+direct.directnotify.Notifier:130, direct.distributed.AstronInternalRepository:502, direct.showbase.Messenger:413, direct.showbase.Messenger:355, StandardError: Lost connection to gameserver!

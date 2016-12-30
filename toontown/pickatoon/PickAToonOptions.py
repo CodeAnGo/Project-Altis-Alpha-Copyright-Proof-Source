@@ -15,6 +15,7 @@ from toontown.toontowngui.TTGui import btnDn, btnRlvr, btnUp
 from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
 from toontown.shtiker import ControlRemapDialog, DisplaySettingsDialog
+from decimal import Decimal
 
 resolution_table = [
     (800, 600),
@@ -236,8 +237,10 @@ class NewPickAToonOptions:
         self.AspectRatioList = None
         self.DisplaySettings_Label = None
         self.DisplaySettingsButton = None
-        
-                
+        self.fov_toggleSlider = None
+        self.fov_Label = None
+        self.fov_resetButton = None
+
         self.displaySettings = None
         self.displaySettingsChanged = 0
         self.displaySettingsSize = (None, None)
@@ -298,13 +301,13 @@ class NewPickAToonOptions:
         self.Music_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Music Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.4))
         # Music Slider
         self.Music_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0.3),
-                                               value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel,)
+                                               value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.Music_toggleSlider.setScale(0.4, 0.4, 0.4)
         self.Music_toggleSlider.show()
 
         # SFX Slider
         self.SoundFX_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0.0, 0.1),
-                                               value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel)
+                                               value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.SoundFX_toggleSlider.setScale(0.4, 0.4, 0.4)
         # SFX Label
         self.SoundFX_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'SFX Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.2))
@@ -356,6 +359,15 @@ class NewPickAToonOptions:
         self.DisplaySettings_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, .2))
         self.DisplaySettingsButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=(0.7, 1, 1), text=TTLocalizer.OptionsPageChange, text3_fg=(0.5, 0.5, 0.5, 0.75), text_scale=0.052, text_pos=(0, -.02), pos=(0, 0, .1), command=self.__doDisplaySettings)
         
+        self.fov_Label = DirectLabel(parent=self.optionsNode, relief=None, text='Field of view', text_align=TextNode.ACenter, text_scale = 0.052, text_wordwrap=16, pos=(0, 0, 0))
+
+        self.fov_toggleSlider = DirectSlider(parent=self.optionsNode, pos=(0, 0, -.1),
+                                               value=settings['fieldofview'], pageSize=5, range=(30, 120), command=self.__doFovLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.fov_toggleSlider.setScale(0.25)
+        self.fov_resetButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text='Reset FOV', text_scale=0.052, text_pos = (0, -.02), pos=(0, 0, -.2), command=self.__resetFov)
+        self.fovsliderText = OnscreenText("0.0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
+        self.__doFovLevel()
         self.__setDisplaySettings()
         # TODO: Add more graphics options like Resolution, and more graphics options like in POTCO to allow changing quality of textures, etc.
         
@@ -413,6 +425,14 @@ class NewPickAToonOptions:
         if self.DisplaySettingsButton:
             self.DisplaySettingsButton.destroy()
             self.DisplaySettingsButton = None
+            
+        if self.fov_toggleSlider:
+            self.fov_toggleSlider.destroy()
+            self.fov_toggleSlider = None
+            self.fov_Label.destroy()
+            self.fov_Label = None
+            self.fov_resetButton.destroy()
+            self.fov_resetButton = None
         
     def delAllOptions(self):
         self.delSoundOptions()
@@ -531,3 +551,16 @@ class NewPickAToonOptions:
         settings = {'screensize': screensize, 'api': api}
         text = TTLocalizer.OptionsPageDisplaySettings % settings
         self.DisplaySettings_Label['text'] = text
+        
+    def __doFovLevel(self):
+        fov = self.fov_toggleSlider['value']
+        settings['fieldofview'] = fov
+        base.camLens.setMinFov(fov/(4./3.))
+        dec = Decimal(fov)
+        self.fovsliderText['text'] = str(round(fov, 1))
+        
+    def __resetFov(self):
+        self.fov_toggleSlider['value'] = 52
+        settings['fieldofview'] = 52
+        base.camLens.setMinFov(52/(4./3.))
+        self.fovsliderText['text'] = str(52)

@@ -7,7 +7,7 @@ want-pipeline-renderer false
 
 # Client settings
 window-title Project Altis
-server-version 1.1.0
+server-version TTPA-Alpha-1.1.3
 build-version dev
 sync-video #f
 want-dev #f
@@ -76,7 +76,7 @@ want-pets #t
 want-news-tab #f
 want-news-page #f
 want-accessories #t
-want-parties #t
+want-parties #f
 want-gardening #f
 want-gifting #f
 want-cogdominiums #t

@@ -2184,8 +2184,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             return 0
 
     def setNametagStyle(self, nametagStyle):
-        if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
-            return
         if config.GetBool('want-nametag-avids', 0):
             nametagStyle = 0
         self.nametagStyle = nametagStyle
@@ -2612,13 +2610,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         name = self.name
         self.setDisplayName(name)
         if self._isGM:
-            self.setNametagStyle(5)
             self.setGMIcon(self._gmType)
-            self.gmToonLockStyle = True
         else:
-            self.gmToonLockStyle = False
             self.removeGMIcon()
-            self.setNametagStyle(100)
 
     def setGMIcon(self, gmType = None):
         if hasattr(self, 'gmIcon') and self.gmIcon:
@@ -2735,7 +2729,7 @@ def granddad():
     
 @magicWord(category=CATEGORY_MODERATION)
 def loopysballs():
-    spellbook.getInvoker().magicTeleportInitiate(2602, 2602)
+    spellbook.getInvoker().magicTeleportInitiate(2000, 2741)
     
 @magicWord(category=CATEGORY_MODERATION)
 def tutorial():
@@ -2745,3 +2739,10 @@ def tutorial():
 def party():
     spellbook.getInvoker().magicTeleportInitiate(18000, 18000)
     
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def zone(zoneId):
+    """
+    Changes the invoker's zone ID.
+    """
+    base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'You have been moved to zone %d.' % zoneId

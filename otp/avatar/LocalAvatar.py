@@ -452,7 +452,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if not self.isPageUp:
             self.isPageDown = 0
             self.isPageUp = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
@@ -464,14 +463,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if not self.isPageDown:
             self.isPageUp = 0
             self.isPageDown = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
 
     def clearPageUpDown(self):
         if self.isPageDown or self.isPageUp:
-            self.lerpCameraFov(self.fov, 0.6)
             self.isPageDown = 0
             self.isPageUp = 0
             self.setCameraPositionByIndex(self.cameraIndex)
@@ -783,14 +780,13 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.__cameraHasBeenMoved = 0
         self.__lastPosWrtRender = camera.getPos(render)
         self.__lastHprWrtRender = camera.getHpr(render)
+        self.handleCameraFloorInteraction()
         self.__idealCameraObstructed = 0
         if not self.__disableSmartCam:
             self.ccTrav.traverse(self.__geom)
             if self.camCollisionQueue.getNumEntries() > 0:
                 self.camCollisionQueue.sortEntries()
                 self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
-            if not self.__onLevelGround:
-                self.handleCameraFloorInteraction()
         if not self.__idealCameraObstructed:
             self.nudgeCamera()
         if not self.__disableSmartCam:
@@ -850,20 +846,27 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.popCameraToDest()
 
     def handleCameraFloorInteraction(self):
-        self.putCameraFloorRayOnCamera()
-        self.ccTravFloor.traverse(self.__geom)
-        if self.__onLevelGround:
-            return
+        self.camFloorRayNode.setPos(camera.getPos())
+        self.ccTravFloor.traverse(self._LocalAvatar__geom)
         if self.camFloorCollisionQueue.getNumEntries() == 0:
             return
         self.camFloorCollisionQueue.sortEntries()
         camObstrCollisionEntry = self.camFloorCollisionQueue.getEntry(0)
         camHeightFromFloor = camObstrCollisionEntry.getSurfacePoint(self.ccRayNodePath)[2]
-        self.cameraZOffset = camera.getPos()[2] + camHeightFromFloor
-        if self.cameraZOffset < 0:
-            self.cameraZOffset = 0
-        if self.__floorDetected == 0:
-            self.__floorDetected = 1
+        heightOfFloorUnderCamera = (camera.getPos()[2] - ToontownGlobals.FloorOffset) + camHeightFromFloor
+        camIdealHeightFromFloor = self.getIdealCameraPos()[2]
+        camTargetHeight = heightOfFloorUnderCamera + camIdealHeightFromFloor
+        self.cameraZOffset = camTargetHeight - camIdealHeightFromFloor
+        if self.cameraZOffset < 0.0:
+            self.cameraZOffset = self.cameraZOffset * 0.33
+            if self.cameraZOffset < -(self.getClampedAvatarHeight() * 0.5):
+                if self.cameraZOffset < -self.getClampedAvatarHeight():
+                    self.cameraZOffset = 0.0
+                else:
+                    self.cameraZOffset = -(self.getClampedAvatarHeight() * 0.5)
+        
+        if self._LocalAvatar__floorDetected == 0:
+            self._LocalAvatar__floorDetected = 1
             self.popCameraToDest()
 
     def lerpCameraFov(self, fov, time):

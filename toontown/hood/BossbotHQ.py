@@ -35,7 +35,7 @@ class BossbotHQ(CogHood.CogHood):
         self.setFog()
 
     def exit(self):
-        localAvatar.setCameraFov(ToontownGlobals.DefaultCameraFov)
+        localAvatar.setCameraFov(settings['fieldofview'])
         base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         CogHood.CogHood.exit(self)
 

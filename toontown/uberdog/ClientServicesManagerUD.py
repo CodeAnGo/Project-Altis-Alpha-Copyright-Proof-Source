@@ -18,6 +18,7 @@ import time
 import hmac
 import hashlib
 import json
+import threading
 
 def judgeName(name):
     FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -70,21 +71,22 @@ class LocalAccountDB:
         
         # See if the cookie is in the DBM:
 
-
         if cookie in self.dbm:
             # Return it w/ account ID!
             import urllib2
-            url = "http://gs1.projectaltis.com/Dubrari/powerCheck.php?token="+str(cookie) # As account is already in DBM, we need to CHECK it's level
-            #output = urllib2.urlopen(url).read()
+            # As account is already in DBM, we need to CHECK it's level
+            url = "http://gs1.projectaltis.com/Dubrari/powerCheck.php?token="+str(cookie)
+            output = urllib2.urlopen(url).read()
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': int(507)})
+                      'adminAccess': int(output)})
         else:
             # Nope, let's return w/o account ID:
             import urllib2
-            url = "http://gs1.projectaltis.com/Dubrari/powerCreate.php?token="+str(cookie)+"&level=150" # As account is being created with access 150, we need to tell level DB that it's level for checking later
-            #output = urllib2.urlopen(url).read()
+            # As account is being created with access 150, we need to tell level DB that it's level for checking later
+            url = "http://gs1.projectaltis.com/Dubrari/powerCreate.php?token="+str(cookie)+"&level=150"
+            output = urllib2.urlopen(url).read()
             callback({'success': True,
                       'accountId': 0,
                       'databaseId': cookie,
@@ -226,7 +228,9 @@ class LoginAccountFSM(OperationFSM):
 
     def __handleCreate(self, accountId):
         if self.state != 'CreateAccount':
+            print self.state
             self.notify.warning('Received create account response outside of CreateAccount state.')
+
             return
 
         if not accountId:
@@ -862,10 +866,13 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
-        self.sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+        try:
+            self.sessionKey = open('supersecretkey.xd').read()
+        except:
+            self.sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
 
-        # start the queue
-        self.queue.start()
+        # start the queue on a seperate thread
+        threading.Thread(target=self.queue.start).start()
 
         # For processing name patterns.
         self.nameGenerator = NameGenerator()
@@ -936,16 +943,13 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.loginsEnabled = enable
 
     def login(self, cookie, sessionKey):
-        self.queue.queueObject(self.queue.getNewId(), (cookie, sessionKey))
-
-    def performLogin(self, cookie, sessionKey):
         sender = self.air.getMsgSender()
 
-        if not (self.AccountFirewallUD.checkPlayerLogin(cookie)):
-            self.killConnection(sender, "Your account has been disallowed login to Project Altis. Please try again later.")
-            return
+        #if not self.AccountFirewallUD.checkPlayerLogin(cookie):
+        #   self.killConnection(sender, 'Your account has been disallowed login to Project Altis. Please try again later.')
+        #    return
 
-        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))      
+        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
@@ -1019,4 +1023,28 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         if len(REPORT_REASONS) <= category:
             self.air.writeServerEvent("suspicious", avId=reporterId, issue="Invalid report reason index (%d) sent by avatar." % category)
             return
+        
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
+
+    def requestBanPlayer(self, avId, reason):
+        self.air.dbInterface.queryObject(self.air.dbId, avId, callback=self.__handleLookupPlayer, 
+            avId=avId, reason=reason)
+
+    def __handleLookupPlayer(self, dclass, fields, avId, reason):
+        accountId, = fields.get('setDISLid')
+
+        # lookup account to get login cookie
+        self.air.dbInterface.queryObject(self.air.dbId, accountId, callback=self.__handleLookupAccount, 
+            accountId=accountId, reason=reason)
+
+    def __handleLookupAccount(self, dclass, fields, accountId, reason):
+        cookie = fields.get('ACCOUNT_ID')
+
+        # check if the player is already banned.
+        if self.banManager.getToonBanned(cookie):
+            return
+
+        self.banManager.banToon(cookie, reason)
+
+        # new, disconnect the toon
+        self.killAccount(accountId, reason)

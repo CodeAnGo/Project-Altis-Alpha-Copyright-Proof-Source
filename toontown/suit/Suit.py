@@ -494,8 +494,8 @@ class Suit(Avatar.Avatar):
             self.scale = scale / aSize
             self.handColor = SuitDNA.boardPolyColor
             self.generateBody()
-            self.headTexture = 'middleman.jpg'
-            self.generateHead('twoface')
+            self.generateHead('middleman')
+            self.generateHead('downsizerHat')
             self.setHeight(6.25)
         elif dna.name == 'txm':
             self.scale = scale / aSize

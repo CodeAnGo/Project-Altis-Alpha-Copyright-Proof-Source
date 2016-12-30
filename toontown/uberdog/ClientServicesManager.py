@@ -7,14 +7,14 @@ from panda3d.core import *
 from panda3d.direct import *
 from uuid import getnode as get_mac
 import json
-import requests
+import httplib
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
 
     systemMessageSfx = None
     avIdsReportedThisSession = []
-    sessionKey = '1Cgb/DcqxgqXO5b62nHw+RQFVdOwl+i20AK1z5oTv8Z='
+    sessionKey = 'mHHgl9VsiO6rVwv8/z3g0tkPJTev9lUjQkoBMnlt8tkgNRxdSzS/b4IFOaSTi3k9UKw8mIR7x2vFxvYB4nCRng=='
     mac = get_mac()
 
     # --- LOGIN LOGIC ---
@@ -23,11 +23,12 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         print(str(self.mac))
 
-        urlResponse = requests.get('http://www.projectaltis.com/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), 
             base.launcher.getPassword()))
 
         try:
-            response = json.loads(urlResponse.text)
+            response = json.loads(httpReq.getresponse().read())
         except:
             self.notify.error('Failed to decode json login API response!')
             return
@@ -35,9 +36,8 @@ class ClientServicesManager(DistributedObjectGlobal):
         # TODO: FIX ME - The JSON data is decoded as unicode so boolean types aren't redefined correctly
         if response['status'] != 'true':
             # couldn't find the details in the database!
-            print(response["reason"])
-            print(response["additional"])
-            raise SystemExit
+            # don't give hackers any clue to what's happening.
+            return
         else:
             # the request was successful, set the login cookie and login.
             cookie = response['additional']

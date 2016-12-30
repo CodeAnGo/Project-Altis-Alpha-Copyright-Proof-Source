@@ -1,5 +1,6 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from panda3d.direct import *
+from panda3d.physics import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
 from toontown.toonbase import ToontownGlobals

@@ -1,6 +1,6 @@
 from panda3d.core import *
 from panda3d.direct import *
-from toontown.distributed import PythonUtil
+from toontown.toonbase import ToonPythonUtil
 import __builtin__
 import os
 
@@ -62,6 +62,8 @@ if 'newGui' not in settings:
     settings['newGui'] = False
 if 'show-disclaimer' not in settings:
     settings['show-disclaimer'] = True
+if 'fieldofview' not in settings:
+    settings['fieldofview'] = 52
 settings['newGui'] = False # Force this to be false
 
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings['res']))
@@ -166,4 +168,7 @@ base.loader = base.loader
 __builtin__.loader = base.loader
 autoRun = ConfigVariableBool('toontown-auto-run', 1)
 if autoRun:
-    base.run()
+    try:
+        base.run()
+    except Exception as e:
+        raise (e)

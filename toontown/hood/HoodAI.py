@@ -197,9 +197,10 @@ class HoodAI:
 			
     def createTime(self):
         for zoneId in self.getZoneTable():
-            self.dayTimeMgr = DistributedDayTimeManagerAI.DistributedDayTimeManagerAI(self.air)
-            self.dayTimeMgr.generateWithRequired(zoneId)
-            self.notify.info('Day Time Manager turned on for zone ' + str(zoneId))
+            if zoneId not in [9000, 9100, 9200]:
+                self.dayTimeMgr = DistributedDayTimeManagerAI.DistributedDayTimeManagerAI(self.air)
+                self.dayTimeMgr.generateWithRequired(zoneId)
+                self.notify.info('Day Time Manager turned on for zone ' + str(zoneId))
             
     def createRain(self):
         for zoneId in self.getZoneTable():

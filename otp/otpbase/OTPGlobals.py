@@ -104,8 +104,6 @@ CETightwad = 55
 CEBeanCounter = 56
 CEBackStabber = 49
 CEBottomFeeder = 45
-CEYesManHead = 77
-CEDownsizerHead = 78
 CEGhost = 'g'
 CEName2Id = {
  'normal': CENormal,
@@ -184,9 +182,7 @@ CEName2Id = {
  'tightwad': CETightwad,
  'beancounter': CEBeanCounter,
  'backstabber': CEBackStabber,
- 'bottomfeeder': CEBottomFeeder,
- 'yesmanhead': CEYesManHead,
- 'downsizerhead': CEDownsizerHead
+ 'bottomfeeder': CEBottomFeeder
 }
 BeanToonScale = 2.9
 GiantToonScale = 2.1

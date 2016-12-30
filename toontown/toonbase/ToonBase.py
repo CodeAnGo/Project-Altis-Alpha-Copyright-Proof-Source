@@ -46,10 +46,14 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         self.exitErrorCode = 0
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.cam2d.node().setCameraMask(BitMask32.bit(1))
         self.musicManager.setVolume(settings.get("musicVol"))
+        
+        for sfm in self.sfxManagerList:
+            sfm.setVolume(settings.get("sfxVol"))
+        self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
@@ -195,8 +199,8 @@ class ToonBase(OTPBase.OTPBase):
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
         self.lodMaxRange = 750
-        self.lodMinRange = 25
-        self.lodDelayFactor = 0.3
+        self.lodMinRange = 5
+        self.lodDelayFactor = 0.4
         
         # enable this feature, if you have render pipeline installed
         if config.GetBool('want-pipeline-renderer', False):

@@ -219,6 +219,7 @@ def __doBikehorn(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('bikehorn')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -232,8 +233,8 @@ def __doBikehorn(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow = getScaleIntervals(instruments, duration=0.2, startScale=instrMin, endScale=instrMax)
     instrumentAppear = Parallel(grow, Sequence(Wait(0.15), SoundInterval(instrumentAppearSfx, node=toon)))
@@ -271,6 +272,7 @@ def __doWhistle(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('whistle')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -284,8 +286,8 @@ def __doWhistle(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow = getScaleIntervals(instruments, duration=0.2, startScale=instrMin, endScale=instrMax)
     instrumentAppear = Parallel(grow, Sequence(Wait(0.05), SoundInterval(instrumentAppearSfx, node=toon)))
@@ -321,6 +323,7 @@ def __doBugle(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('bugle')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -348,8 +351,8 @@ def __doBugle(sound, delay, toon, targets, level):
         seq.start()
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow = getScaleBlendIntervals(instruments, duration=1, startScale=instrMin, endScale=instrMax, blendType='easeInOut')
     instrumentshrink = getScaleIntervals(instruments, duration=0.1, startScale=instrMax, endScale=instrMin)
@@ -382,6 +385,7 @@ def __doAoogah(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('aoogah')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -395,8 +399,8 @@ def __doAoogah(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow = getScaleIntervals(instruments, duration=0.2, startScale=instrMin, endScale=instrMax)
     instrumentAppear = Parallel(grow, Sequence(Wait(0.05), SoundInterval(instrumentAppearSfx, node=toon)))
@@ -436,6 +440,7 @@ def __doElephant(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('elephant')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -449,8 +454,8 @@ def __doElephant(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow1 = getScaleIntervals(instruments, duration=0.3, startScale=instrMin, endScale=instrMax1)
     grow2 = getScaleIntervals(instruments, duration=0.3, startScale=instrMax1, endScale=instrMax2)
@@ -491,6 +496,7 @@ def __doFoghorn(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('fog_horn')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -504,8 +510,8 @@ def __doFoghorn(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow1 = getScaleIntervals(instruments, duration=1, startScale=instrMin, endScale=instrMax1)
     grow2 = getScaleIntervals(instruments, duration=0.1, startScale=instrMax1, endScale=instrMax2)
@@ -547,6 +553,7 @@ def __doOpera(sound, delay, toon, targets, level):
     megaphone = globalPropPool.getProp('megaphone')
     megaphone2 = MovieUtil.copyProp(megaphone)
     megaphones = [megaphone, megaphone2]
+    megaphoneScale = megaphone.getScale()
     instrument = globalPropPool.getProp('singing')
     instrument2 = MovieUtil.copyProp(instrument)
     instruments = [instrument, instrument2]
@@ -565,8 +572,8 @@ def __doOpera(sound, delay, toon, targets, level):
         instrument2.setScale(instrMin)
 
     hands = toon.getRightHands()
-    megaphoneShow = Sequence(Func(MovieUtil.showProps, megaphones, hands), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
-    megaphoneHide = Sequence(Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
+    megaphoneShow = Sequence(Parallel(LerpScaleInterval(megaphone, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), LerpScaleInterval(megaphone2, 0.4, megaphoneScale, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.showProps, megaphones, hands)), Func(MovieUtil.showProps, instruments, hands), Func(setInstrumentStats))
+    megaphoneHide = Sequence(LerpScaleInterval(megaphone, 0.4, MovieUtil.PNT3_NEARZERO, megaphoneScale), Func(MovieUtil.removeProps, megaphones), Func(MovieUtil.removeProps, instruments))
     instrumentAppearSfx = globalBattleSoundCache.getSound(appearSoundFiles[level])
     grow1 = getScaleBlendIntervals(instruments, duration=1, startScale=instrMin, endScale=instrMax1, blendType='easeOut')
     grow2 = getScaleBlendIntervals(instruments, duration=1.1, startScale=instrMax1, endScale=instrMax2, blendType='easeIn')
