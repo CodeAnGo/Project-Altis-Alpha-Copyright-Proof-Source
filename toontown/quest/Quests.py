@@ -4890,7 +4890,7 @@ QuestDict = {
  2222: (DD_TIER + 1,
 		Start,
 		(CogQuest,
-		ToontownGlobals.DonaldsDock,
+		Anywhere
 		5,
 		'ds'),
 		1319,
@@ -4901,7 +4901,7 @@ QuestDict = {
  2223: (DD_TIER + 1,
 		Cont,
 		(CogQuest,
-		ToontownGlobals.DonaldsDock,
+		Anywhere
 		5,
 		'bs'),
 		Same,
