@@ -105,7 +105,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        0,
        10),
-      (2, 3, 4),
+      (2, 3, 4, 5),
       []],
      [1200, #Seaweed Street
       1,
