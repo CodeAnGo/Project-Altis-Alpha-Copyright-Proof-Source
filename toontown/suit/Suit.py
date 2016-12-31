@@ -142,10 +142,10 @@ sw = (('phone', 'phone', 5),
 mdm = (('smile', 'smile', 5),
  ('roll-o-dex', 'roll-o-dex', 5),      
  ('magic3', 'magic3', 5))
-txm = (('cigar-smoke', 'cigar-smoke', 8),
- ('pen-squirt', 'fountain-pen', 7),
+txm = (('pen-squirt', 'fountain-pen', 7),
  ('glower', 'glower', 5),
- ('magic1', 'magic1', 5))
+ ('magic1', 'magic1', 5),
+ ('magic3', 'magic2', 5))
 mg = (('speak', 'speak', 5),
  ('glower', 'glower', 5),     
  ('throw-paper', 'throw-paper', 5),
@@ -498,10 +498,10 @@ class Suit(Avatar.Avatar):
             self.generateHead('downsizerHat')
             self.setHeight(6.25)
         elif dna.name == 'txm':
-            self.scale = scale / aSize
-            self.handColor = VBase4(1, 1, .29, 1.0)
+            self.scale = scale / cSize
+            self.handColor = VBase4(1, 1, .2, 1.0)
             self.generateBody()
-            self.generateHead('toxicleader')
+            self.generateHead('toxic_manager')
             self.setHeight(7.2)
         elif dna.name == 'mg':
             self.scale = scale / aSize
