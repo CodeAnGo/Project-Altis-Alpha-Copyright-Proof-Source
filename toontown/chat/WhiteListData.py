@@ -20132,6 +20132,7 @@ WHITELIST = [
     'jar',
     "jar's",
     'jarax',
+    'jared',
     'jargon',
     'jars',
     'jasmine',
