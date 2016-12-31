@@ -163,6 +163,14 @@ class DistributedBetaEvent(DistributedEvent):
     def exitCogTakeover(self):
         pass
     
+    def enterCredits(self, timestamp):
+        import CreditsScreen
+        self.credits = CreditsScreen.CreditsScreen()
+        self.credits.startCredits()
+        
+    def exitCredits(self):
+        pass
+    
     def toonTalk(self, phrase, toon):
         toon.setChatAbsolute(phrase, CFSpeech|CFTimeout)
         
