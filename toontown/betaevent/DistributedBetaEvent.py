@@ -77,8 +77,7 @@ class DistributedBetaEvent(DistributedEvent):
         # Load the toon lab if its not already loaded incase a new player enters
         if not self.toonLabs:
             self.loadToonLab()
-        
-        self.gateLeft.hprInterval(1, VBase3(90, 0, 0)).start()
+       
         
     def exitPreEvent(self):
         pass
