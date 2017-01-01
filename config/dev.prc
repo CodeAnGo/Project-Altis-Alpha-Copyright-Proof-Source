@@ -5,6 +5,10 @@
 # Python DNA Reader
 want-pipeline-renderer false
 
+#HTC Vive Support
+side-by-side-stereo 0
+want-dubrari-vive false
+
 # Client settings
 window-title Project Altis
 server-version TTPA-Alpha-1.1.5
