@@ -39,8 +39,8 @@ resistanceDict = {
             ToontownBattleGlobals.SOUND_TRACK,
             ToontownBattleGlobals.THROW_TRACK,
             ToontownBattleGlobals.SQUIRT_TRACK,
-            ToontownBattleGlobals.DROP_TRACK,
             ToontownBattleGlobals.ZAP_TRACK,
+            ToontownBattleGlobals.DROP_TRACK,
             -1
         ],
         'extra': [
@@ -50,8 +50,8 @@ resistanceDict = {
             TTLocalizer.MovieNPCSOSSound,
             TTLocalizer.MovieNPCSOSThrow,
             TTLocalizer.MovieNPCSOSSquirt,
-            TTLocalizer.MovieNPCSOSDrop,
             TTLocalizer.MovieNPCSOSZap,
+            TTLocalizer.MovieNPCSOSDrop,
             TTLocalizer.MovieNPCSOSAll
         ],
         'items': [0, 1, 2, 3, 4, 5, 6, 7, 8]

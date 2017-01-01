@@ -4890,7 +4890,7 @@ QuestDict = {
  2222: (DD_TIER + 1,
 		Start,
 		(CogQuest,
-		ToontownGlobals.DonaldsDock,
+		Anywhere,
 		5,
 		'ds'),
 		1319,
@@ -4901,7 +4901,7 @@ QuestDict = {
  2223: (DD_TIER + 1,
 		Cont,
 		(CogQuest,
-		ToontownGlobals.DonaldsDock,
+		Anywhere,
 		5,
 		'bs'),
 		Same,
@@ -6379,14 +6379,6 @@ QuestDict = {
         400,
         NA,
         TTLocalizer.QuestDialogDict[4001]),
- 4002: (DG_TIER,
-        Start,
-        (TrackChoiceQuest,),
-        Any,
-        ToonHQ,
-        400,
-        NA,
-        TTLocalizer.QuestDialogDict[4002]),
  4010: (DG_TIER,
         Start,
         (CogQuest,
@@ -8123,14 +8115,7 @@ QuestDict = {
         Same,
         Same,
         NA,
-        (5001,
-         5002,
-         5003,
-         5004,
-         5005,
-         5006,
-         5007,
-         5008),
+        (5001),
         TTLocalizer.QuestDialogDict[5259]),
  5260: (BR_TIER,
         Cont,
@@ -8142,72 +8127,9 @@ QuestDict = {
         Same,
         Same,
         NA,
-        (5001,
-         5002,
-         5003,
-         5004,
-         5005,
-         5006,
-         5007,
-         5008),
+        (5001),
         TTLocalizer.QuestDialogDict[5260]),
  5001: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5002: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5003: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5004: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5005: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5006: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5007: (BR_TIER,
-        Cont,
-        (TrackChoiceQuest,),
-        Same,
-        Same,
-        400,
-        NA,
-        TTLocalizer.TheBrrrghTrackQuestDict),
- 5008: (BR_TIER,
         Cont,
         (TrackChoiceQuest,),
         Same,
@@ -16857,10 +16779,7 @@ def getNextQuest(id, currentNpc, av):
     elif type(nextQuest) == type(()):
         nextReward = QuestDict[nextQuest[0]][QuestDictRewardIndex]
         nextNextQuest, nextNextToNpcId = getNextQuest(nextQuest[0], currentNpc, av)
-        if nextReward == 400 and nextNextQuest == NA:
-            nextQuest = chooseTrackChoiceQuest(av.getRewardTier(), av)
-        else:
-            nextQuest = random.choice(nextQuest)
+        nextQuest = random.choice(nextQuest)
     if not getQuestClass(nextQuest).filterFunc(av):
         return getNextQuest(nextQuest, currentNpc, av)
     nextToNpcId = getQuestToNpcId(nextQuest)
@@ -16924,80 +16843,10 @@ def filterQuests(entireQuestPool, currentNpc, av):
         notify.debug('filterQuests: finalQuestPool: %s' % finalQuestPool)
     return finalQuestPool
 
-
-def chooseTrackChoiceQuest(tier, av, fixed = 0):
-
-    def fixAndCallAgain():
-        if not fixed and av.fixTrackAccess():
-            notify.info('av %s trackAccess fixed: %s' % (av.getDoId(), trackAccess))
-            return chooseTrackChoiceQuest(tier, av, fixed=1)
-        else:
-            return None
-        return None
-
-    bestQuest = None
-    trackAccess = av.getTrackAccess()
-    if tier == DG_TIER:
-        if trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
-            bestQuest = 4002
-        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
-            bestQuest = 4001
-        else:
-            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
-            return fixAndCallAgain()
-    elif tier == BR_TIER:
-        if trackAccess[ToontownBattleGlobals.TRAP_TRACK] == 1:
-            if trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
-                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
-                    bestQuest = 5004
-                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
-                    bestQuest = 5003
-                else:
-                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
-                    return fixAndCallAgain()
-            elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
-                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
-                    bestQuest = 5002
-                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
-                    bestQuest = 5001
-                else:
-                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
-                    return fixAndCallAgain()
-        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 0:
-            bestQuest = 5005
-        elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 0:
-            bestQuest = 5006
-        elif trackAccess[ToontownBattleGlobals.DROP_TRACK] == 0:
-            bestQuest = 5007
-        elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 0:
-            bestQuest = 5008
-        else:
-            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
-            return fixAndCallAgain()
-    else:
-        if notify.getDebug():
-            notify.debug('questPool for reward 400 had no dynamic choice, tier: %s' % tier)
-        bestQuest = seededRandomChoice(Tier2Reward2QuestsDict[tier][400])
-    if notify.getDebug():
-        notify.debug('chooseTrackChoiceQuest: avId: %s trackAccess: %s tier: %s bestQuest: %s' % (av.getDoId(),
-         trackAccess,
-         tier,
-         bestQuest))
-    return bestQuest
-
-
 def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
     questsMatchingReward = Tier2Reward2QuestsDict[tier].get(rewardId, [])
     if notify.getDebug():
         notify.debug('questsMatchingReward: %s tier: %s = %s' % (rewardId, tier, questsMatchingReward))
-    if rewardId == 400 and QuestDict[questsMatchingReward[0]][QuestDictNextQuestIndex] == NA:
-        bestQuest = chooseTrackChoiceQuest(tier, av)
-        if notify.getDebug():
-            notify.debug('single part track choice quest: %s tier: %s avId: %s trackAccess: %s bestQuest: %s' % (rewardId,
-             tier,
-             av.getDoId(),
-             av.getTrackAccess(),
-             bestQuest))
     else:
         validQuestsMatchingReward = PythonUtil.intersection(questsMatchingReward, validQuestPool)
         if notify.getDebug():

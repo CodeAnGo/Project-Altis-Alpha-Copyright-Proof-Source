@@ -516,7 +516,7 @@ class BattleCalculatorAI:
                         if random.randint(0,99) <= InstaKillChance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
-                                attackDamage = suit.getHP()
+                                attackDamage = 500
                             else:
                                 suit.b_setSkeleRevives(0)
                                 attackDamage = suit.getHP()
