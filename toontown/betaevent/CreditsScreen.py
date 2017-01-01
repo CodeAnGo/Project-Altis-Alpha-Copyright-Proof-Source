@@ -24,7 +24,7 @@ class CreditsScreen:
         self.text = None
         self.roleText = None
         self.logo = OnscreenImage(image='phase_3/maps/toontown-logo.png',
-                                  scale=(1.0 * (4.0/3.0), 1, 1.0 / (4.0/3.0)),
+                                  scale=(0.8 * (4.0/3.0), 0.8, 0.8 / (4.0/3.0)),
                                   pos=(0, 0, 0))
         self.logo.setTransparency(TransparencyAttrib.MAlpha)
         self.logo.reparentTo(aspect2d)
@@ -47,7 +47,7 @@ class CreditsScreen:
             Wait(2),
             LerpColorScaleInterval(self.logo, 2, Vec4(1, 1, 1, 0)),
             Func(self.logo.hide),
-            base.camera.posHprInterval(3, Point3(0, -100, 10), VBase3(180, -90, 0)),
+            base.camera.posHprInterval(2, Point3(0, -100, 10), VBase3(180, -90, 0)),
             Wait(1),
             Func(self.displayText, dubito),
             Wait(6),
