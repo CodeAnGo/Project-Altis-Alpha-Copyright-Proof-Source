@@ -36,7 +36,7 @@ class TownBattleCogPanel(DirectFrame):
         self.initialiseoptions(TownBattleCogPanel)
         self.hidden = False
         self.cog = None
-        self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.055)
+        self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.05)
         healthGui = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         button = healthGui.find('**/minnieCircle')
         button.setScale(0.5)
