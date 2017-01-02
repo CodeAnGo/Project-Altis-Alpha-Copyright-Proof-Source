@@ -15,6 +15,7 @@ import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toon.Toon import teleportDebug
 from toontown.dna.DNAParser import *
+from toontown.events.CharityScreen import CharityScreen
 
 class Hood(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('Hood')
@@ -38,6 +39,7 @@ class Hood(StateData.StateData):
         self.oldSky = None
         self.newSky = None
         self.halloweenLights = []
+        self.screen = None
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -45,6 +47,9 @@ class Hood(StateData.StateData):
         hoodText = self.getHoodText(zoneId)
         self.titleText = OnscreenText.OnscreenText(hoodText, fg=self.titleColor, font=getSignFont(), pos=(0, -0.5), scale=TTLocalizer.HtitleText, drawOrder=0, mayChange=1)
         self.fsm.request(requestStatus['loader'], [requestStatus])
+        if zoneId in ([ToontownCentral, DonaldsDock, DaisyGardens, MinniesMelodyland, TheBrrrgh, DonaldsDreamland]):
+            self.screen = CharityScreen(base.cr)
+            self.screen.start(zoneId)
 
     def getHoodText(self, zoneId):
         hoodText = base.cr.hoodMgr.getFullnameFromId(self.id)
@@ -111,6 +116,8 @@ class Hood(StateData.StateData):
             if self.newSky:
                 self.newSky.removeNode()
                 del self.newSky
+        if self.screen:
+            self.screen.unload()
             
         self.ignoreAll()
         ModelPool.garbageCollect()
