@@ -54,7 +54,6 @@ class CogdoFlyingGameIntro(CogdoGameMovie):
         self.toonDNA.newToonFromProperties('dss', 'ss', 'm', 'm', 2, 0, 2, 2, 1, 8, 1, 8, 1, 14)
         self.toonHead = Toon.Toon()
         self.toonHead.setDNA(self.toonDNA)
-        self.makeSuit('sc')
         self.toonHead.getGeomNode().setDepthWrite(1)
         self.toonHead.getGeomNode().setDepthTest(1)
         self.toonHead.loop('neutral')
