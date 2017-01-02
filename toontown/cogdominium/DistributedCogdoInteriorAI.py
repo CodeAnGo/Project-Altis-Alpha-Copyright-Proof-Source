@@ -168,7 +168,8 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         elif self.FOType == "l":
             self.game = DistCogdoFlyingGameAI.DistCogdoFlyingGameAI(self.air)
         elif self.FOType == "m":
-            self.game = DistCogdoCraneGameAI.DistCogdoCraneGameAI(self.air)
+            self.game = DistCogdoMazeGameAI.DistCogdoMazeGameAI(self.air)
+            self.game.setNumSuits(CogdoMazeGameGlobals.NumSuits)
         self.sendUpdate("setSOSNpcId", [self.sosNPC])
         self.sendUpdate("setFOType", [ord(self.FOType)])
 

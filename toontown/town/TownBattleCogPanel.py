@@ -31,11 +31,12 @@ class TownBattleCogPanel(DirectFrame):
             gui = loader.loadModel('phase_3.5/models/gui/battle_gui_old')
         
         DirectFrame.__init__(self, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.7, 0.7, 0.7, 0.8))
+        self.hpText = DirectLabel(parent=self, text='', pos=(-0.06, 0, -0.0325), text_scale=0.045)
         self.setScale(0.8)
         self.initialiseoptions(TownBattleCogPanel)
         self.hidden = False
         self.cog = None
-        self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.055)
+        self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.05)
         healthGui = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         button = healthGui.find('**/minnieCircle')
         button.setScale(0.5)
@@ -85,6 +86,9 @@ class TownBattleCogPanel(DirectFrame):
             self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp)
 
     def updateHealthBar(self):
+        self.hp = self.cog.getHP()
+        self.maxHp = self.cog.getMaxHP()
+        self.hpText['text'] = str(self.hp) + '/' + str(self.maxHp)
         condition = self.cog.healthCondition
         if condition == 4:
             self.blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task.pause(0.1))

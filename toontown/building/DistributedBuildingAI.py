@@ -27,7 +27,7 @@ from toontown.cogdominium.CogdoLayout import CogdoLayout
 from toontown.cogdominium.DistributedCogdoElevatorExtAI import DistributedCogdoElevatorExtAI
 
 class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
-
+    notify = directNotify.newCategory("DistributedBuildingAI")
     def __init__(self, air, blockNumber, zoneId, trophyMgr):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = blockNumber
@@ -106,6 +106,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return SuitBuildingGlobals.SuitBuildingInfo[difficulty][0]
 
     def suitTakeOver(self, suitTrack, difficulty, buildingHeight):
+        self.notify.info('%s type Suit takeover at zone %s' % (suitTrack, self.zoneId))
         if not self.isToonBlock():
             return
         self.updateSavedBy(None)
@@ -125,9 +126,10 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return
 
     def cogdoTakeOver(self, difficulty, buildingHeight, track = 's'):
+        self.notify.info('%s type Cogdo takeover at zone %s' % (track, self.zoneId))
         if not self.isToonBlock():
             return None
-
+        
         self.updateSavedBy(None)
         (minFloors, maxFloors) = self._getMinMaxFloors(difficulty)
         if buildingHeight == None:
@@ -136,7 +138,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             numFloors = buildingHeight + 1
             if numFloors < minFloors or numFloors > maxFloors:
                 numFloors = random.randint(minFloors, maxFloors)
-
+            
         self.track = track
         self.realTrack = track
         self.difficulty = difficulty
@@ -145,6 +147,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.fsm.request('clearOutToonInteriorForCogdo')
 
     def toonTakeOver(self):
+        self.notify.info('toon takeover at zone %s' % (self.zoneId))
         if 'cogdo' in self.fsm.getCurrentState().getName().lower():
             self.fsm.request('becomingToonFromCogdo')
         else:
