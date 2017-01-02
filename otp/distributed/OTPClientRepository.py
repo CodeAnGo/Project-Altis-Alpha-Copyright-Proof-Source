@@ -477,12 +477,43 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterConnect(self, serverList):
+        pem = """-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuoVXJnViEwQOaPmoVNco
+aS5xbLLR3l8beoW+GFVevmT9zFRySuE/qKgAeglx93z7IN5KTxHrePI7PMKXlD59
+KMwex5n1Ni41mjr1E640FbruRnG+UnTEoBD4P8Y3N5SysdUN7+4kcXtF1EkBEKRE
+OveOmn/JBKzO7wldN1yv4UESb5jcK6dr81ik7PqBN09WMV7mWhoQq5EBVN9uaubv
+eGTAp0hXFUexQybfNrpZTtacjlWxeRHvTZojYqADY/09dZkwSWDKcYRxXlEmmdGF
+iVSDb6UI8TsN1g65AGRn8ZMd2O8Pc0TAc5eocnMZ6IiNCygdssqBw2DXjpVGU4c9
+6wIDAQAB
+-----END PUBLIC KEY-----
+-----BEGIN CERTIFICATE-----
+MIIC1DCCAbygAwIBAgIQdEpua2O6s51KYpxkSah06TANBgkqhkiG9w0BAQUFADAT
+MREwDwYDVQQDEwhuczMxMTgyODAeFw0xNzAxMDIxMjIxMThaFw0xODAxMDIwMDAw
+MDBaMBMxETAPBgNVBAMTCG5zMzExODI4MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEAuoVXJnViEwQOaPmoVNcoaS5xbLLR3l8beoW+GFVevmT9zFRySuE/
+qKgAeglx93z7IN5KTxHrePI7PMKXlD59KMwex5n1Ni41mjr1E640FbruRnG+UnTE
+oBD4P8Y3N5SysdUN7+4kcXtF1EkBEKREOveOmn/JBKzO7wldN1yv4UESb5jcK6dr
+81ik7PqBN09WMV7mWhoQq5EBVN9uaubveGTAp0hXFUexQybfNrpZTtacjlWxeRHv
+TZojYqADY/09dZkwSWDKcYRxXlEmmdGFiVSDb6UI8TsN1g65AGRn8ZMd2O8Pc0TA
+c5eocnMZ6IiNCygdssqBw2DXjpVGU4c96wIDAQABoyQwIjALBgNVHQ8EBAMCBDAw
+EwYDVR0lBAwwCgYIKwYBBQUHAwEwDQYJKoZIhvcNAQEFBQADggEBAEJmqgLkhh4v
+/yMOwAPI1MwSopr34M96YYIKuAwQe0JvMLB+6rGFiXS/PCFcZ6xOVOEERp30P3GP
+HaMcnwEFUbXA4zR/UU+SDDcDyg0nqNj4oY+P+ds9zieCzn+6ow+CyY74FbVjs2+Z
+Iisz8WwJnzSX13raJQ0ZZqVBjKctC/csULl6f5XLA9A4Ws5Zxig/PcgIrFx8jqlY
+Mb5LRSW45YlIxw5zu50k3JIdHxwrfwtgzC8TFpjhsq1kDT0xpV3K5YhJXARG2idL
+0k6tmMcT+3G1QGLKAcVP9OcHku4bNs8P6td5ASLs/L2CFV9NMxYjPUhEdAPs7jnC
+NBAo3XdSe6o=
+-----END CERTIFICATE-----
+"""
         self.serverList = serverList
         dialogClass = OTPGlobals.getGlobalDialogClass()
         self.connectingBox = LoadingDialog.LoadingDialog()
         self.connectingBox.start('Connecting to server...')
         self.renderFrame()
         self.handler = self.handleConnecting
+        if self.checkHttp():
+            for server in self.serverList:
+                self.http.addPreapprovedServerCertificatePem(server, pem)
         self.connect(self.serverList, successCallback=self._sendHello, failureCallback=self.failedToConnect)
 
     def _sendHello(self):
