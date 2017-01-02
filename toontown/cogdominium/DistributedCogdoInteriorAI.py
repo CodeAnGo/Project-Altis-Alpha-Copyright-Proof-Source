@@ -478,7 +478,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                         break
 
                 possibleCogLevel = range(SuitDNA.suitsPerDept)
-                possibleDeptIndex = range(len(SuitDNA.suitDepts)-1)
+                possibleDeptIndex = range(len(SuitDNA.suitDepts))
                 possibleSummonType = ['single']
                 typeWeights = ['single'] * 70
                 if not foundOne:
