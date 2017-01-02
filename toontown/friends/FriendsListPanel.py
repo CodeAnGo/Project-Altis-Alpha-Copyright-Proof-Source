@@ -656,7 +656,9 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
                     self.friends[friendPair] = friendButton
 
         self.scrollList.index = self.listScrollIndex[self.panelType]
+        index = self.scrollList.getSelectedIndex()
         self.scrollList.refresh()
+        self.scrollList.scrollTo(index)
 
     def __updateTitle(self):
         if self.panelType == FLPOnline:
