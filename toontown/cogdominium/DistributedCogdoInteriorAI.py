@@ -442,7 +442,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                     if not toon.attemptAddNPCFriend(self.sosNPC, numCalls=1):
                         self.notify.info('%s unable to add NPCFriend %s to %s.' % (self.doId, self.sosNPC, v))
                 elif self.FOType == 'l':
-                    preferredDept = random.randrange(len(SuitDNA.suitDepts)-1)
+                    preferredDept = random.randrange(len(SuitDNA.suitDepts))
                     typeWeights = ['single'] * 70
                     preferredSummonType = random.choice(typeWeights)
                     if toon:
@@ -466,7 +466,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                 summonType = 'single'
             else:
                 foundOne = False
-                for curDeptIndex in range(len(SuitDNA.suitDepts)-1):
+                for curDeptIndex in range(len(SuitDNA.suitDepts)):
                     if not toon.hasParticularCogSummons(curDeptIndex, cogLevel, prefSummonType):
                         deptIndex = curDeptIndex
                         foundOne = True
@@ -478,7 +478,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                         break
 
                 possibleCogLevel = range(SuitDNA.suitsPerDept)
-                possibleDeptIndex = range(len(SuitDNA.suitDepts)-1)
+                possibleDeptIndex = range(len(SuitDNA.suitDepts))
                 possibleSummonType = ['single']
                 typeWeights = ['single'] * 70
                 if not foundOne:

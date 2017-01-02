@@ -22,8 +22,11 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
     def announceGenerate(self):
         DistributedWeatherMGRAI.announceGenerate(self)
 
-        # set state to snowing for holidays
-        self.b_setState('Snow')
+        Sequence(
+            Func(self.b_setState, 'Sunny'),
+            Wait(1800),
+            Func(self.b_setState, 'Rain'),
+            Wait(900)).loop()
 
     def enterRain(self):
         pass
