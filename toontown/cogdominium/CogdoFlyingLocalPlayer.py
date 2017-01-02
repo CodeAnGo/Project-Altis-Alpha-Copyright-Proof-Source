@@ -710,9 +710,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             self.request('FlyingUp')
         else:
             self.ignore(base.JUMP)
-            self.ignore('lcontrol')
-            self.acceptOnce('control', self.pressedControlWhileRunning)
-            self.acceptOnce('lcontrol', self.pressedControlWhileRunning)
+            self.acceptOnce(base.JUMP, self.pressedControlWhileRunning)
 
     def setPropellerState(self, propState):
         if not self.hasPickedUpFirstPropeller:
@@ -871,9 +869,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.orthoWalk.start()
         self.setPropellerState(CogdoFlyingLocalPlayer.PropStates.Normal)
         self.ignore(base.JUMP)
-        self.ignore('lcontrol')
-        self.acceptOnce('control', self.pressedControlWhileRunning)
-        self.acceptOnce('lcontrol', self.pressedControlWhileRunning)
+        self.acceptOnce(base.JUMP, self.pressedControlWhileRunning)
 
     def filterRunning(self, request, args):
         if request == self.state:
@@ -886,7 +882,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         CogdoFlyingLocalPlayer.notify.debug("exit%s: '%s' -> '%s'" % (self.oldState, self.oldState, self.newState))
         self.orthoWalk.stop()
         self.ignore(base.JUMP)
-        self.ignore('lcontrol')
 
     def enterOutOfTime(self):
         CogdoFlyingLocalPlayer.notify.info("enter%s: '%s' -> '%s'" % (self.newState, self.oldState, self.newState))
