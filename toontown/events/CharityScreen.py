@@ -18,6 +18,7 @@ class CharityScreen(DistributedObject):
             ToontownGlobals.MinniesMelodyland : (0, 0, 8),
             ToontownGlobals.TheBrrrgh : (-111, -44, 25),
             ToontownGlobals.DonaldsDreamland : (0, 0, 6)}
+        self.bob = None
     
     def announceGenerate(self):
         self.cr.chairityEvent = self
@@ -38,7 +39,11 @@ class CharityScreen(DistributedObject):
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.2))
             self.counterback.setHpr(180, 0, 0)
-            taskMgr.add(self.updateJsonTask, 'jsonTask')
+            taskMgr.add(self.updateJsonTask, 'jsonTask')
+            
+            self.bob = Sequence(
+                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() + 10)),
+                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() - 10))).loop()
 
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
         
@@ -48,10 +53,13 @@ class CharityScreen(DistributedObject):
         self.count = info['counter']
         self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
         self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
-        taskMgr.doMethodLater(10, self.updateJsonTask, 'jsonTask')
+        taskMgr.doMethodLater(5, self.updateJsonTask, 'jsonTask')
         
     def unload(self):
         print("unload")
+        if self.bob:
+            self.bob.finish()
+            self.bob = None
         if self.screenObject:
             self.screenObject.removeNode()
             taskMgr.remove('jsonTask')       
