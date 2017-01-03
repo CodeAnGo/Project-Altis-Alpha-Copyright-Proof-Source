@@ -86,6 +86,11 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
     for i in range(len(activeToons)):
         toonIndices[activeToons[i]] = i
 
+    for i in range(len(suitsKilled)):
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/updatecogs/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428')
+        httpReq.getresponse().read()
+
     for deathRecord in suitsKilled:
         level = deathRecord['level']
         type = deathRecord['type']
