@@ -6,6 +6,7 @@ from direct.directutil import Mopath
 from direct.showbase import PythonUtil
 from panda3d.core import *
 from panda3d.direct import *
+from panda3d.physics import *
 from toontown.toonbase import ToontownGlobals
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
