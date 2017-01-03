@@ -2,11 +2,11 @@ from direct.distributed.DistributedObject import DistributedObject
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from direct.task import Task
-import requests, json, urllib
+import json, httplib
 from toontown.pgui.DirectGui import DirectLabel
 from panda3d.core import *
 from direct.interval.IntervalGlobal import * 
-import thread
+import threading
 
 class CharityScreen(DistributedObject):
     notify = directNotify.newCategory('CharityScreen')
@@ -46,12 +46,16 @@ class CharityScreen(DistributedObject):
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
          
     def updateJsonTask(self, task):
-        information = requests.get("http://projectaltis.com/api/getcogs")
-        info = information.json()
+        threading.Thread(target=self.getJson).start()
+        taskMgr.doMethodLater(10, self.updateJsonTask, 'jsonTask')
+        
+    def getJson(self):
+        information = httplib.HTTPConnection('www.projectaltis.com')
+        information.request('GET', '/api/getcogs')
+        info = json.loads(information.getresponse().read())
         self.count = info['counter']
         self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
         self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
-        taskMgr.doMethodLater(60, self.updateJsonTask, 'jsonTask')
         
     def unload(self):
         print("unload")
