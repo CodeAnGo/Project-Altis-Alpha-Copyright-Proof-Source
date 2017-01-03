@@ -15,7 +15,7 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
         NodePath.__init__(self, '')
         DirectObject.DirectObject.__init__(self)
 
-    def setupCopyModel(self, parentToken, model, floorNodeName = None, _parentingNode = None):
+    def setupCopyModel(self, parentToken, model, floorNodeName = None, parentingNode = None):
         if floorNodeName is None:
             floorNodeName = 'floor'
         
@@ -35,11 +35,11 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
         for floor in floorList:
             floor.setName(self._name)
 
-        if _parentingNode == None:
-            _parentingNode = self
+        if parentingNode == None:
+            parentingNode = self
         
-        base.cr.parentMgr.registerParent(self._parentToken, _parentingNode)
-        self.__parentingNode = _parentingNode
+        base.cr.parentMgr.registerParent(self._parentToken, parentingNode)
+        self._parentingNode = parentingNode
         self.accept('enter%s' % self._name, self.__handleEnter)
         self.accept('exit%s' % self._name, self.__handleExit)
 
@@ -53,8 +53,8 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
             self.model.removeNode()
             del self.model
         
-        if hasattr(self, '_parentingNode') and self.__parentingNode is self:
-            del self.__parentingNode
+        if hasattr(self, 'parentingNode') and self._parentingNode is self:
+            del self._parentingNode
 
     def getEnterEvent(self):
         return '%s-enter' % self._name
@@ -89,7 +89,7 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
         self.hasLt = 1
 
     def __releaseLt(self):
-        if base.localAvatar.getParent().compareTo(self.__parentingNode) == 0:
+        if base.localAvatar.getParent().compareTo(self._parentingNode) == 0:
             base.localAvatar.b_setParent(ToontownGlobals.SPRender)
             base.localAvatar.controlManager.currentControls.doDeltaPos()
         
