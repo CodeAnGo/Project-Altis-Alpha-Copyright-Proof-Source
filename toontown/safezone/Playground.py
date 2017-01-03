@@ -22,6 +22,8 @@ from direct.gui import DirectLabel
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
 from toontown.battle import BattleParticles
+from toontown.events.CharityScreen import CharityScreen
+
 
 class Playground(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Playground')
@@ -199,6 +201,7 @@ class Playground(Place.Place):
         self.npcfaDoneEvent = 'npcfaDoneEvent'
         self.dialog = None
         self.deathAckBox = None
+        self.screen = None
         return
 
     def enter(self, requestStatus):
@@ -268,7 +271,10 @@ class Playground(Place.Place):
         if how == 'teleportIn':
             how = 'deathAck'
         self.fsm.request(how, [requestStatus])
-
+        if self.zoneId in ([ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock, ToontownGlobals.DaisyGardens, ToontownGlobals.MinniesMelodyland, ToontownGlobals.TheBrrrgh, ToontownGlobals.DonaldsDreamland]):
+            self.screen = CharityScreen(base.cr)
+            self.screen.start(self.zoneId)
+            
     def exit(self):
         self.ignoreAll()
         messenger.send('exitPlayground')
@@ -307,6 +313,8 @@ class Playground(Place.Place):
             self.deathAckBox.cleanup()
             self.deathAckBox = None
         TTDialog.cleanupDialog('globalDialog')
+        if self.screen:
+            self.screen.unload()
         self.ignoreAll()
         Place.Place.unload(self)
         return

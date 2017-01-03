@@ -401,7 +401,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
                         continue
 
-                    hood.dayTimeMgr.d_requestUpdate()
+                    if not hood.zoneId == 9000:
+                        hood.dayTimeMgr.d_requestUpdate()
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         from toontown.pets import PetObserve
