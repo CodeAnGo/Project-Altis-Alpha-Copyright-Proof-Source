@@ -5,6 +5,7 @@ from direct.task import Task
 import requests, json, urllib
 from toontown.pgui.DirectGui import DirectLabel
 from panda3d.core import *
+from direct.interval.IntervalGlobal import * 
 
 class CharityScreen(DistributedObject):
     notify = directNotify.newCategory('CharityScreen')
