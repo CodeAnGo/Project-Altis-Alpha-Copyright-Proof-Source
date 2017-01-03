@@ -15,16 +15,16 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
         NodePath.__init__(self, '')
         DirectObject.DirectObject.__init__(self)
 
-    def setupCopyModel(self, parentToken, model, floorNodeName = None, parentingNode = None):
+    def setupCopyModel(self, parentToken, model, floorNodeName = None, _parentingNode = None):
         if floorNodeName is None:
             floorNodeName = 'floor'
         
         if type(parentToken) == types.IntType:
             parentToken = ToontownGlobals.SPDynamic + parentToken
         
-        self.parentToken = parentToken
-        self.name = 'MovingPlatform-%s' % parentToken
-        self.assign(hidden.attachNewNode(self.name))
+        self._parentToken = parentToken
+        self._name = 'MovingPlatform-%s' % parentToken
+        self.assign(hidden.attachNewNode(self._name))
         self.model = model.copyTo(self)
         self.ownsModel = 1
         floorList = self.model.findAllMatches('**/%s' % floorNodeName)
@@ -33,18 +33,18 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
             return
         
         for floor in floorList:
-            floor.setName(self.name)
+            floor.setName(self._name)
 
-        if parentingNode == None:
-            parentingNode = self
+        if _parentingNode == None:
+            _parentingNode = self
         
-        base.cr.parentMgr.registerParent(self.parentToken, parentingNode)
-        self._parentingNode = parentingNode
-        self.accept('enter%s' % self.name, self.__handleEnter)
-        self.accept('exit%s' % self.name, self.__handleExit)
+        base.cr.parentMgr.registerParent(self._parentToken, _parentingNode)
+        self.__parentingNode = _parentingNode
+        self.accept('enter%s' % self._name, self.__handleEnter)
+        self.accept('exit%s' % self._name, self.__handleExit)
 
     def destroy(self):
-        base.cr.parentMgr.unregisterParent(self.parentToken)
+        base.cr.parentMgr.unregisterParent(self._parentToken)
         self.ignoreAll()
         if self.hasLt:
             self.__releaseLt()
@@ -53,43 +53,43 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
             self.model.removeNode()
             del self.model
         
-        if hasattr(self, 'parentingNode') and self._parentingNode is self:
-            del self._parentingNode
+        if hasattr(self, '_parentingNode') and self.__parentingNode is self:
+            del self.__parentingNode
 
     def getEnterEvent(self):
-        return '%s-enter' % self.name
+        return '%s-enter' % self._name
 
     def getExitEvent(self):
-        return '%s-exit' % self.name
+        return '%s-exit' % self._name
 
     def releaseLocalToon(self):
         if self.hasLt:
             self.__releaseLt()
 
     def __handleEnter(self, collEntry):
-        self.notify.debug('on movingPlatform %s' % self.name)
+        self.notify.debug('on movingPlatform %s' % self._name)
         self.__grabLt()
         messenger.send(self.getEnterEvent())
 
     def __handleExit(self, collEntry):
-        self.notify.debug('off movingPlatform %s' % self.name)
+        self.notify.debug('off movingPlatform %s' % self._name)
         self.__releaseLt()
         messenger.send(self.getExitEvent())
 
     def __handleOnFloor(self, collEntry):
-        if collEntry.getIntoNode().getName() == self.name:
+        if collEntry.getIntoNode().getName() == self._name:
             self.__handleEnter(collEntry)
 
     def __handleOffFloor(self, collEntry):
-        if collEntry.getIntoNode().getName() == self.name:
+        if collEntry.getIntoNode().getName() == self._name:
             self.__handleExit(collEntry)
 
     def __grabLt(self):
-        base.localAvatar.b_setParent(self.parentToken)
+        base.localAvatar.b_setParent(self._parentToken)
         self.hasLt = 1
 
     def __releaseLt(self):
-        if base.localAvatar.getParent().compareTo(self._parentingNode) == 0:
+        if base.localAvatar.getParent().compareTo(self.__parentingNode) == 0:
             base.localAvatar.b_setParent(ToontownGlobals.SPRender)
             base.localAvatar.controlManager.currentControls.doDeltaPos()
         
