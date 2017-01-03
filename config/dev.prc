@@ -11,7 +11,7 @@ want-dubrari-vive false
 
 # Client settings
 window-title Project Altis
-server-version TTPA-Alpha-1.1.5
+server-version TTPA-Alpha-1.1.6
 build-version dev
 sync-video #f
 want-dev #f
