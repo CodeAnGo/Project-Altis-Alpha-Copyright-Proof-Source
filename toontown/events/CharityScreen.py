@@ -40,11 +40,7 @@ class CharityScreen(DistributedObject):
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.2))
             self.counterback.setHpr(180, 0, 0)
-            taskMgr.add(self.updateJsonTask, 'jsonTask')
-            
-            self.bob = Sequence(
-                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() + 2), blendType = 'easeInOut'),
-                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() - 2), blendType = 'easeInOut')).loop()
+            taskMgr.add(self.updateJsonTask, 'jsonTask')
 
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
         
@@ -54,13 +50,10 @@ class CharityScreen(DistributedObject):
         self.count = info['counter']
         self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
         self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
-        taskMgr.doMethodLater(5, self.updateJsonTask, 'jsonTask')
+        taskMgr.doMethodLater(15, self.updateJsonTask, 'jsonTask')
         
     def unload(self):
         print("unload")
-        if self.bob:
-            self.bob.finish()
-            self.bob = None
         if self.screenObject:
             self.screenObject.removeNode()
             taskMgr.remove('jsonTask')       
