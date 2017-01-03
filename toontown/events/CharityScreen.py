@@ -6,6 +6,7 @@ import requests, json, urllib
 from toontown.pgui.DirectGui import DirectLabel
 from panda3d.core import *
 from direct.interval.IntervalGlobal import * 
+import thread
 
 class CharityScreen(DistributedObject):
     notify = directNotify.newCategory('CharityScreen')
@@ -40,17 +41,17 @@ class CharityScreen(DistributedObject):
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.2))
             self.counterback.setHpr(180, 0, 0)
-            taskMgr.add(self.updateJsonTask, 'jsonTask')
+            taskMgr.add(self.updateJsonTask, 'jsonTask')
 
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
-        
+         
     def updateJsonTask(self, task):
         information = requests.get("http://projectaltis.com/api/getcogs")
         info = information.json()
         self.count = info['counter']
         self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
         self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
-        taskMgr.doMethodLater(15, self.updateJsonTask, 'jsonTask')
+        taskMgr.doMethodLater(60, self.updateJsonTask, 'jsonTask')
         
     def unload(self):
         print("unload")
