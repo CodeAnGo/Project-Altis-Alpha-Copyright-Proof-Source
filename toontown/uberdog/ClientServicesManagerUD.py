@@ -19,6 +19,7 @@ import hmac
 import hashlib
 import json
 import threading
+import httplib
 
 def judgeName(name):
     FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -64,14 +65,17 @@ class LocalAccountDB:
         except:
             #GOSH DARN Hacker
             #We can just set their token to something like 123 as it'll be dropped by the next function
+            
             cookie = "DieHackerScum!"
-            return
 
-        if response['status'] != 'true':
+
+        if response['status'] != True:
+            print(response['status'])
             cookie = "DieHackerScum!"
-            return
+            
         else:
             cookie = response['additional']
+            cookie = str(cookie)
 
 
         # SECONDARILY, HERE'S WHERE WE CAN SPIN OFF TO DUBRARI'S "TOON GUARD" SYSTEM TO ENSURE THAT THE RIGHT IP IS LOGGING INTO THE ACCOUNT, AGAIN, NOT NEEDED FOR ALPHA
