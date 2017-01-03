@@ -43,8 +43,8 @@ class CharityScreen(DistributedObject):
             taskMgr.add(self.updateJsonTask, 'jsonTask')
             
             self.bob = Sequence(
-                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() + 10)),
-                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() - 10))).loop()
+                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() + 2)),
+                self.screenObject.posInterval(1, Point3(self.screenObject.getX(), self.screenObject.getY(), self.screenObject.getZ() - 2))).loop()
 
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
         
