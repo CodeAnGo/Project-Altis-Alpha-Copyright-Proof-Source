@@ -41,11 +41,15 @@ class CharityScreen(DistributedObject):
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.2))
             self.counterback.setHpr(180, 0, 0)
-            taskMgr.doMethodLater(10, self.getJson, 'jsonTask')
+            taskMgr.add(self.updateJsonTask, 'jsonTask')
 
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
+         
+    def updateJsonTask(self, task):
+        threading.Thread(target=self.getJson).start()
+        taskMgr.doMethodLater(10, self.updateJsonTask, 'jsonTask')
         
-    def getJson(self, task):
+    def getJson(self):
         information = httplib.HTTPConnection('www.projectaltis.com')
         information.request('GET', '/api/getcogs')
         info = json.loads(information.getresponse().read())
@@ -53,15 +57,11 @@ class CharityScreen(DistributedObject):
         self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
         self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
         
-        # loop task but keep wait interval
-        return task.again
-        
     def unload(self):
         print("unload")
         if self.screenObject:
             self.screenObject.removeNode()
-            taskMgr.remove('jsonTask')
-       
+            taskMgr.remove('jsonTask')       
     def delete(self):
         self.cr.chairityEvent = None
         print("delete")
