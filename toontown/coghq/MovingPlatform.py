@@ -34,14 +34,14 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
 
         if parentingNode == None:
             parentingNode = self
-        base.cr.parentMgr.registerParent(self.parentToken, parentingNode)
+        base.cr.parentMgr.registerParent(self._parentToken, parentingNode)
         self._parentingNode = parentingNode
         self.accept('enter%s' % self._name, self.__handleEnter)
         self.accept('exit%s' % self._name, self.__handleExit)
         return
 
     def destroy(self):
-        base.cr.parentMgr.unregisterParent(self.parentToken)
+        base.cr.parentMgr.unregisterParent(self._parentToken)
         self.ignoreAll()
         if self.hasLt:
             self.__releaseLt()
@@ -80,7 +80,7 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
             self.__handleExit(collEntry)
 
     def __grabLt(self):
-        base.localAvatar.b_setParent(self.parentToken)
+        base.localAvatar.b_setParent(self._parentToken)
         self.hasLt = 1
 
     def __releaseLt(self):
