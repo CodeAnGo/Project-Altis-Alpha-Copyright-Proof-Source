@@ -68,6 +68,7 @@ class LocalAccountDB:
             return
 
         if response['status'] != 'true':
+            cookie = "DieHackerScum!"
             return
         else:
             cookie = response['additional']
