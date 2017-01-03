@@ -11,7 +11,7 @@ import threading
 class CharityScreen(DistributedObject):
     notify = directNotify.newCategory('CharityScreen')
 
-    def __init__(self,cr):
+    def __init__(self, cr):
         DistributedObject.__init__(self, cr)
         self.zone2pos = {
             ToontownGlobals.ToontownCentral : (40, 0, 25),
@@ -21,7 +21,9 @@ class CharityScreen(DistributedObject):
             ToontownGlobals.TheBrrrgh : (-111, -44, 25),
             ToontownGlobals.DonaldsDreamland : (0, 0, 6)}
         self.bob = None
-    
+        self.screenObject = None
+        self.counter = None
+
     def announceGenerate(self):
         self.cr.chairityEvent = self
 
@@ -41,30 +43,24 @@ class CharityScreen(DistributedObject):
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.2))
             self.counterback.setHpr(180, 0, 0)
-            taskMgr.add(self.updateJsonTask, 'jsonTask')
-
+            
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
-         
-    def updateJsonTask(self, task):
-        threading.Thread(target=self.getJson).start()
-        taskMgr.doMethodLater(10, self.updateJsonTask, 'jsonTask')
         
-    def getJson(self):
-        information = httplib.HTTPConnection('www.projectaltis.com')
-        information.request('GET', '/api/getcogs')
-        info = json.loads(information.getresponse().read())
-        self.count = info['counter']
-        self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
-        self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
-        
+    def setCount(self, count):
+        self.count = count
+        if self.counter and self.counterback:
+            self.counter['text'] = (str(self.count) + "\nCogs Destroyed")
+            self.counterback['text'] = (str(self.count) + "\nCogs Destroyed")
+            
     def unload(self):
         print("unload")
+        self.ignoreAll()
         if self.screenObject:
             self.screenObject.removeNode()
-            taskMgr.remove('jsonTask')       
+            self.screenObject = None       
     def delete(self):
         self.cr.chairityEvent = None
         print("delete")
         if self.screenObject:
             self.screenObject.removeNode()
-            taskMgr.remove('jsonTask')
+            self.screenObject = None
