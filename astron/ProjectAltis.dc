@@ -810,7 +810,6 @@ from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
 from toontown.environment import DistributedDayTimeManager/AI
 from toontown.environment import DistributedRainManager/AI
 from toontown.environment import DistributedWeatherMGR/AI
-from toontown.events import CharityScreen/AI
 
 struct GiftItem {
   blob Item;
@@ -3903,9 +3902,4 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 
 dclass DistributedRainManager : DistributedWeatherMGR {
 
-};
-
-dclass CharityScreen : DistributedObject {
-  start() broadcast ram;
-  setCount(int16) broadcast ram;
 };

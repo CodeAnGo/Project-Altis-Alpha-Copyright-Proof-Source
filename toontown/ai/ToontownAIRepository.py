@@ -75,9 +75,6 @@ from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 # Friends manager
 from toontown.friends.TTFriendsManagerAI import TTFriendsManagerAI
 
-# Charity Screen Data
-from toontown.events.CharityScreenAI import CharityScreenAI
-
 class ToontownAIRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId, districtName):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='AI')
@@ -246,10 +243,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.ttFriendsManager = self.generateGlobalObject(OTP_DO_ID_TT_FRIENDS_MANAGER, 'TTFriendsManager')
 
         self.csm = self.generateGlobalObject(OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
-        
-        self.charityCounter = CharityScreenAI(self)
-        self.charityCounter.generateWithRequired(2)
-        self.charityCounter.start()
 
     def createZones(self):
         """
