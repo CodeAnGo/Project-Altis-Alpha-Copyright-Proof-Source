@@ -36,10 +36,7 @@ class BanManagerUD:
         # update the ban information from the file
         self.update()
         
-        if cookie in self.bansFileData.keys():
-            return True
-        
-        return False
+        return cookie in self.bansFileData.keys()
     
     def getToonBanReason(self, cookie):
         return self.bansFileData[cookie]
