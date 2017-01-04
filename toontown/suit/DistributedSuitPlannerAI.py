@@ -22,7 +22,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 
 ALLOWED_FO_TRACKS = ['s', 'l']
-DEFAULT_COGDO_RATIO = .5
+DEFAULT_COGDO_RATIO = .1
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
