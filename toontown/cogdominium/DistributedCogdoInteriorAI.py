@@ -37,6 +37,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
     def __init__(self, air, exterior):
         DistributedObjectAI.__init__(self, air)
         FSM.FSM.__init__(self, 'CogdoInteriorAIFSM')
+        self.game = None
         self.toons = filter(None, exterior.elevator.seats[:])
         self.responses = {}
         self.bldgDoId = exterior.doId
@@ -288,14 +289,15 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.request('Elevator')
 
     def enterGame(self):
-        self.game.setToons(self.toons)
-        self.game.setInteriorId(self.doId)
-        self.game.setExteriorZone(self.exterior.zoneId)
-        self.game.setDifficultyOverrides(2147483647, -1)
-        self.game.generateWithRequired(self.zoneId)
-        self.game.d_startIntro()
-        self.accept(self.game.finishEvent, self.__handleGameDone)
-        self.accept(self.game.gameOverEvent, self.__handleGameOver)
+        if self.game:
+            self.game.setToons(self.toons)
+            self.game.setInteriorId(self.doId)
+            self.game.setExteriorZone(self.exterior.zoneId)
+            self.game.setDifficultyOverrides(2147483647, -1)
+            self.game.generateWithRequired(self.zoneId)
+            self.game.d_startIntro()
+            self.accept(self.game.finishEvent, self.__handleGameDone)
+            self.accept(self.game.gameOverEvent, self.__handleGameOver)
 
     def __handleGameDone(self, toons):
         self.game.requestDelete()
