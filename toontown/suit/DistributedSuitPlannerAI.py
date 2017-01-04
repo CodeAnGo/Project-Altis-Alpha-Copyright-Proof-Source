@@ -339,7 +339,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
       (15,
        10,
        10,
-       45,
+       55,
        10),
       (3,
        4,
