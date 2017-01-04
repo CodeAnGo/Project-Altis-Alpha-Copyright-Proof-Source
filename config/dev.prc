@@ -5,7 +5,7 @@
 # Python DNA Reader
 want-pipeline-renderer false
 
-#HTC Vive Support
+# HTC Vive Support
 side-by-side-stereo 0
 want-dubrari-vive false
 
@@ -66,7 +66,7 @@ vfs-mount resources/phase_13 /phase_13
 model-path resources
 default-model-extension .bam
 model-cache-models #t
-model-cache-textures #t
+model-cache-textures #f
 
 # Needed for running a local server...
 eventlog-host 127.0.0.1
