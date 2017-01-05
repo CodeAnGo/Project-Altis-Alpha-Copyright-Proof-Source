@@ -160,6 +160,14 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         else:
             suitTrack.append(Wait(5.5))
         bonusTrack = Sequence(Wait(tContact))
+        if kbbonus > 0:
+            bonusTrack.append(Wait(0.75))
+            bonusTrack.append(Func(suit.showHpText, -kbbonus, 2, openEnded=0, attackTrack=THROW_TRACK))
+            bonusTrack.append(updateHealthBar)
+        if hpbonus > 0:
+            bonusTrack.append(Wait(0.75))
+            bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=THROW_TRACK))
+            bonusTrack.append(updateHealthBar)
         if died != 0:
             suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
         else:
